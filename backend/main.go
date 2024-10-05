@@ -3,37 +3,37 @@
 package main
 
 import (
-    "log"
-    "net/http"
-    "os"
+	"log"
+	"net/http"
+	"os"
 
-    "your-project/backend/handlers"
+	"github.com/RidwanSharkar/Bioessence/backend/handlers"
 
-    "github.com/joho/godotenv"
-    "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-    // Load environment variables
-    err := godotenv.Load()
-    if err != nil {
-        log.Println("No .env file found")
-    }
+	// Load environment variables
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("No .env file found")
+	}
 
-    // Initialize router
-    router := mux.NewRouter()
+	// Initialize router
+	router := mux.NewRouter()
 
-    // Define routes
-    router.HandleFunc("/api/process-food", handlers.ProcessFoodHandler).Methods("POST")
+	// Define routes
+	router.HandleFunc("/api/process-food", handlers.ProcessFoodHandler).Methods("POST")
 
-    // Start server
-    port := os.Getenv("PORT")
-    if port == "" {
-        port = "5000"
-    }
+	// Start server
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "5000"
+	}
 
-    log.Printf("Server starting on port %s", port)
-    if err := http.ListenAndServe(":"+port, router); err != nil {
-        log.Fatalf("Could not start server: %s\n", err.Error())
-    }
+	log.Printf("Server starting on port %s", port)
+	if err := http.ListenAndServe(":"+port, router); err != nil {
+		log.Fatalf("Could not start server: %s\n", err.Error())
+	}
 }
