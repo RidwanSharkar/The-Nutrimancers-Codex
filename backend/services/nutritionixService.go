@@ -34,26 +34,26 @@ type NutritionixResponse struct {
 // Mapping of essential nutrients to Nutritionix [attr_ids]
 var nutrientMapping = map[string]int{
 	"Potassium":            306,
-	"Chloride":             307,
+	"Chloride":             307, // verify
 	"Sodium":               307,
-	"Calcium":              303,
+	"Calcium":              301, // verify
 	"Phosphorus":           305,
 	"Magnesium":            304,
-	"Iron":                 303,
+	"Iron":                 303, // verify
 	"Zinc":                 309,
-	"Manganese":            314,
+	"Manganese":            315,
 	"Copper":               312,
 	"Iodine":               318,
 	"Chromium":             317,
 	"Molybdenum":           319,
-	"Selenium":             321,
+	"Selenium":             317, // Verify
 	"Histidine":            512,
 	"Isoleucine":           503,
 	"Leucine":              504,
 	"Lysine":               505,
 	"Methionine":           506,
-	"Phenylalanine":        507,
-	"Threonine":            508,
+	"Phenylalanine":        508,
+	"Threonine":            507,
 	"Tryptophan":           509,
 	"Valine":               510,
 	"Alpha-Linolenic Acid": 645,
@@ -71,7 +71,7 @@ var nutrientMapping = map[string]int{
 	"Vitamin D":            324,
 	"Vitamin E":            323,
 	"Vitamin K":            428,
-	"choline":              430,
+	"Choline":              430,
 }
 
 func FetchNutrientData(ingredients []string) (map[string]map[string]float64, error) {

@@ -1,4 +1,4 @@
-// model.go
+// backend/models/model.go
 package models
 
 // ProcessFoodRequest represents the incoming request payload

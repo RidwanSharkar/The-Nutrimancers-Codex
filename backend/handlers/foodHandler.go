@@ -1,4 +1,4 @@
-// handlers/foodHandler.go
+// backend/handlers/foodHandler.go
 package handlers
 
 import (
@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strings"
 
-	"bioessence/backend/models"
-	"bioessence/backend/services"
-	"bioessence/backend/utils"
+	"github.com/RidwanSharkar/Bioessence/backend/models"
+	"github.com/RidwanSharkar/Bioessence/backend/services"
+	"github.com/RidwanSharkar/Bioessence/backend/utils"
 )
 
 var essentialNutrients = []string{
@@ -24,6 +24,7 @@ var essentialNutrients = []string{
 	"Copper",
 	"Iodine",
 	"Chromium",
+
 	"Molybdenum",
 	"Selenium",
 
@@ -77,7 +78,7 @@ func ProcessFoodHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Extract ingredients using OpenAI
+	// Extract ingredients using Gemini
 	ingredients, err := services.ExtractIngredients(req.FoodDescription)
 	if err != nil {
 		utils.RespondWithError(w, http.StatusInternalServerError, "Failed to extract ingredients")

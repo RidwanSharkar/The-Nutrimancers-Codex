@@ -1,4 +1,4 @@
-// main.go
+// backend/main.go
 
 package main
 
@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	// Load environment variables
+	// Load env variables
 	err := godotenv.Load()
 	if err != nil {
 		log.Println("No .env file found")
