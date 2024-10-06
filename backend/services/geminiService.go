@@ -14,7 +14,7 @@ import (
 	"github.com/RidwanSharkar/Bioessence/backend/utils"
 )
 
-// GeminiRequest defines the structure of the request payload for Gemini API
+// Defines the structure of request payload for Gemini API
 type GeminiRequest struct {
 	Contents []Content `json:"contents"`
 }
@@ -27,17 +27,17 @@ type Part struct {
 	Text string `json:"text"`
 }
 
-// GeminiChoice represents each choice in the Gemini API response
+// Represents each choice in Gemini API response
 type GeminiChoice struct {
 	Text string `json:"text"`
 }
 
-// GeminiResponse represents the overall response structure from Gemini API
+// Represents the overall response structure
 type GeminiResponse struct {
 	Choices []GeminiChoice `json:"choices"`
 }
 
-// Sends a request to the Gemini API to extract ingredients from parsed food input
+// Primary Prompt
 func ExtractIngredients(foodDescription string) ([]string, error) {
 	apiKey := os.Getenv("API_KEY")
 	if apiKey == "" {
@@ -46,7 +46,6 @@ func ExtractIngredients(foodDescription string) ([]string, error) {
 		return nil, err
 	}
 
-	// PROMPT
 	promptText := fmt.Sprintf("Extract the list of ingredients from the following food input: '{user_input}'. List the main ingredients as bullet points, with no descriptions", foodDescription)
 
 	reqBody := GeminiRequest{

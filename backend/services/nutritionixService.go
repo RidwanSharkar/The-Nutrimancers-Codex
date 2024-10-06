@@ -1,3 +1,4 @@
+// services/nutritionixService.go
 package services
 
 import (
@@ -13,24 +14,22 @@ import (
 type NutritionixRequest struct {
 	Query string `json:"query"`
 }
-
 type FullNutrient struct {
 	AttrID int     `json:"attr_id"`
 	Value  float64 `json:"value"`
 }
-
 type NutritionixFood struct {
 	FoodName      string         `json:"food_name"`
 	ServingQty    float64        `json:"serving_qty"`
 	ServingUnit   string         `json:"serving_unit"`
 	FullNutrients []FullNutrient `json:"full_nutrients"`
 }
-
 type NutritionixResponse struct {
 	Foods []NutritionixFood `json:"foods"`
 }
 
-// Mapping of essential nutrients to Nutritionix attr_ids
+/*=================================================================================================*/
+// Mapping of WIKI essential nutrients to Nutritionix attr_ids
 var nutrientMapping = map[string]int{
 	"Potassium":            306,
 	"Chloride":             307,
@@ -71,6 +70,23 @@ var nutrientMapping = map[string]int{
 	"Vitamin E":            323,
 	"Vitamin K":            430,
 	"Choline":              421,
+}
+
+/*=================================================================================================*/
+
+// Fetch nutrient data for each individual ingredient from Nutritionix API
+func FetchNutrientDataForEachIngredient(ingredients []string) (map[string]map[string]float64, error) {
+	nutrientsPerIngredient := make(map[string]map[string]float64)
+
+	for _, ingredient := range ingredients {
+		nutrientData, err := FetchNutrientData([]string{ingredient}) // one ingredient at a time
+		if err != nil {
+			return nil, fmt.Errorf("error fetching nutrient data for %s: %v", ingredient, err)
+		}
+		fmt.Printf("Nutrient data for %s: %+v\n", ingredient, nutrientData)
+		nutrientsPerIngredient[ingredient] = nutrientData[ingredient]
+	}
+	return nutrientsPerIngredient, nil
 }
 
 func FetchNutrientData(ingredients []string) (map[string]map[string]float64, error) {
@@ -134,9 +150,7 @@ func FetchNutrientData(ingredients []string) (map[string]map[string]float64, err
 				}
 			}
 		}
-
 		nutrientsPerIngredient[ingredient] = nutrients
 	}
-
 	return nutrientsPerIngredient, nil
 }

@@ -13,31 +13,27 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// Define the structure of the request payload for the Gemini API
+// Request payload structure for Gemini API
 type GeminiRequest struct {
 	Contents []Content `json:"contents"`
 }
-
 type Content struct {
 	Parts []Part `json:"parts"`
 }
-
 type Part struct {
 	Text string `json:"text"`
 }
-
-// Define the structure of the Gemini API response
 type GeminiCandidate struct {
 	Content CandidateContent `json:"content"`
 }
-
 type CandidateContent struct {
 	Parts []Part `json:"parts"`
 }
-
 type GeminiResponse struct {
 	Candidates []GeminiCandidate `json:"candidates"`
 }
+
+/*=================================================================================================*/
 
 func main() {
 	// Load .env file
@@ -52,33 +48,32 @@ func main() {
 		return
 	}
 
-	// Promp
+	// Prompt
 	promptText := "Extract the essential ingredients from the following food description: 'pizza with black olives, mushroom, and sausage'. For complex foods like pizza, include the base components (e.g., dough, cheese, tomato sauce). Exclude spices and minor ingredients."
 
-	// Step 1: Extract ingredients using Gemini LLM
+	// Extract ingredients using Gemini LLM
 	ingredients, err := extractIngredientsFromGemini(apiKey, promptText)
 	if err != nil {
 		fmt.Println("Error extracting ingredients from Gemini:", err)
 		return
 	}
 
-	// Step 2: Clean
+	// Clean
 	cleanedIngredients := cleanIngredientList(ingredients)
-
 	fmt.Println("Cleaned Ingredients:", cleanedIngredients)
 
-	// Step 3: Nutritionix API
-	nutrientData, err := services.FetchNutrientData(cleanedIngredients)
+	// Fetch nutrient data for each cleaned ingredient - Nutritionix
+	nutrientData, err := services.FetchNutrientDataForEachIngredient(cleanedIngredients)
 	if err != nil {
 		fmt.Println("Error fetching nutrient data from Nutritionix:", err)
 		return
 	}
 
-	// Step 4: Aggregate Data
+	// Aggregate Data
 	aggregatedNutrients := aggregateNutrients(nutrientData)
 	missingNutrients := determineMissingNutrients(aggregatedNutrients)
 
-	// Step 5: Generate Suggestions
+	// Generate Suggestions
 	suggestions := generateSuggestions(missingNutrients)
 
 	fmt.Println("Aggregated Nutrients:", aggregatedNutrients)
@@ -157,6 +152,8 @@ func cleanIngredientList(ingredients string) []string {
 	}
 	return cleaned
 }
+
+/*=================================================================================================*/
 
 // Aggregate Nutrition Data
 func aggregateNutrients(nutrientData map[string]map[string]float64) map[string]float64 {
