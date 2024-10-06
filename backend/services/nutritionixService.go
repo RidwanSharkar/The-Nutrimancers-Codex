@@ -1,11 +1,10 @@
-// services/nutritionixService.go
-
 package services
 
 import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -31,22 +30,22 @@ type NutritionixResponse struct {
 	Foods []NutritionixFood `json:"foods"`
 }
 
-// Mapping of essential nutrients to Nutritionix [attr_ids]
+// Mapping of essential nutrients to Nutritionix attr_ids
 var nutrientMapping = map[string]int{
 	"Potassium":            306,
-	"Chloride":             307, // verify
+	"Chloride":             307,
 	"Sodium":               307,
-	"Calcium":              301, // verify
+	"Calcium":              301,
 	"Phosphorus":           305,
 	"Magnesium":            304,
-	"Iron":                 303, // verify
+	"Iron":                 303,
 	"Zinc":                 309,
 	"Manganese":            315,
 	"Copper":               312,
 	"Iodine":               318,
 	"Chromium":             317,
 	"Molybdenum":           319,
-	"Selenium":             317, // Verify
+	"Selenium":             320,
 	"Histidine":            512,
 	"Isoleucine":           503,
 	"Leucine":              504,
@@ -58,27 +57,27 @@ var nutrientMapping = map[string]int{
 	"Valine":               510,
 	"Alpha-Linolenic Acid": 645,
 	"Linoleic Acid":        646,
-	"Vitamin A":            318,
-	"Vitamin B1":           415,
-	"Vitamin B2":           418,
-	"Vitamin B3":           417,
-	"Vitamin B5":           415,
+	"Vitamin A":            320,
+	"Vitamin B1":           404,
+	"Vitamin B2":           405,
+	"Vitamin B3":           406,
+	"Vitamin B5":           410,
 	"Vitamin B6":           415,
-	"Vitamin B7":           415,
+	"Vitamin B7":           416,
 	"Vitamin B9":           417,
 	"Vitamin B12":          418,
 	"Vitamin C":            401,
 	"Vitamin D":            324,
 	"Vitamin E":            323,
-	"Vitamin K":            428,
-	"Choline":              430,
+	"Vitamin K":            430,
+	"Choline":              421,
 }
 
 func FetchNutrientData(ingredients []string) (map[string]map[string]float64, error) {
-	appID := os.Getenv("NUTRITIONIX_APP_ID")
+	appID := os.Getenv("NUTRITIONIX_APP_ID") // Load API keys from .env
 	appKey := os.Getenv("NUTRITIONIX_APP_KEY")
 	if appID == "" || appKey == "" {
-		return nil, errors.New("Nutritionix API credentials not set")
+		return nil, errors.New("missing Nutritionix API credentials in .env")
 	}
 
 	nutrientsPerIngredient := make(map[string]map[string]float64)
@@ -111,7 +110,7 @@ func FetchNutrientData(ingredients []string) (map[string]map[string]float64, err
 
 		if resp.StatusCode != http.StatusOK {
 			bodyBytes, _ := ioutil.ReadAll(resp.Body)
-			return nil, errors.New("Nutritionix API error: " + string(bodyBytes))
+			return nil, fmt.Errorf("Nutritionix API error: %s", string(bodyBytes))
 		}
 
 		var nutritionixResp NutritionixResponse
@@ -130,7 +129,8 @@ func FetchNutrientData(ingredients []string) (map[string]map[string]float64, err
 		for nutrient, attrID := range nutrientMapping {
 			for _, fn := range food.FullNutrients {
 				if fn.AttrID == attrID {
-					nutrients[nutrient] += fn.Value
+					nutrients[nutrient] = fn.Value
+					break
 				}
 			}
 		}

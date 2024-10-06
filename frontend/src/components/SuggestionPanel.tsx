@@ -9,7 +9,7 @@ interface SuggestionPanelProps {
 
 const SuggestionPanel: React.FC<SuggestionPanelProps> = ({ missingNutrients, suggestions }) => {
   return (
-    <div className="bg-[#F48668] rounded-lg p-4">
+    <div className="bg-[#F48668] rounded-lg p-4 flex-1">
       <h2 className="text-xl font-semibold mb-4 text-white">Suggestions</h2>
       {missingNutrients.length > 0 ? (
         <>

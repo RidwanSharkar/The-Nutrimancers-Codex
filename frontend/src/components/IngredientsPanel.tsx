@@ -4,23 +4,17 @@ import React from 'react';
 
 interface IngredientsPanelProps {
   ingredients: string[];
-  onSelectIngredient: (ingredient: string) => void;
 }
 
-const IngredientsPanel: React.FC<IngredientsPanelProps> = ({ ingredients, onSelectIngredient }) => {
+const IngredientsPanel: React.FC<IngredientsPanelProps> = ({ ingredients }) => {
   return (
-    <div className="bg-[#F48668] rounded-lg p-4">
+    <div className="bg-[#F48668] rounded-lg p-4 flex-1">
       <h2 className="text-xl font-semibold mb-4 text-white">Ingredients</h2>
       {ingredients.length > 0 ? (
         <ul className="space-y-2">
           {ingredients.map((ingredient) => (
-            <li key={ingredient}>
-              <button
-                className="w-full px-4 py-2 bg-amber-500 text-white rounded hover:bg-amber-600 transition-colors"
-                onClick={() => onSelectIngredient(ingredient)}
-              >
-                {ingredient}
-              </button>
+            <li key={ingredient} className="text-white">
+              • {ingredient}
             </li>
           ))}
         </ul>
@@ -32,3 +26,4 @@ const IngredientsPanel: React.FC<IngredientsPanelProps> = ({ ingredients, onSele
 };
 
 export default IngredientsPanel;
+

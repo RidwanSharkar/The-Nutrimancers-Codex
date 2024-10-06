@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/RidwanSharkar/Bioessence/backend/utils"
 )
@@ -36,7 +37,7 @@ type GeminiResponse struct {
 	Choices []GeminiChoice `json:"choices"`
 }
 
-// ExtractIngredients sends a request to the Gemini API to extract ingredients from a food description
+// Sends a request to the Gemini API to extract ingredients from parsed food input
 func ExtractIngredients(foodDescription string) ([]string, error) {
 	apiKey := os.Getenv("API_KEY")
 	if apiKey == "" {
@@ -45,24 +46,13 @@ func ExtractIngredients(foodDescription string) ([]string, error) {
 		return nil, err
 	}
 
-	// Construct the prompt as per Gemini API's expected format
-	promptText := fmt.Sprintf(`Extract the list of ingredients from the following food description:
-
-"%s"
-
-List the ingredients as bullet points without additional text.`, foodDescription)
+	// PROMPT
+	promptText := fmt.Sprintf("Extract the list of ingredients from the following food input: '{user_input}'. List the main ingredients as bullet points, with no descriptions", foodDescription)
 
 	reqBody := GeminiRequest{
-		Contents: []Content{
-			{
-				Parts: []Part{
-					{
-						Text: promptText,
-					},
-				},
-			},
-		},
-	}
+		Contents: []Content{{Parts: []Part{{
+			Text: promptText,
+		}}}}}
 
 	jsonData, err := json.Marshal(reqBody)
 	if err != nil {
@@ -104,7 +94,7 @@ List the ingredients as bullet points without additional text.`, foodDescription
 
 	if len(geminiResp.Choices) == 0 {
 		errMsg := "No choices returned from Gemini"
-		utils.LogError(errors.New(errMsg), "ExtractIngredients: NoChoices")
+		utils.LogError(errors.New(errMsg), "extract Ingredients: NoChoices")
 		return nil, errors.New(errMsg)
 	}
 
@@ -113,19 +103,15 @@ List the ingredients as bullet points without additional text.`, foodDescription
 	return ingredients, nil
 }
 
-// parseIngredients processes the Gemini API response text to extract ingredients
 func parseIngredients(text string) []string {
 	var ingredients []string
-	lines := bytes.Split([]byte(text), []byte("\n"))
+	lines := strings.Split(text, "\n")
 	for _, line := range lines {
-		cleaned := bytes.TrimSpace(line)
-		// Remove common bullet point prefixes
-		cleaned = bytes.TrimPrefix(cleaned, []byte("- "))
-		cleaned = bytes.TrimPrefix(cleaned, []byte("* "))
-		cleaned = bytes.TrimPrefix(cleaned, []byte("• "))
-		cleaned = bytes.TrimSpace(cleaned)
+		cleaned := strings.TrimSpace(line)
+		cleaned = strings.Trim(cleaned, "-•,.")
+		cleaned = strings.ToLower(cleaned)
 		if len(cleaned) > 0 {
-			ingredients = append(ingredients, string(cleaned))
+			ingredients = append(ingredients, cleaned)
 		}
 	}
 	return ingredients
