@@ -1,5 +1,4 @@
 // handlers/foodHandler.go
-
 package handlers
 
 import (
@@ -7,19 +6,10 @@ import (
 	"net/http"
 	"strings"
 
-	"your-project/backend/services"
+	"bioessence/backend/models"
+	"bioessence/backend/services"
+	"bioessence/backend/utils"
 )
-
-type ProcessFoodRequest struct {
-	FoodDescription string `json:"foodDescription"`
-}
-
-type ProcessFoodResponse struct {
-	Ingredients      []string           `json:"ingredients"`
-	Nutrients        map[string]float64 `json:"nutrients"`
-	MissingNutrients []string           `json:"missingNutrients"`
-	Suggestions      []string           `json:"suggestions"`
-}
 
 var essentialNutrients = []string{
 	"Potassium",
@@ -37,7 +27,7 @@ var essentialNutrients = []string{
 	"Molybdenum",
 	"Selenium",
 
-	"Histidine", 
+	"Histidine",
 	"Isoleucine",
 	"Leucine",
 	"Lysine",
@@ -48,7 +38,7 @@ var essentialNutrients = []string{
 	"Valine",
 
 	"Alpha-Linolenic Acid", // Omega-3
-	"Linoleic Acid",        // Omega-6 (CHECK NUTRIONIX USAGE)
+	"Linoleic Acid",        // Omega-6
 
 	"Vitamin A",
 	"Vitamin B1",
@@ -64,53 +54,54 @@ var essentialNutrients = []string{
 	"Vitamin E",
 	"Vitamin K",
 
-	"choline"
+	"choline",
 }
 
 var suggestionData = map[string]string{
-	"Fiber":   "Consider eating whole grains or fruits.",
-	"Protein": "How about some lean meat or legumes?",
-	"Calcium": "Dairy products or leafy greens can help.",
-	// TENTATIVE
+	"Fiber":     "Consider eating whole grains or fruits.",
+	"Protein":   "How about some lean meat or legumes?",
+	"Calcium":   "Dairy products or leafy greens can help.",
+	"Vitamin D": "Sunlight exposure or fortified foods can boost Vitamin D.",
+	// Add more nutrient-suggestion mappings as needed
 }
 
 func ProcessFoodHandler(w http.ResponseWriter, r *http.Request) {
-	var req ProcessFoodRequest
+	var req models.ProcessFoodRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		utils.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 
 	if strings.TrimSpace(req.FoodDescription) == "" {
-		http.Error(w, "Food description cannot be empty", http.StatusBadRequest)
+		utils.RespondWithError(w, http.StatusBadRequest, "Food description cannot be empty")
 		return
 	}
 
-	// Extract ingredients using Gemini LLM API
+	// Extract ingredients using OpenAI
 	ingredients, err := services.ExtractIngredients(req.FoodDescription)
 	if err != nil {
-		http.Error(w, "Failed to extract ingredients: "+err.Error(), http.StatusInternalServerError)
+		utils.RespondWithError(w, http.StatusInternalServerError, "Failed to extract ingredients")
 		return
 	}
 
-	// Fetch nutrient data using Nutritionix API
+	// Fetch nutrient data using Nutritionix
 	nutrientsData, err := services.FetchNutrientData(ingredients)
 	if err != nil {
-		http.Error(w, "Failed to fetch nutrient data: "+err.Error(), http.StatusInternalServerError)
+		utils.RespondWithError(w, http.StatusInternalServerError, "Failed to fetch nutrient data")
 		return
 	}
 
-	// Aggregate Nutrients
+	// Aggregate nutrients
 	aggregatedNutrients := aggregateNutrients(nutrientsData)
 
-	// Determine Missing
+	// Determine missing nutrients
 	missing := determineMissingNutrients(aggregatedNutrients)
 
-	// Generate Suggestions
+	// Generate suggestions
 	suggestions := generateSuggestions(missing)
 
-	// Response Format
-	response := ProcessFoodResponse{
+	// Prepare response
+	response := models.ProcessFoodResponse{
 		Ingredients:      ingredients,
 		Nutrients:        aggregatedNutrients,
 		MissingNutrients: missing,
