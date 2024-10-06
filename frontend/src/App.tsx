@@ -5,7 +5,7 @@ import IngredientsPanel from './components/IngredientsPanel';
 import NutrientsPanel from './components/NutrientsPanel';
 import SuggestionPanel from './components/SuggestionPanel';
 import { processFood } from './services/backendService';
-import './App.css'; // Tailwind CSS
+import './App.css';
 
 type ProcessFoodResponse = {
   ingredients: string[];
@@ -15,13 +15,13 @@ type ProcessFoodResponse = {
 };
 
 const App: React.FC = () => {
-  const [food, setFood] = useState<string>('');
-  const [ingredients, setIngredients] = useState<string[]>([]);
-  const [nutrients, setNutrients] = useState<{ [key: string]: number }>({});
-  const [missingNutrients, setMissingNutrients] = useState<string[]>([]);
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [food, setFood] = useState<string>(''); // User input
+  const [ingredients, setIngredients] = useState<string[]>([]); // Processed ingredients
+  const [nutrients, setNutrients] = useState<{ [key: string]: number }>({}); // Nutrient data
+  const [missingNutrients, setMissingNutrients] = useState<string[]>([]); // Missing nutrients
+  const [suggestions, setSuggestions] = useState<string[]>([]); // Suggestions
+  const [loading, setLoading] = useState<boolean>(false); // Loading state
+  const [error, setError] = useState<string | null>(null); // Error state
 
   const handleFoodSubmit = async () => {
     if (food.trim()) {
@@ -29,15 +29,15 @@ const App: React.FC = () => {
       setError(null);
       try {
         const response: ProcessFoodResponse = await processFood(food.trim());
-        console.log('Response:', response); // Log response for debugging
-        setIngredients(response.ingredients);
-        setNutrients(response.nutrients);
-        setMissingNutrients(response.missingNutrients);
-        setSuggestions(response.suggestions);
+        console.log('Response:', response); // Log the response for debugging
+        setIngredients(response.ingredients); // Update state with ingredients
+        setNutrients(response.nutrients); // Update state with nutrients
+        setMissingNutrients(response.missingNutrients); // Update state with missing nutrients
+        setSuggestions(response.suggestions); // Update state with suggestions
       } catch (err: unknown) {
         if (err instanceof Error) {
-          console.error('Error in handleFoodSubmit:', err); // Log error for debugging
-          setError(err.message);
+          console.error('Error in handleFoodSubmit:', err.message); // Log error
+          setError(err.message); // Set error state
         } else {
           setError('An unexpected error occurred.');
         }
@@ -46,13 +46,12 @@ const App: React.FC = () => {
       }
     }
   };
-  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F48668]">
       <div className="w-[1024px] max-w-full h-auto bg-[#FFC09F] p-8 rounded-lg shadow-lg overflow-hidden">
         <h1 className="text-4xl font-bold text-center mb-8">Bioessence</h1>
-        
+
         {/* Input Box */}
         <div className="flex justify-center mb-8">
           <input

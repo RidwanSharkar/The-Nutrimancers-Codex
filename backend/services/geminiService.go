@@ -1,4 +1,3 @@
-// services/geminiService.go
 package services
 
 import (
@@ -37,7 +36,7 @@ type GeminiResponse struct {
 	Choices []GeminiChoice `json:"choices"`
 }
 
-// Primary Prompt
+// Primary Prompt: Accepts user food description dynamically and sends to Gemini API
 func ExtractIngredients(foodDescription string) ([]string, error) {
 	apiKey := os.Getenv("API_KEY")
 	if apiKey == "" {
@@ -46,22 +45,25 @@ func ExtractIngredients(foodDescription string) ([]string, error) {
 		return nil, err
 	}
 
-	promptText := fmt.Sprintf("Extract the list of ingredients from the following food input: '{user_input}'. List the main ingredients as bullet points, with no descriptions", foodDescription)
+	// Adjust promptText to dynamically use the user's input
+	promptText := fmt.Sprintf("Extract the list of ingredients from the following food description: '%s'. List the main ingredients as bullet points with no descriptions.", foodDescription)
 
+	// Prepare request body
 	reqBody := GeminiRequest{
 		Contents: []Content{{Parts: []Part{{
 			Text: promptText,
-		}}}}}
+		}}}},
+	}
 
+	// Convert request body to JSON
 	jsonData, err := json.Marshal(reqBody)
 	if err != nil {
 		utils.LogError(err, "ExtractIngredients: Marshal")
 		return nil, err
 	}
 
-	// Gemini API Endpoint
+	// Send request to Gemini API
 	endpoint := "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + apiKey
-
 	req, err := http.NewRequest("POST", endpoint, bytes.NewBuffer(jsonData))
 	if err != nil {
 		utils.LogError(err, "ExtractIngredients: NewRequest")
@@ -78,6 +80,7 @@ func ExtractIngredients(foodDescription string) ([]string, error) {
 	}
 	defer resp.Body.Close()
 
+	// Handle non-OK response status
 	if resp.StatusCode != http.StatusOK {
 		bodyBytes, _ := ioutil.ReadAll(resp.Body)
 		errMsg := fmt.Sprintf("Gemini API error: %s", string(bodyBytes))
@@ -85,32 +88,36 @@ func ExtractIngredients(foodDescription string) ([]string, error) {
 		return nil, errors.New(errMsg)
 	}
 
+	// Parse the response
 	var geminiResp GeminiResponse
 	if err := json.NewDecoder(resp.Body).Decode(&geminiResp); err != nil {
 		utils.LogError(err, "ExtractIngredients: Decode")
 		return nil, err
 	}
 
+	// Check if the response contains choices
 	if len(geminiResp.Choices) == 0 {
 		errMsg := "No choices returned from Gemini"
-		utils.LogError(errors.New(errMsg), "extract Ingredients: NoChoices")
+		utils.LogError(errors.New(errMsg), "ExtractIngredients: NoChoices")
 		return nil, errors.New(errMsg)
 	}
 
+	// Parse and clean the ingredients from the response
 	text := geminiResp.Choices[0].Text
 	ingredients := parseIngredients(text)
 	return ingredients, nil
 }
 
+// Function to parse and clean the ingredients from the response
 func parseIngredients(text string) []string {
 	var ingredients []string
 	lines := strings.Split(text, "\n")
 	for _, line := range lines {
 		cleaned := strings.TrimSpace(line)
-		cleaned = strings.Trim(cleaned, "-•,.")
-		cleaned = strings.ToLower(cleaned)
+		cleaned = strings.Trim(cleaned, "-•,.") // Remove bullet points, punctuation
+		cleaned = strings.ToLower(cleaned)      // Convert to lowercase
 		if len(cleaned) > 0 {
-			ingredients = append(ingredients, cleaned)
+			ingredients = append(ingredients, cleaned) // Append valid ingredients
 		}
 	}
 	return ingredients

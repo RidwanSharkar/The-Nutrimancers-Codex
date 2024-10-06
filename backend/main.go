@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -17,23 +18,26 @@ import (
 type GeminiRequest struct {
 	Contents []Content `json:"contents"`
 }
+
 type Content struct {
 	Parts []Part `json:"parts"`
 }
+
 type Part struct {
 	Text string `json:"text"`
 }
-type GeminiCandidate struct {
-	Content CandidateContent `json:"content"`
-}
-type CandidateContent struct {
-	Parts []Part `json:"parts"`
-}
+
 type GeminiResponse struct {
 	Candidates []GeminiCandidate `json:"candidates"`
 }
 
-/*=================================================================================================*/
+type GeminiCandidate struct {
+	Content CandidateContent `json:"content"`
+}
+
+type CandidateContent struct {
+	Parts []Part `json:"parts"`
+}
 
 func main() {
 	// Load .env file
@@ -48,8 +52,14 @@ func main() {
 		return
 	}
 
+	// Taking user input
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Enter a food description: ")
+	scanner.Scan()
+	foodDescription := scanner.Text()
+
 	// Prompt
-	promptText := "Extract the essential ingredients from the following food description: 'pizza with black olives, mushroom, and sausage'. For complex foods like pizza, include the base components (e.g., dough, cheese, tomato sauce). Exclude spices and minor ingredients."
+	promptText := fmt.Sprintf("Extract the essential ingredients from the following food description: '%s'. For complex foods like pizza, include the base components (e.g., dough, cheese, tomato sauce). Exclude spices and minor ingredients.", foodDescription)
 
 	// Extract ingredients using Gemini LLM
 	ingredients, err := extractIngredientsFromGemini(apiKey, promptText)
@@ -80,6 +90,8 @@ func main() {
 	fmt.Println("Missing Nutrients:", missingNutrients)
 	fmt.Println("Suggestions:", suggestions)
 }
+
+// Additional functions (extractIngredientsFromGemini, cleanIngredientList, aggregateNutrients, determineMissingNutrients, generateSuggestions) remain the same as previously defined.
 
 // Function to extract ingredients from Gemini
 func extractIngredientsFromGemini(apiKey, prompt string) (string, error) {
