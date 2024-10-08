@@ -19,15 +19,47 @@ import (
 
 /*==================================================================================*/
 
-// List of essential nutrients (example)
+// Redundant move
 var essentialNutrients = []string{
-	"Calcium",
-	"Iron",
-	"Magnesium",
 	"Potassium",
+	"Chloride",
+	"Sodium",
+	"Calcium",
+	"Phosphorus",
+	"Magnesium",
+	"Iron",
+	"Zinc",
+	"Manganese",
+	"Copper",
+	"Iodine",
+	"Chromium",
+	"Molybdenum",
+	"Selenium",
+	"Histidine",
+	"Isoleucine",
+	"Leucine",
+	"Lysine",
+	"Methionine",
+	"Phenylalanine",
+	"Threonine",
+	"Tryptophan",
+	"Valine",
+	"Alpha-Linolenic Acid",
+	"Linoleic Acid",
+	"Vitamin A",
+	"Vitamin B1",
+	"Vitamin B2",
+	"Vitamin B3",
+	"Vitamin B5",
+	"Vitamin B6",
+	"Vitamin B7",
+	"Vitamin B9",
+	"Vitamin B12",
 	"Vitamin C",
 	"Vitamin D",
-	// Add more as needed
+	"Vitamin E",
+	"Vitamin K",
+	"Choline",
 }
 
 func main() {
@@ -36,7 +68,6 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file:", err)
 	}
-
 	// Set up CORS
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"http://localhost:5173"}, // Allow requests from React app
@@ -54,6 +85,74 @@ func main() {
 	fmt.Println("Server is running on :5000")
 	log.Fatal(http.ListenAndServe(":5000", handler))
 }
+
+/*=================================================================================*/
+
+var nutrientRDA = map[string]float64{
+	"Potassium":  4700,
+	"Chloride":   2300,
+	"Sodium":     2300,
+	"Calcium":    1000,
+	"Phosphorus": 700,
+	"Magnesium":  400,
+	"Iron":       10,
+	"Zinc":       10,
+	"Manganese":  2,
+	"Copper":     0.9,
+	"Iodine":     0.150,
+	"Chromium":   .035,
+	"Molybdenum": .045,
+	"Selenium":   .055,
+
+	"Histidine":     10,
+	"Isoleucine":    19,
+	"Leucine":       42,
+	"Lysine":        38,
+	"Methionine":    15,
+	"Phenylalanine": 25,
+	"Threonine":     20,
+	"Tryptophan":    5,
+	"Valine":        24,
+
+	"Alpha-Linolenic Acid": 1300,
+	"Linoleic Acid":        1400,
+
+	"Vitamin A":   0.9,
+	"Vitamin B1":  1.2,
+	"Vitamin B2":  1.3,
+	"Vitamin B3":  16,
+	"Vitamin B5":  5,
+	"Vitamin B6":  1.5,
+	"Vitamin B7":  .03,
+	"Vitamin B9":  .40,
+	"Vitamin B12": .0024,
+	"Vitamin C":   90,
+	"Vitamin D":   0.015,
+	"Vitamin E":   15,
+	"Vitamin K":   .120,
+
+	"Choline": 550,
+}
+
+// Calculate percentage of RDA
+func calculateNutrientPercentages(nutrientData map[string]map[string]float64) map[string]map[string]float64 {
+	percentagesPerIngredient := make(map[string]map[string]float64)
+	for ingredient, nutrients := range nutrientData {
+		percentages := make(map[string]float64)
+		for nutrient, amount := range nutrients {
+			if rda, exists := nutrientRDA[nutrient]; exists && rda > 0 {
+				percentage := (amount / rda) * 100
+				percentages[nutrient] = percentage
+			} else {
+				percentages[nutrient] = 0
+			}
+		}
+		percentagesPerIngredient[ingredient] = percentages
+	}
+	return percentagesPerIngredient
+}
+
+/*=================================================================================*/
 
 func processFoodHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
@@ -85,10 +184,10 @@ func processFoodHandler(w http.ResponseWriter, r *http.Request) {
 
 	cleanedIngredients := cleanIngredientList(ingredients)
 
-	// Fetch nutrient data for each cleaned ingredient - Nutritionix
+	// Fetch nutrient data for each ingredient
 	nutrientData, err := services.FetchNutrientDataForEachIngredient(cleanedIngredients)
 	if err != nil {
-		http.Error(w, "Error fetching nutrient data: "+err.Error(), http.StatusInternalServerError)
+		utils.RespondWithError(w, http.StatusInternalServerError, "Error fetching nutrient data: "+err.Error())
 		return
 	}
 
@@ -99,10 +198,13 @@ func processFoodHandler(w http.ResponseWriter, r *http.Request) {
 	// Generate Suggestions
 	suggestions := generateSuggestions(missingNutrients)
 
+	// RDA Colors
+	nutrientPercentages := calculateNutrientPercentages(nutrientData)
+
 	// Prepare the response using models.ProcessFoodResponse
 	response := models.ProcessFoodResponse{
 		Ingredients:      cleanedIngredients,
-		Nutrients:        aggregatedNutrients,
+		Nutrients:        nutrientPercentages,
 		MissingNutrients: missingNutrients,
 		Suggestions:      suggestions,
 	}
