@@ -1,81 +1,94 @@
 package main
 
 import (
-	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"strings"
 
+	"github.com/RidwanSharkar/Bioessence/backend/models"
 	"github.com/RidwanSharkar/Bioessence/backend/services"
+	"github.com/RidwanSharkar/Bioessence/backend/utils"
 	"github.com/joho/godotenv"
+	"github.com/rs/cors"
 )
 
-// Request payload structure for Gemini API
-type GeminiRequest struct {
-	Contents []Content `json:"contents"`
-}
+/*==================================================================================*/
 
-type Content struct {
-	Parts []Part `json:"parts"`
-}
-
-type Part struct {
-	Text string `json:"text"`
-}
-
-type GeminiResponse struct {
-	Candidates []GeminiCandidate `json:"candidates"`
-}
-
-type GeminiCandidate struct {
-	Content CandidateContent `json:"content"`
-}
-
-type CandidateContent struct {
-	Parts []Part `json:"parts"`
+// List of essential nutrients (example)
+var essentialNutrients = []string{
+	"Calcium",
+	"Iron",
+	"Magnesium",
+	"Potassium",
+	"Vitamin C",
+	"Vitamin D",
+	// Add more as needed
 }
 
 func main() {
 	// Load .env file
 	err := godotenv.Load(".env")
 	if err != nil {
-		fmt.Println("Error loading .env file:", err)
+		log.Fatal("Error loading .env file:", err)
+	}
+
+	// Set up CORS
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:5173"}, // Allow requests from React app
+		AllowedMethods: []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
+		AllowedHeaders: []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+	})
+
+	// Define the HTTP endpoint
+	http.HandleFunc("/process-food", processFoodHandler)
+
+	// Wrap the multiplexer with CORS middleware
+	handler := c.Handler(http.DefaultServeMux)
+
+	// Start the server
+	fmt.Println("Server is running on :5000")
+	log.Fatal(http.ListenAndServe(":5000", handler))
+}
+
+func processFoodHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		utils.RespondWithError(w, http.StatusMethodNotAllowed, "Method not allowed")
 		return
 	}
+
+	var req models.FoodRequest
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		utils.RespondWithError(w, http.StatusInternalServerError, "Error extracting ingredients: "+err.Error())
+		return
+	}
+
 	apiKey := os.Getenv("API_KEY")
 	if apiKey == "" {
-		fmt.Println("API_KEY environment variable is not set.")
+		utils.RespondWithError(w, http.StatusInternalServerError, "API_KEY not set")
 		return
 	}
 
-	// Taking user input
-	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Print("Enter a food description: ")
-	scanner.Scan()
-	foodDescription := scanner.Text()
-
-	// Prompt
-	promptText := fmt.Sprintf("Extract the essential ingredients from the following food description: '%s'. For complex foods like pizza, include the base components (e.g., dough, cheese, tomato sauce). Exclude spices and minor ingredients.", foodDescription)
+	promptText := fmt.Sprintf("Extract the essential ingredients from the following food description: '%s'. For complex foods like pizza, include the base components (e.g., dough, cheese, tomato sauce). Exclude spices and minor ingredients.", req.FoodDescription)
 
 	// Extract ingredients using Gemini LLM
 	ingredients, err := extractIngredientsFromGemini(apiKey, promptText)
 	if err != nil {
-		fmt.Println("Error extracting ingredients from Gemini:", err)
+		utils.RespondWithError(w, http.StatusInternalServerError, "Error extracting ingredients: "+err.Error())
 		return
 	}
 
-	// Clean
 	cleanedIngredients := cleanIngredientList(ingredients)
-	fmt.Println("Cleaned Ingredients:", cleanedIngredients)
 
 	// Fetch nutrient data for each cleaned ingredient - Nutritionix
 	nutrientData, err := services.FetchNutrientDataForEachIngredient(cleanedIngredients)
 	if err != nil {
-		fmt.Println("Error fetching nutrient data from Nutritionix:", err)
+		http.Error(w, "Error fetching nutrient data: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -86,20 +99,26 @@ func main() {
 	// Generate Suggestions
 	suggestions := generateSuggestions(missingNutrients)
 
-	fmt.Println("Aggregated Nutrients:", aggregatedNutrients)
-	fmt.Println("Missing Nutrients:", missingNutrients)
-	fmt.Println("Suggestions:", suggestions)
+	// Prepare the response using models.ProcessFoodResponse
+	response := models.ProcessFoodResponse{
+		Ingredients:      cleanedIngredients,
+		Nutrients:        aggregatedNutrients,
+		MissingNutrients: missingNutrients,
+		Suggestions:      suggestions,
+	}
+
+	// Send the response
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
 }
 
-// Additional functions (extractIngredientsFromGemini, cleanIngredientList, aggregateNutrients, determineMissingNutrients, generateSuggestions) remain the same as previously defined.
-
-// Function to extract ingredients from Gemini
+// Function to extract Gemini output
 func extractIngredientsFromGemini(apiKey, prompt string) (string, error) {
 	// Create the request payload
-	reqBody := GeminiRequest{
-		Contents: []Content{
+	reqBody := models.GeminiRequest{
+		Contents: []models.Content{
 			{
-				Parts: []Part{
+				Parts: []models.Part{
 					{Text: prompt},
 				},
 			},
@@ -136,7 +155,7 @@ func extractIngredientsFromGemini(apiKey, prompt string) (string, error) {
 	}
 
 	// Decode the JSON response
-	var geminiResp GeminiResponse
+	var geminiResp models.GeminiResponse
 	err = json.Unmarshal(bodyBytes, &geminiResp)
 	if err != nil {
 		return "", err
@@ -165,19 +184,45 @@ func cleanIngredientList(ingredients string) []string {
 	return cleaned
 }
 
-/*=================================================================================================*/
-
 // Aggregate Nutrition Data
-func aggregateNutrients(nutrientData map[string]map[string]float64) map[string]float64 {
-	return make(map[string]float64)
+func aggregateNutrients(nutrientData map[string]map[string]float64) map[string]map[string]float64 {
+	// Since nutrientData already maps each ingredient to its nutrients,
+	// you can directly return it. If additional aggregation is needed, implement here.
+	return nutrientData
 }
 
-// Determine Missing
-func determineMissingNutrients(aggregated map[string]float64) []string {
-	return []string{}
+// Determine Missing Nutrients
+func determineMissingNutrients(nutrientData map[string]map[string]float64) []string {
+	var missing []string
+	nutrientSet := make(map[string]bool)
+	for _, nutrients := range nutrientData {
+		for nutrient := range nutrients {
+			nutrientSet[nutrient] = true
+		}
+	}
+	for _, nutrient := range essentialNutrients {
+		if !nutrientSet[nutrient] {
+			missing = append(missing, nutrient)
+		}
+	}
+	return missing
 }
 
-// Generate Suggestions
+// Generate Suggestions Based on Missing Nutrients
 func generateSuggestions(missing []string) []string {
-	return []string{}
+	suggestionsMap := map[string]string{
+		"Vitamin D": "Include more fatty fish or fortified dairy products.",
+		"Calcium":   "Consider adding more leafy greens or dairy products.",
+		// Add more mappings as needed
+	}
+
+	var suggestions []string
+	for _, nutrient := range missing {
+		if suggestion, exists := suggestionsMap[nutrient]; exists {
+			suggestions = append(suggestions, suggestion)
+		} else {
+			suggestions = append(suggestions, fmt.Sprintf("Consider adding sources rich in %s.", nutrient))
+		}
+	}
+	return suggestions
 }

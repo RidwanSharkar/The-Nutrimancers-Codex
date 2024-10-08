@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-// sends an error response in JSON format
+// error response in JSON
 func RespondWithError(w http.ResponseWriter, code int, message string) {
 	w.WriteHeader(code)
 	w.Header().Set("Content-Type", "application/json")
@@ -16,7 +16,7 @@ func RespondWithError(w http.ResponseWriter, code int, message string) {
 	w.Write(jsonResp)
 }
 
-// logs the error with a standard message
+// log
 func LogError(err error, context string) {
 	if err != nil {
 		log.Printf("Error in %s: %v\n", context, err)

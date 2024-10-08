@@ -126,7 +126,7 @@ func FetchNutrientData(ingredients []string) (map[string]map[string]float64, err
 
 		if resp.StatusCode != http.StatusOK {
 			bodyBytes, _ := ioutil.ReadAll(resp.Body)
-			return nil, fmt.Errorf("Nutritionix API error: %s", string(bodyBytes))
+			return nil, fmt.Errorf("nutritionix API error: %s", string(bodyBytes))
 		}
 
 		var nutritionixResp NutritionixResponse

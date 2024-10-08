@@ -4,23 +4,26 @@ import axios from 'axios';
 
 interface ProcessFoodResponse {
   ingredients: string[];
-  nutrients: { [key: string]: number };
+  nutrients: { [ingredient: string]: { [nutrient: string]: number } };
   missingNutrients: string[];
   suggestions: string[];
 }
 
 export const processFood = async (foodDescription: string): Promise<ProcessFoodResponse> => {
   try {
-    const response = await axios.post<ProcessFoodResponse>('http://localhost:5000/api/process-food', {
-      foodDescription, // Send user input to backend
+    const response = await axios.post<ProcessFoodResponse>('http://localhost:5000/process-food', {
+      foodDescription,
     });
-
     return response.data;
-  } catch (error: unknown) {
+  } catch (error: unknown) { 
     if (axios.isAxiosError(error)) {
-      // Log error for better debugging
-      console.error('Axios error:', error.response?.data);
-      throw new Error(error.response?.data?.error || 'An error occurred while processing the food.');
+      let detailedError = 'An error occurred while processing the food.';
+      if (error.response?.data?.error) {
+        detailedError = error.response.data.error;
+      } else if (typeof error.response?.data === 'string') {
+        detailedError = error.response.data;
+      }
+      throw new Error(detailedError);
     } else {
       throw new Error('An unexpected error occurred.');
     }
