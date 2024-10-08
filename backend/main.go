@@ -19,7 +19,7 @@ import (
 
 /*==================================================================================*/
 
-// Redundant move
+// Redundant combine - MAP ALL 3 together*
 var essentialNutrients = []string{
 	"Potassium",
 	"Chloride",
@@ -89,50 +89,126 @@ func main() {
 /*=================================================================================*/
 
 var nutrientRDA = map[string]float64{
-	"Potassium":  4700,
-	"Chloride":   2300,
-	"Sodium":     2300,
-	"Calcium":    1000,
-	"Phosphorus": 700,
-	"Magnesium":  400,
-	"Iron":       10,
-	"Zinc":       10,
-	"Manganese":  2,
-	"Copper":     0.9,
-	"Iodine":     0.150,
-	"Chromium":   .035,
-	"Molybdenum": .045,
-	"Selenium":   .055,
+	// Ions
+	"Potassium":  4700, // mg
+	"Chloride":   2300, // mg
+	"Sodium":     2300, // mg
+	"Calcium":    1000, // mg
+	"Phosphorus": 700,  // mg
+	"Magnesium":  400,  // mg
+	"Iron":       10,   // mg
+	"Zinc":       10,   // mg
+	"Manganese":  2.3,  // mg
+	"Copper":     0.9,  // mg
+	"Iodine":     150,  // µg
+	"Chromium":   35,   // µg
+	"Molybdenum": 45,   // µg
+	"Selenium":   55,   // µg
 
-	"Histidine":     10,
-	"Isoleucine":    19,
-	"Leucine":       42,
-	"Lysine":        38,
-	"Methionine":    15,
-	"Phenylalanine": 25,
-	"Threonine":     20,
-	"Tryptophan":    5,
-	"Valine":        24,
+	// Essential Amino-Acids
+	"Histidine":     10, // g
+	"Isoleucine":    19, // g
+	"Leucine":       42, // g
+	"Lysine":        38, // g
+	"Methionine":    15, // g
+	"Phenylalanine": 25, // g
+	"Threonine":     20, // g
+	"Tryptophan":    5,  // g
+	"Valine":        24, // g
 
-	"Alpha-Linolenic Acid": 1300,
-	"Linoleic Acid":        1400,
+	// Fatty Acids
+	"Alpha-Linolenic Acid": 1300, // mg
+	"Linoleic Acid":        1400, // mg
 
-	"Vitamin A":   0.9,
-	"Vitamin B1":  1.2,
-	"Vitamin B2":  1.3,
-	"Vitamin B3":  16,
-	"Vitamin B5":  5,
-	"Vitamin B6":  1.5,
-	"Vitamin B7":  .03,
-	"Vitamin B9":  .40,
-	"Vitamin B12": .0024,
-	"Vitamin C":   90,
-	"Vitamin D":   0.015,
-	"Vitamin E":   15,
-	"Vitamin K":   .120,
+	// Vitamins
+	"Vitamin A":   900, // µg
+	"Vitamin B1":  1.2, // mg
+	"Vitamin B2":  1.3, // mg
+	"Vitamin B3":  16,  // mg
+	"Vitamin B5":  5,   // mg
+	"Vitamin B6":  1.5, // mg
+	"Vitamin B7":  30,  // µg
+	"Vitamin B9":  400, // µg
+	"Vitamin B12": 2.4, // µg
+	"Vitamin C":   90,  // mg
+	"Vitamin D":   15,  // µg
+	"Vitamin E":   15,  // mg
+	"Vitamin K":   120, // µg
 
-	"Choline": 550,
+	// Semi-Essential
+	"Choline": 550, // mg
+	//"Boron" :
 }
+
+// Conserve - UNIT CONVERSIONS ====================================================================================
+var nutrientUnits = map[string]string{
+	"Potassium":  "mg",
+	"Chloride":   "mg",
+	"Sodium":     "mg",
+	"Calcium":    "mg",
+	"Phosphorus": "mg",
+	"Magnesium":  "mg",
+	"Iron":       "mg",
+	"Zinc":       "mg",
+	"Manganese":  "mg",
+	"Copper":     "mg",
+	"Iodine":     "µg",
+	"Chromium":   "µg",
+	"Molybdenum": "µg",
+	"Selenium":   "µg",
+
+	"Histidine":     "g",
+	"Isoleucine":    "g",
+	"Leucine":       "g",
+	"Lysine":        "g",
+	"Methionine":    "g",
+	"Phenylalanine": "g",
+	"Threonine":     "g",
+	"Tryptophan":    "g",
+	"Valine":        "g",
+
+	"Alpha-Linolenic Acid": "mg",
+	"Linoleic Acid":        "mg",
+
+	"Vitamin A":   "µg",
+	"Vitamin B1":  "mg",
+	"Vitamin B2":  "mg",
+	"Vitamin B3":  "mg",
+	"Vitamin B5":  "mg",
+	"Vitamin B6":  "mg",
+	"Vitamin B7":  "µg",
+	"Vitamin B9":  "µg",
+	"Vitamin B12": "µg",
+	"Vitamin C":   "mg",
+	"Vitamin D":   "µg",
+	"Vitamin E":   "mg",
+	"Vitamin K":   "µg",
+
+	"Choline": "mg",
+}
+
+func adjustUnits(amount float64, unit string) float64 {
+	switch unit {
+	case "mg":
+		return amount
+	case "µg":
+		return amount / 1000.0
+	case "g":
+		return amount * 1000.0
+	case "IU":
+		return convertIUtoMg(amount)
+	default:
+		return amount
+	}
+}
+
+func convertIUtoMg(amount float64) float64 {
+	micrograms := amount * 0.025
+	milligrams := micrograms / 1000.0
+	return milligrams
+}
+
+// ================================================================================================================
 
 // Calculate percentage of RDA
 func calculateNutrientPercentages(nutrientData map[string]map[string]float64) map[string]map[string]float64 {
@@ -140,8 +216,12 @@ func calculateNutrientPercentages(nutrientData map[string]map[string]float64) ma
 	for ingredient, nutrients := range nutrientData {
 		percentages := make(map[string]float64)
 		for nutrient, amount := range nutrients {
-			if rda, exists := nutrientRDA[nutrient]; exists && rda > 0 {
-				percentage := (amount / rda) * 100
+			rda, rdaExists := nutrientRDA[nutrient]
+			unit, unitExists := nutrientUnits[nutrient]
+			if rdaExists && unitExists {
+				// match RDA units
+				adjustedAmount := adjustUnits(amount, unit)
+				percentage := (adjustedAmount / rda) * 100
 				percentages[nutrient] = percentage
 			} else {
 				percentages[nutrient] = 0
@@ -209,10 +289,12 @@ func processFoodHandler(w http.ResponseWriter, r *http.Request) {
 		Suggestions:      suggestions,
 	}
 
-	// Send the response
+	// Send Response
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 }
+
+/*=================================================================================*/
 
 // Function to extract Gemini output
 func extractIngredientsFromGemini(apiKey, prompt string) (string, error) {
@@ -286,10 +368,11 @@ func cleanIngredientList(ingredients string) []string {
 	return cleaned
 }
 
+/*=================================================================================*/
+
 // Aggregate Nutrition Data
 func aggregateNutrients(nutrientData map[string]map[string]float64) map[string]map[string]float64 {
-	// Since nutrientData already maps each ingredient to its nutrients,
-	// you can directly return it. If additional aggregation is needed, implement here.
+	//Check
 	return nutrientData
 }
 

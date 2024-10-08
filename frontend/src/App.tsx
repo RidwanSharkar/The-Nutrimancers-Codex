@@ -55,9 +55,30 @@ const App: React.FC = () => {
 
   const handleIngredientClick = (ingredient: string) => {
     console.log("Clicked ingredient:", ingredient);
-    console.log("Nutrients for this ingredient:", nutrients[ingredient]);
-    setSelectedIngredient(ingredient);
-    setSelectedNutrientData(nutrients[ingredient] || {});
+  
+    if (ingredient === 'Full Meal') {
+      // Calculate total nutrients for all ingredients
+      const totalNutrients: { [key: string]: number } = {};
+  
+      ingredients.forEach((ing) => {
+        const nutrientData = nutrients[ing] || {};
+        for (const nutrient in nutrientData) {
+          if (Object.prototype.hasOwnProperty.call(nutrientData, nutrient)) {
+            totalNutrients[nutrient] = (totalNutrients[nutrient] || 0) + nutrientData[nutrient];
+          }
+          
+        }
+      });
+  
+  
+      setSelectedIngredient('Full Meal');
+      setSelectedNutrientData(totalNutrients);
+    } else {
+      // Handle individual ingredient
+      console.log("Nutrients for this ingredient:", nutrients[ingredient]);
+      setSelectedIngredient(ingredient);
+      setSelectedNutrientData(nutrients[ingredient] || {});
+    }
   };
 
   return (
