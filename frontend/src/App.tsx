@@ -18,7 +18,7 @@ const App: React.FC = () => {
   const [food, setFood] = useState<string>('');
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [nutrients, setNutrients] = useState<{ [ingredient: string]: { [key: string]: number } }>({});
-  const [selectedIngredient, setSelectedIngredient] = useState<string>(''); // Track selected ingredient
+  const [selectedIngredient, setSelectedIngredient] = useState<string>(''); 
   const [selectedNutrientData, setSelectedNutrientData] = useState<{ [key: string]: number }>({});
   const [missingNutrients, setMissingNutrients] = useState<string[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -39,7 +39,7 @@ const App: React.FC = () => {
         setNutrients(response.nutrients);
         setMissingNutrients(response.missingNutrients);
         setSuggestions(response.suggestions);
-        setSelectedIngredient(''); // Reset selected ingredient
+        setSelectedIngredient(''); 
         setSelectedNutrientData({});
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -57,7 +57,7 @@ const App: React.FC = () => {
     console.log("Clicked ingredient:", ingredient);
   
     if (ingredient === 'Full Meal') {
-      // Calculate total nutrients for all ingredients
+      // Calculate total nutrients for full input
       const totalNutrients: { [key: string]: number } = {};
   
       ingredients.forEach((ing) => {
@@ -74,7 +74,6 @@ const App: React.FC = () => {
       setSelectedIngredient('Full Meal');
       setSelectedNutrientData(totalNutrients);
     } else {
-      // Handle individual ingredient
       console.log("Nutrients for this ingredient:", nutrients[ingredient]);
       setSelectedIngredient(ingredient);
       setSelectedNutrientData(nutrients[ingredient] || {});

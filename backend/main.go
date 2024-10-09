@@ -19,10 +19,10 @@ import (
 
 /*==================================================================================*/
 
-// Redundant combine - MAP ALL 3 together*
+// Redundant combine - MAP ALL 4 together{nutrient, unit, RDA, nutrtionixAPI}*
 var essentialNutrients = []string{
 	"Potassium",
-	"Chloride",
+	//"Chloride",
 	"Sodium",
 	"Calcium",
 	"Phosphorus",
@@ -31,9 +31,9 @@ var essentialNutrients = []string{
 	"Zinc",
 	"Manganese",
 	"Copper",
-	"Iodine",
-	"Chromium",
-	"Molybdenum",
+	//"Iodine",
+	//"Chromium",
+	//"Molybdenum",
 	"Selenium",
 	"Histidine",
 	"Isoleucine",
@@ -52,7 +52,7 @@ var essentialNutrients = []string{
 	"Vitamin B3",
 	"Vitamin B5",
 	"Vitamin B6",
-	"Vitamin B7",
+	//"Vitamin B7",
 	"Vitamin B9",
 	"Vitamin B12",
 	"Vitamin C",
@@ -90,8 +90,8 @@ func main() {
 
 var nutrientRDA = map[string]float64{
 	// Ions
-	"Potassium":  4700, // mg
-	"Chloride":   2300, // mg
+	"Potassium": 4700, // mg
+	// "Chloride":   2300,
 	"Sodium":     2300, // mg
 	"Calcium":    1000, // mg
 	"Phosphorus": 700,  // mg
@@ -100,34 +100,34 @@ var nutrientRDA = map[string]float64{
 	"Zinc":       10,   // mg
 	"Manganese":  2.3,  // mg
 	"Copper":     0.9,  // mg
-	"Iodine":     150,  // µg
-	"Chromium":   35,   // µg
-	"Molybdenum": 45,   // µg
-	"Selenium":   55,   // µg
+	//"Iodine":     150,  // µg
+	// "Chromium":   35,   // µg
+	// "Molybdenum": 45,   // µg
+	"Selenium": 55, // µg
 
 	// Essential Amino-Acids
-	"Histidine":     10, // g
-	"Isoleucine":    19, // g
-	"Leucine":       42, // g
-	"Lysine":        38, // g
-	"Methionine":    15, // g
-	"Phenylalanine": 25, // g
-	"Threonine":     20, // g
-	"Tryptophan":    5,  // g
-	"Valine":        24, // g
+	"Histidine":     10000, // mg
+	"Isoleucine":    19000, // mg
+	"Leucine":       42000, // mg
+	"Lysine":        38000, // mg
+	"Methionine":    15000, // mg
+	"Phenylalanine": 25000, // mg
+	"Threonine":     20000, // mg
+	"Tryptophan":    5000,  // mg
+	"Valine":        24000, // mg
 
-	// Fatty Acids
+	// Essential Omega Fatty Acids
 	"Alpha-Linolenic Acid": 1300, // mg
 	"Linoleic Acid":        1400, // mg
 
 	// Vitamins
-	"Vitamin A":   900, // µg
-	"Vitamin B1":  1.2, // mg
-	"Vitamin B2":  1.3, // mg
-	"Vitamin B3":  16,  // mg
-	"Vitamin B5":  5,   // mg
-	"Vitamin B6":  1.5, // mg
-	"Vitamin B7":  30,  // µg
+	"Vitamin A":  0.9, // mg
+	"Vitamin B1": 1.2, // mg
+	"Vitamin B2": 1.3, // mg
+	"Vitamin B3": 16,  // mg
+	"Vitamin B5": 5,   // mg
+	"Vitamin B6": 1.5, // mg
+	// "Vitamin B7":  30,  // µg
 	"Vitamin B9":  400, // µg
 	"Vitamin B12": 2.4, // µg
 	"Vitamin C":   90,  // mg
@@ -142,8 +142,8 @@ var nutrientRDA = map[string]float64{
 
 // Conserve - UNIT CONVERSIONS ====================================================================================
 var nutrientUnits = map[string]string{
-	"Potassium":  "mg",
-	"Chloride":   "mg",
+	"Potassium": "mg",
+	//"Chloride":   "mg",
 	"Sodium":     "mg",
 	"Calcium":    "mg",
 	"Phosphorus": "mg",
@@ -152,10 +152,10 @@ var nutrientUnits = map[string]string{
 	"Zinc":       "mg",
 	"Manganese":  "mg",
 	"Copper":     "mg",
-	"Iodine":     "µg",
-	"Chromium":   "µg",
-	"Molybdenum": "µg",
-	"Selenium":   "µg",
+	//"Iodine":     "µg",
+	//"Chromium":   "µg",
+	//"Molybdenum": "µg",
+	"Selenium": "µg",
 
 	"Histidine":     "g",
 	"Isoleucine":    "g",
@@ -170,13 +170,13 @@ var nutrientUnits = map[string]string{
 	"Alpha-Linolenic Acid": "mg",
 	"Linoleic Acid":        "mg",
 
-	"Vitamin A":   "µg",
-	"Vitamin B1":  "mg",
-	"Vitamin B2":  "mg",
-	"Vitamin B3":  "mg",
-	"Vitamin B5":  "mg",
-	"Vitamin B6":  "mg",
-	"Vitamin B7":  "µg",
+	"Vitamin A":  "µg",
+	"Vitamin B1": "mg",
+	"Vitamin B2": "mg",
+	"Vitamin B3": "mg",
+	"Vitamin B5": "mg",
+	"Vitamin B6": "mg",
+	//"Vitamin B7":  "µg",
 	"Vitamin B9":  "µg",
 	"Vitamin B12": "µg",
 	"Vitamin C":   "mg",
