@@ -20,47 +20,6 @@ import (
 /*==================================================================================*/
 
 // Redundant combine - MAP ALL 4 together{nutrient, unit, RDA, nutrtionixAPI}*
-var essentialNutrients = []string{
-	"Potassium",
-	//"Chloride",
-	"Sodium",
-	"Calcium",
-	"Phosphorus",
-	"Magnesium",
-	"Iron",
-	"Zinc",
-	"Manganese",
-	"Copper",
-	//"Iodine",
-	//"Chromium",
-	//"Molybdenum",
-	"Selenium",
-	"Histidine",
-	"Isoleucine",
-	"Leucine",
-	"Lysine",
-	"Methionine",
-	"Phenylalanine",
-	"Threonine",
-	"Tryptophan",
-	"Valine",
-	"Alpha-Linolenic Acid",
-	"Linoleic Acid",
-	"Vitamin A",
-	"Vitamin B1",
-	"Vitamin B2",
-	"Vitamin B3",
-	"Vitamin B5",
-	"Vitamin B6",
-	//"Vitamin B7",
-	"Vitamin B9",
-	"Vitamin B12",
-	"Vitamin C",
-	"Vitamin D",
-	"Vitamin E",
-	"Vitamin K",
-	"Choline",
-}
 
 func main() {
 	// Load .env file
@@ -68,25 +27,40 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file:", err)
 	}
-	// Set up CORS
+	// CORS
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"http://localhost:5173"}, // Allow requests from React app
 		AllowedMethods: []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
 		AllowedHeaders: []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
 	})
 
-	// Define the HTTP endpoint
+	// HTTP endpoint
 	http.HandleFunc("/process-food", processFoodHandler)
-
-	// Wrap the multiplexer with CORS middleware
 	handler := c.Handler(http.DefaultServeMux)
 
-	// Start the server
+	// Start server
 	fmt.Println("Server is running on :5000")
 	log.Fatal(http.ListenAndServe(":5000", handler))
 }
 
 /*=================================================================================*/
+
+func determineLowAndMissingNutrients(totalNutrients map[string]float64) []string {
+	var lowAndMissingNutrients []string
+
+	// Threshold
+	const lowThreshold = 4.0
+
+	// Iterate over all
+	for nutrient := range nutrientRDA {
+		percentage, exists := totalNutrients[nutrient]
+		if !exists || percentage <= lowThreshold {
+			lowAndMissingNutrients = append(lowAndMissingNutrients, nutrient)
+		}
+	}
+
+	return lowAndMissingNutrients
+}
 
 var nutrientRDA = map[string]float64{
 	// Ions
@@ -219,7 +193,7 @@ func calculateNutrientPercentages(nutrientData map[string]map[string]float64) ma
 			rda, rdaExists := nutrientRDA[nutrient]
 			unit, unitExists := nutrientUnits[nutrient]
 			if rdaExists && unitExists {
-				// match RDA units
+				// match units
 				adjustedAmount := adjustUnits(amount, unit)
 				percentage := (adjustedAmount / rda) * 100
 				percentages[nutrient] = percentage
@@ -230,6 +204,25 @@ func calculateNutrientPercentages(nutrientData map[string]map[string]float64) ma
 		percentagesPerIngredient[ingredient] = percentages
 	}
 	return percentagesPerIngredient
+}
+
+func calculateTotalNutrients(nutrientPercentages map[string]map[string]float64) map[string]float64 {
+	totalNutrients := make(map[string]float64)
+
+	for _, nutrients := range nutrientPercentages {
+		for nutrient, percentage := range nutrients {
+			totalNutrients[nutrient] += percentage
+		}
+	}
+
+	// Cap @ 100%
+	for nutrient, percentage := range totalNutrients {
+		if percentage > 100 {
+			totalNutrients[nutrient] = 100
+		}
+	}
+
+	return totalNutrients
 }
 
 /*=================================================================================*/
@@ -271,22 +264,20 @@ func processFoodHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Aggregate Data
-	aggregatedNutrients := aggregateNutrients(nutrientData)
-	missingNutrients := determineMissingNutrients(aggregatedNutrients)
-
-	// Generate Suggestions
-	suggestions := generateSuggestions(missingNutrients)
-
-	// RDA Colors
+	// Calculate RDA percentages
 	nutrientPercentages := calculateNutrientPercentages(nutrientData)
 
-	// Prepare the response using models.ProcessFoodResponse
+	// Calculate total nutrients
+	totalNutrients := calculateTotalNutrients(nutrientPercentages)
+
+	// Determine Deficiencies
+	lowAndMissingNutrients := determineLowAndMissingNutrients(totalNutrients)
+
+	// Prepare the response
 	response := models.ProcessFoodResponse{
 		Ingredients:      cleanedIngredients,
 		Nutrients:        nutrientPercentages,
-		MissingNutrients: missingNutrients,
-		Suggestions:      suggestions,
+		MissingNutrients: lowAndMissingNutrients,
 	}
 
 	// Send Response
@@ -309,13 +300,13 @@ func extractIngredientsFromGemini(apiKey, prompt string) (string, error) {
 		},
 	}
 
-	// Convert the request payload to JSON
+	// Convert request payload to JSON
 	jsonData, err := json.Marshal(reqBody)
 	if err != nil {
 		return "", err
 	}
 
-	// Send the request to the Gemini API
+	// Send request to Gemini API
 	endpoint := "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + apiKey
 	req, err := http.NewRequest("POST", endpoint, bytes.NewBuffer(jsonData))
 	if err != nil {
@@ -324,7 +315,7 @@ func extractIngredientsFromGemini(apiKey, prompt string) (string, error) {
 
 	req.Header.Set("Content-Type", "application/json")
 
-	// Execute the request
+	// Execute request
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -332,20 +323,20 @@ func extractIngredientsFromGemini(apiKey, prompt string) (string, error) {
 	}
 	defer resp.Body.Close()
 
-	// Read the response body
+	// Read response
 	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
 	}
 
-	// Decode the JSON response
+	// Decode JSON
 	var geminiResp models.GeminiResponse
 	err = json.Unmarshal(bodyBytes, &geminiResp)
 	if err != nil {
 		return "", err
 	}
 
-	// Extract the ingredients from the response
+	// Extract ingredients from ouput
 	if len(geminiResp.Candidates) > 0 && len(geminiResp.Candidates[0].Content.Parts) > 0 {
 		return geminiResp.Candidates[0].Content.Parts[0].Text, nil
 	}
@@ -369,45 +360,3 @@ func cleanIngredientList(ingredients string) []string {
 }
 
 /*=================================================================================*/
-
-// Aggregate Nutrition Data
-func aggregateNutrients(nutrientData map[string]map[string]float64) map[string]map[string]float64 {
-	//Check
-	return nutrientData
-}
-
-// Determine Missing Nutrients
-func determineMissingNutrients(nutrientData map[string]map[string]float64) []string {
-	var missing []string
-	nutrientSet := make(map[string]bool)
-	for _, nutrients := range nutrientData {
-		for nutrient := range nutrients {
-			nutrientSet[nutrient] = true
-		}
-	}
-	for _, nutrient := range essentialNutrients {
-		if !nutrientSet[nutrient] {
-			missing = append(missing, nutrient)
-		}
-	}
-	return missing
-}
-
-// Generate Suggestions Based on Missing Nutrients
-func generateSuggestions(missing []string) []string {
-	suggestionsMap := map[string]string{
-		"Vitamin D": "Include more fatty fish or fortified dairy products.",
-		"Calcium":   "Consider adding more leafy greens or dairy products.",
-		// Add more mappings as needed
-	}
-
-	var suggestions []string
-	for _, nutrient := range missing {
-		if suggestion, exists := suggestionsMap[nutrient]; exists {
-			suggestions = append(suggestions, suggestion)
-		} else {
-			suggestions = append(suggestions, fmt.Sprintf("Consider adding sources rich in %s.", nutrient))
-		}
-	}
-	return suggestions
-}

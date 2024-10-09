@@ -11,7 +11,7 @@ const NutrientsPanel: React.FC<NutrientsPanelProps> = ({ ingredient, nutrients }
   // Combine Redundant
   const allNutrients = [
     "Potassium",
-    "Chloride",
+    //"Chloride",
     "Sodium",
     "Calcium",
     "Phosphorus",
@@ -20,9 +20,9 @@ const NutrientsPanel: React.FC<NutrientsPanelProps> = ({ ingredient, nutrients }
     "Zinc",
     "Manganese",
     "Copper",
-    "Iodine",
-    "Chromium",
-    "Molybdenum",
+    //"Iodine",
+    //"Chromium",
+    //"Molybdenum",
     "Selenium",
     "Histidine",
     "Isoleucine",
@@ -41,7 +41,7 @@ const NutrientsPanel: React.FC<NutrientsPanelProps> = ({ ingredient, nutrients }
     "Vitamin B3",
     "Vitamin B5",
     "Vitamin B6",
-    "Vitamin B7",
+    //"Vitamin B7",
     "Vitamin B9",
     "Vitamin B12",
     "Vitamin C",
@@ -94,7 +94,7 @@ const NutrientsPanel: React.FC<NutrientsPanelProps> = ({ ingredient, nutrients }
           return (
             <li key={index} className={`text-white`}>
               <span style={{ color: color }}>
-                {nutrient}: {classification === 'none' ? 'N/A' : `${percentage?.toFixed(1)}% of RDA`}
+                {nutrient}: {classification === 'none' ? ' ' : `${percentage?.toFixed(1)}% of RDA`}
               </span>
             </li>
           );

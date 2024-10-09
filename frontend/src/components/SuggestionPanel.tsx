@@ -13,7 +13,7 @@ const SuggestionPanel: React.FC<SuggestionPanelProps> = ({ missingNutrients, sug
       <h2 className="text-xl font-semibold mb-4 text-white">Suggestions</h2>
       {missingNutrients && missingNutrients.length > 0 ? (
         <>
-          <h3 className="text-lg font-medium mb-2 text-white">You're Missing:</h3>
+          <h3 className="text-lg font-medium mb-2 text-white">You're Low on:</h3>
           <ul className="list-disc list-inside mb-4 space-y-1">
             {missingNutrients.map((nutrient, index) => (
               <li key={index} className="text-white">
