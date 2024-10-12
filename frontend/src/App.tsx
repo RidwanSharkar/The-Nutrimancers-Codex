@@ -18,7 +18,7 @@ const App: React.FC = () => {
   const [food, setFood] = useState<string>('');
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [nutrients, setNutrients] = useState<{ [ingredient: string]: { [key: string]: number } }>({});
-  const [selectedIngredient, setSelectedIngredient] = useState<string>('');
+  const [selectedIngredient, setSelectedIngredient] = useState<string>('Full Meal');
   const [selectedNutrientData, setSelectedNutrientData] = useState<{ [key: string]: number }>({});
   const [missingNutrients, setMissingNutrients] = useState<string[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -58,6 +58,7 @@ const App: React.FC = () => {
           }
         });
         setNormalMealNutrients(totalNutrients);
+        setSelectedNutrientData(totalNutrients); // Set to full meal totals
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);

@@ -110,16 +110,16 @@ func ExtractIngredients(foodDescription string) ([]string, error) {
 
 /*=================================================================================================*/
 
-// Parse and clean ingredients from Gemini response
+// Parse & Clean Ingredients
 func parseIngredients(text string) []string {
 	var ingredients []string
 	lines := strings.Split(text, "\n")
 	for _, line := range lines {
 		cleaned := strings.TrimSpace(line)
-		cleaned = strings.Trim(cleaned, "-•,.") // Remove bullet points, punctuation
-		cleaned = strings.ToLower(cleaned)      // Convert to lowercase
+		cleaned = strings.Trim(cleaned, "-•,.")
+		cleaned = strings.ToLower(cleaned)
 		if len(cleaned) > 0 {
-			ingredients = append(ingredients, cleaned) // Append valid ingredients
+			ingredients = append(ingredients, cleaned)
 		}
 	}
 	return ingredients

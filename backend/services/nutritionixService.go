@@ -31,7 +31,7 @@ type NutritionixResponse struct {
 /*=================================================================================================*/
 // Mapping of WIKI essential nutrients to Nutritionix attr_ids
 var nutrientMapping = map[string]int{
-	"Potassium":  306,
+	"Potassium":  306, // Rest mg
 	"Sodium":     307,
 	"Calcium":    301,
 	"Phosphorus": 305,
@@ -40,35 +40,37 @@ var nutrientMapping = map[string]int{
 	"Zinc":       309,
 	"Manganese":  315,
 	"Copper":     312,
-	"Selenium":   317,
+	"Selenium":   317, //Âµg
 	// "Iodine":
 	// "Chromium":
 	// "Molybdenum": TRACE
-	"Histidine":            512,
-	"Isoleucine":           503,
-	"Leucine":              504,
-	"Lysine":               505,
-	"Methionine":           506,
-	"Phenylalanine":        508,
-	"Threonine":            507,
-	"Tryptophan":           509,
-	"Valine":               510,
-	"Alpha-Linolenic Acid": 851,
-	"Linoleic Acid":        675,
-	"Vitamin A":            320,
-	"Vitamin B1":           404,
-	"Vitamin B2":           405,
-	"Vitamin B3":           406,
-	"Vitamin B5":           410,
-	"Vitamin B6":           415,
+	"Histidine":     512, // All grams
+	"Isoleucine":    503,
+	"Leucine":       504,
+	"Lysine":        505,
+	"Methionine":    506,
+	"Phenylalanine": 508,
+	"Threonine":     502, // X
+	"Tryptophan":    501, // X
+	"Valine":        510,
+
+	"Alpha-Linolenic Acid": 851, // g Omega3
+	"Linoleic Acid":        675, // g Omega6
+
+	"Vitamin A":  320, // Âµg RAE instead of IU
+	"Vitamin B1": 404, // Thiamin mg
+	"Vitamin B2": 405, // Riboflavin mg
+	"Vitamin B3": 406, // Niacin mg
+	"Vitamin B5": 410, // Pantothenic acid mg
+	"Vitamin B6": 415, // mg
 	// "Vitamin B7":	(Biotin)
-	"Vitamin B9":  417,
-	"Vitamin B12": 418,
-	"Vitamin C":   401,
-	"Vitamin D":   324,
-	"Vitamin E":   323,
-	"Vitamin K":   430,
-	"Choline":     421,
+	"Vitamin B9":  417, // Âµg Folate
+	"Vitamin B12": 418, // Âµg
+	"Vitamin C":   401, // mg
+	"Vitamin D":   324, // IU****
+	"Vitamin E":   323, // alpha-tocopherol mg
+	"Vitamin K":   430, // Âµg
+	"Choline":     421, // mg
 }
 
 /*=================================================================================================*/

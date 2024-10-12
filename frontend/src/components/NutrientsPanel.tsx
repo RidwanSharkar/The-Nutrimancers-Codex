@@ -88,7 +88,7 @@ const NutrientsPanel: React.FC<NutrientsPanelProps> = ({
   return (
     <div className="bg-[#F48668] rounded-lg p-4 flex-1">
       <h2 className="text-xl font-semibold mb-4 text-white">
-        Extracted Bioessence from {ingredient || 'Selected Ingredient'}
+        Extracted Bioessence from: {ingredient || 'Selected Ingredient'}
       </h2>
       <ul className="space-y-1">
         {allNutrients.map((nutrient, index) => {

@@ -87,40 +87,40 @@ var nutrientRDA = map[string]float64{
 	"Zinc":       10,   // mg
 	"Manganese":  2.3,  // mg
 	"Copper":     0.9,  // mg
+	"Selenium":   0.4,  // //Âµg
 	//"Iodine":     150,  // µg
 	// "Chromium":   35,   // µg
 	// "Molybdenum": 45,   // µg
-	"Selenium": 55, // µg
 
 	// Essential Amino-Acids
 	"Histidine":     10000, // mg
 	"Isoleucine":    19000, // mg
-	"Leucine":       42000, // mg
-	"Lysine":        38000, // mg
-	"Methionine":    15000, // mg
+	"Leucine":       39000, // mg
+	"Lysine":        30000, // mg
+	"Methionine":    14000, // mg
 	"Phenylalanine": 25000, // mg
-	"Threonine":     20000, // mg
+	"Threonine":     15000, // mg
 	"Tryptophan":    5000,  // mg
 	"Valine":        24000, // mg
 
 	// Essential Omega Fatty Acids
-	"Alpha-Linolenic Acid": 1300, // mg
-	"Linoleic Acid":        1400, // mg
+	"Alpha-Linolenic Acid": 1.3, // mg
+	"Linoleic Acid":        1.4, // mg
 
 	// Vitamins
-	"Vitamin A":  0.9, // mg
+	"Vitamin A":  0.9, // mg       	Âµg
 	"Vitamin B1": 1.2, // mg
 	"Vitamin B2": 1.3, // mg
 	"Vitamin B3": 16,  // mg
 	"Vitamin B5": 5,   // mg
 	"Vitamin B6": 1.5, // mg
-	// "Vitamin B7":  30,  // µg
-	"Vitamin B9":  400, // µg
-	"Vitamin B12": 2.4, // µg
-	"Vitamin C":   90,  // mg
-	"Vitamin D":   15,  // µg
-	"Vitamin E":   15,  // mg
-	"Vitamin K":   120, // µg
+	// "Vitamin B7":
+	"Vitamin B9":  0.4,  // µg	Âµg check api documentation mgiht be outdated
+	"Vitamin B12": 0.06, // µg	Âµg
+	"Vitamin C":   90,   // mg
+	"Vitamin D":   0.15, // µg	IU
+	"Vitamin E":   15,   // mg
+	"Vitamin K":   0.18, // µg	Âµg mg callibrating to standard serving
 
 	// Semi-Essential
 	"Choline": 550, // mg
