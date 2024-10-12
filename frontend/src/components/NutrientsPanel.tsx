@@ -6,17 +6,18 @@ interface NutrientsPanelProps {
   ingredient: string;
   nutrients: { [key: string]: number };
   highlightedNutrients: string[]; 
+  missingNutrients: string[];
 }
 
 const NutrientsPanel: React.FC<NutrientsPanelProps> = ({
   ingredient,
   nutrients,
   highlightedNutrients,
+  missingNutrients,
 }) => {
 
   const allNutrients = [
     'Potassium',
-    // 'Chloride',
     'Sodium',
     'Calcium',
     'Phosphorus',
@@ -25,9 +26,6 @@ const NutrientsPanel: React.FC<NutrientsPanelProps> = ({
     'Zinc',
     'Manganese',
     'Copper',
-    // 'Iodine',
-    // 'Chromium',
-    // 'Molybdenum',
     'Selenium',
     'Histidine',
     'Isoleucine',
@@ -46,7 +44,6 @@ const NutrientsPanel: React.FC<NutrientsPanelProps> = ({
     'Vitamin B3',
     'Vitamin B5',
     'Vitamin B6',
-    // 'Vitamin B7',
     'Vitamin B9',
     'Vitamin B12',
     'Vitamin C',
@@ -71,7 +68,7 @@ const NutrientsPanel: React.FC<NutrientsPanelProps> = ({
 
   // Severity Coloring
   const getColor = (classification: string, nutrient: string) => {
-    if (highlightedNutrients.includes(nutrient)) {
+    if (highlightedNutrients.includes(nutrient) && missingNutrients.includes(nutrient)) {
       return 'black';
     }
     switch (classification) {

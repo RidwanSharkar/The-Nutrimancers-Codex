@@ -145,6 +145,7 @@ const App: React.FC = () => {
               ingredient={selectedIngredient}
               nutrients={selectedNutrientData}
               highlightedNutrients={highlightedNutrients}
+              missingNutrients={missingNutrients}
             />
             <SuggestionPanel
               missingNutrients={missingNutrients}
