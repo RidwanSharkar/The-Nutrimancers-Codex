@@ -43,7 +43,7 @@ const App: React.FC = () => {
         setNutrients(response.nutrients);
         setMissingNutrients(response.missingNutrients);
         setSuggestions(response.suggestions);
-        setSelectedIngredient('');
+        setSelectedIngredient('Full Meal');
         setSelectedNutrientData({});
         setHighlightedNutrients([]);
 
@@ -89,7 +89,6 @@ const App: React.FC = () => {
   const handleRecommendationClick = async (suggestion: string) => {
     try {
       const response = await fetch('http://localhost:5000/fetch-nutrient-data', {
-      //const response = await fetch('/fetch-nutrient-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -72,7 +72,7 @@ const NutrientsPanel: React.FC<NutrientsPanelProps> = ({
   // Severity Coloring
   const getColor = (classification: string, nutrient: string) => {
     if (highlightedNutrients.includes(nutrient)) {
-      return 'gold';
+      return 'black';
     }
     switch (classification) {
       case 'none':
