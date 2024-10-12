@@ -78,9 +78,10 @@ nutrientMapping = {
     "Choline": "Choline, total",
 }
 
+
+# Preview
 usda_nutrient_names = nutrient_df['name'].tolist()
 missing_nutrients = [usda_name for usda_name in nutrientMapping.values() if usda_name not in usda_nutrient_names]
-
 if missing_nutrients:
     print("These USDA nutrient names are not found in the dataset:")
     for nutrient in missing_nutrients:

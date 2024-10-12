@@ -8,12 +8,11 @@ interface IngredientsPanelProps {
 }
 
 const IngredientsPanel: React.FC<IngredientsPanelProps> = ({ ingredients, onIngredientClick }) => {
-  // Combine "Full Meal" with the list of ingredients
   const allItems = ['Full Meal', ...ingredients];
 
   return (
     <div className="bg-[#F48668] rounded-lg p-4 flex-1">
-      <h2 className="text-xl font-semibold mb-4 text-white">Ingredients</h2>
+      <h2 className="text-xl font-semibold mb-4 text-white">Detected Bio-Sources:</h2>
       {allItems.length > 0 ? (
         <div className="flex flex-col gap-2">
           {allItems.map((item, index) => (
@@ -27,7 +26,7 @@ const IngredientsPanel: React.FC<IngredientsPanelProps> = ({ ingredients, onIngr
           ))}
         </div>
       ) : (
-        <p className="text-white">No ingredients to display.</p>
+        <p className="text-white">No Bioessence Detected</p>
       )}
     </div>
   );

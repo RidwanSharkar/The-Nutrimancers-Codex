@@ -10,6 +10,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/RidwanSharkar/Bioessence/backend/machinist"
 	"github.com/RidwanSharkar/Bioessence/backend/models"
 	"github.com/RidwanSharkar/Bioessence/backend/services"
 	"github.com/RidwanSharkar/Bioessence/backend/utils"
@@ -19,13 +20,22 @@ import (
 
 /*==================================================================================*/
 
-// Redundant combine - MAP ALL 4 together{nutrient, unit, RDA, nutrtionixAPI}*
+var (
+	foodItems     []models.FoodItem
+	nutrientNames []string
+)
 
 func main() {
 	// Load .env file
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Error loading .env file:", err)
+	}
+	// Machinist
+	dataFilePath := "machinist/dataset.csv" // Adjust the path as needed
+	foodItems, nutrientNames, err = machinist.LoadFoodData(dataFilePath)
+	if err != nil {
+		log.Fatal("Error loading food data:", err)
 	}
 	// CORS
 	c := cors.New(cors.Options{
@@ -36,6 +46,8 @@ func main() {
 
 	// HTTP endpoint
 	http.HandleFunc("/process-food", processFoodHandler)
+	http.HandleFunc("/fetch-nutrient-data", fetchNutrientDataHandler)
+
 	handler := c.Handler(http.DefaultServeMux)
 
 	// Start server
@@ -62,6 +74,7 @@ func determineLowAndMissingNutrients(totalNutrients map[string]float64) []string
 	return lowAndMissingNutrients
 }
 
+// Redundant combine - MAP ALL 4 together{nutrient, unit, RDA, nutrtionixAPI}*
 var nutrientRDA = map[string]float64{
 	// Ions
 	"Potassium": 4700, // mg
@@ -141,8 +154,8 @@ var nutrientUnits = map[string]string{
 	"Tryptophan":    "g",
 	"Valine":        "g",
 
-	"Alpha-Linolenic Acid": "mg",
-	"Linoleic Acid":        "mg",
+	"Alpha-Linolenic Acid": "mg", // Omega-3
+	"Linoleic Acid":        "mg", // Omega-6
 
 	"Vitamin A":  "µg",
 	"Vitamin B1": "mg",
@@ -226,6 +239,70 @@ func calculateTotalNutrients(nutrientPercentages map[string]map[string]float64) 
 }
 
 /*=================================================================================*/
+// In your main.go or appropriate handler file
+func fetchNutrientDataHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		utils.RespondWithError(w, http.StatusMethodNotAllowed, "Method not allowed")
+		return
+	}
+
+	var req struct {
+		FoodDescription  string             `json:"foodDescription"`
+		CurrentNutrients map[string]float64 `json:"currentNutrients"`
+	}
+
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		utils.RespondWithError(w, http.StatusInternalServerError, "Error decoding request: "+err.Error())
+		return
+	}
+
+	// Find the food item in your dataset
+	var foodItem *models.FoodItem
+	for _, item := range foodItems {
+		if item.Description == req.FoodDescription {
+			foodItem = &item
+			break
+		}
+	}
+
+	if foodItem == nil {
+		utils.RespondWithError(w, http.StatusNotFound, "Food item not found")
+		return
+	}
+
+	currentMealNutrients := req.CurrentNutrients
+
+	newTotalNutrients := make(map[string]float64)
+	changedNutrients := []string{}
+
+	// Nutrients from current full meal
+	for nutrient, amount := range currentMealNutrients {
+		newTotalNutrients[nutrient] = amount
+	}
+
+	// Nutrients from suggested meal click
+	for nutrient, amount := range foodItem.Nutrients {
+		newAmount := newTotalNutrients[nutrient] + amount
+		if newAmount != newTotalNutrients[nutrient] {
+			changedNutrients = append(changedNutrients, nutrient)
+		}
+		newTotalNutrients[nutrient] = newAmount
+	}
+
+	// Response
+	response := struct {
+		Nutrients        map[string]float64 `json:"nutrients"`
+		ChangedNutrients []string           `json:"changedNutrients"`
+	}{
+		Nutrients:        newTotalNutrients,
+		ChangedNutrients: changedNutrients,
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
+
+/*=================================================================================*/
 
 func processFoodHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
@@ -273,11 +350,15 @@ func processFoodHandler(w http.ResponseWriter, r *http.Request) {
 	// Determine Deficiencies
 	lowAndMissingNutrients := determineLowAndMissingNutrients(totalNutrients)
 
+	// Cosine Similarity
+	topRecommendations := machinist.RecommendFoods(foodItems, nutrientNames, lowAndMissingNutrients, 5)
+
 	// Prepare the response
 	response := models.ProcessFoodResponse{
 		Ingredients:      cleanedIngredients,
 		Nutrients:        nutrientPercentages,
 		MissingNutrients: lowAndMissingNutrients,
+		Suggestions:      topRecommendations,
 	}
 
 	// Send Response

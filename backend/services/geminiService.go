@@ -14,6 +14,8 @@ import (
 	"github.com/RidwanSharkar/Bioessence/backend/utils"
 )
 
+/*=================================================================================================*/
+
 // Request payload structure for Gemini API
 type GeminiRequest struct {
 	Contents []Content `json:"contents"`
@@ -34,6 +36,8 @@ type GeminiChoice struct {
 type GeminiResponse struct {
 	Choices []GeminiChoice `json:"choices"`
 }
+
+/*=================================================================================================*/
 
 // Primary Prompt: Accepts user food description dynamically and sends to Gemini API
 func ExtractIngredients(foodDescription string) ([]string, error) {
@@ -103,6 +107,8 @@ func ExtractIngredients(foodDescription string) ([]string, error) {
 	ingredients := parseIngredients(text)
 	return ingredients, nil
 }
+
+/*=================================================================================================*/
 
 // Parse and clean ingredients from Gemini response
 func parseIngredients(text string) []string {
