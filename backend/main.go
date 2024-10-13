@@ -115,14 +115,14 @@ var nutrientRDA = map[string]float64{
 	"Vitamin B9":  0.4,  // µg	Âµg check api documentation mgiht be outdated
 	"Vitamin B12": 0.06, // µg	Âµg
 	"Vitamin C":   90,   // mg
-	"Vitamin D":   0.15, // µg	IU
+	"Vitamin D":   2.0,  // µg	IU
 	"Vitamin E":   15,   // mg
 	"Vitamin K":   0.18, // µg	Âµg mg callibrating to standard serving
 
 	"Choline": 550, // mg
 }
 
-// Conserve - UNIT CONVERSIONS ====================================================================================
+// Conserve - UNIT CONVERSIONS =================================================================
 var nutrientUnits = map[string]string{
 	"Potassium": "mg",
 	//"Chloride":   "mg",
