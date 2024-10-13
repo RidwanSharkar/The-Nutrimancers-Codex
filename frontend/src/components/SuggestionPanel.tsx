@@ -30,15 +30,25 @@ const SuggestionPanel: React.FC<SuggestionPanelProps> = ({
             <>
               <h3 className="text-lg font-medium mb-2 text-white">Consider Harvesting:</h3>
               <div className="flex flex-wrap gap-2">
-                {suggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => onRecommendationClick(suggestion)}
-                    className="bg-[#FFC09F] hover:bg-[#EF8354] text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
+                {suggestions.map((suggestion, index) => {
+                  // Split the suggestion by commas and take the first two elements
+                  const displayedText = suggestion
+                    .split(',')
+                    .slice(0, 2)
+                    .map(part => part.trim())
+                    .join(', ');
+
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => onRecommendationClick(suggestion)}
+                      className="bg-[#FFC09F] hover:bg-[#EF8354] text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
+                      title={suggestion} // Optional: Show full suggestion on hover
+                    >
+                      {displayedText}
+                    </button>
+                  );
+                })}
               </div>
             </>
           )}

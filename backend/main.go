@@ -77,8 +77,7 @@ func determineLowAndMissingNutrients(totalNutrients map[string]float64) []string
 // Redundant combine - MAP ALL 4 together{nutrient, unit, RDA, nutrtionixAPI}*
 var nutrientRDA = map[string]float64{
 	// Ions
-	"Potassium": 4700, // mg
-	// "Chloride":   2300,
+	"Potassium":  4700, // mg
 	"Sodium":     2300, // mg
 	"Calcium":    1000, // mg
 	"Phosphorus": 700,  // mg
@@ -88,9 +87,6 @@ var nutrientRDA = map[string]float64{
 	"Manganese":  2.3,  // mg
 	"Copper":     0.9,  // mg
 	"Selenium":   0.4,  // //Âµg
-	//"Iodine":     150,  // µg
-	// "Chromium":   35,   // µg
-	// "Molybdenum": 45,   // µg
 
 	// Essential Amino-Acids
 	"Histidine":     10000, // mg
@@ -104,17 +100,18 @@ var nutrientRDA = map[string]float64{
 	"Valine":        24000, // mg
 
 	// Essential Omega Fatty Acids
-	"Alpha-Linolenic Acid": 1.3, // mg
-	"Linoleic Acid":        1.4, // mg
+	"Alpha-Linolenic Acid": 1.2,  // g (Plant Omega-3)
+	"Linoleic Acid":        1.0,  // g (Omega- 6)
+	"EPA":                  5000, // (Omega-3 fish oil)
+	"DHA":                  3750, // (Omega-3 fish oil)
 
 	// Vitamins
-	"Vitamin A":  0.9, // mg       	Âµg
-	"Vitamin B1": 1.2, // mg
-	"Vitamin B2": 1.3, // mg
-	"Vitamin B3": 16,  // mg
-	"Vitamin B5": 5,   // mg
-	"Vitamin B6": 1.5, // mg
-	// "Vitamin B7":
+	"Vitamin A":   0.9,  // mg       	Âµg
+	"Vitamin B1":  1.2,  // mg
+	"Vitamin B2":  1.3,  // mg
+	"Vitamin B3":  16,   // mg
+	"Vitamin B5":  5,    // mg
+	"Vitamin B6":  1.5,  // mg
 	"Vitamin B9":  0.4,  // µg	Âµg check api documentation mgiht be outdated
 	"Vitamin B12": 0.06, // µg	Âµg
 	"Vitamin C":   90,   // mg
@@ -122,9 +119,7 @@ var nutrientRDA = map[string]float64{
 	"Vitamin E":   15,   // mg
 	"Vitamin K":   0.18, // µg	Âµg mg callibrating to standard serving
 
-	// Semi-Essential
 	"Choline": 550, // mg
-	//"Boron" :
 }
 
 // Conserve - UNIT CONVERSIONS ====================================================================================
@@ -139,10 +134,7 @@ var nutrientUnits = map[string]string{
 	"Zinc":       "mg",
 	"Manganese":  "mg",
 	"Copper":     "mg",
-	//"Iodine":     "µg",
-	//"Chromium":   "µg",
-	//"Molybdenum": "µg",
-	"Selenium": "µg",
+	"Selenium":   "µg",
 
 	"Histidine":     "g",
 	"Isoleucine":    "g",
@@ -156,14 +148,15 @@ var nutrientUnits = map[string]string{
 
 	"Alpha-Linolenic Acid": "mg", // Omega-3
 	"Linoleic Acid":        "mg", // Omega-6
+	"EPA":                  "g",  // Omega-3
+	"DHA":                  "g",  // Omega-3
 
-	"Vitamin A":  "µg",
-	"Vitamin B1": "mg",
-	"Vitamin B2": "mg",
-	"Vitamin B3": "mg",
-	"Vitamin B5": "mg",
-	"Vitamin B6": "mg",
-	//"Vitamin B7":  "µg",
+	"Vitamin A":   "µg",
+	"Vitamin B1":  "mg",
+	"Vitamin B2":  "mg",
+	"Vitamin B3":  "mg",
+	"Vitamin B5":  "mg",
+	"Vitamin B6":  "mg",
 	"Vitamin B9":  "µg",
 	"Vitamin B12": "µg",
 	"Vitamin C":   "mg",
@@ -239,7 +232,7 @@ func calculateTotalNutrients(nutrientPercentages map[string]map[string]float64) 
 }
 
 /*=================================================================================*/
-// In your main.go or appropriate handler file
+
 func fetchNutrientDataHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		utils.RespondWithError(w, http.StatusMethodNotAllowed, "Method not allowed")
@@ -257,7 +250,7 @@ func fetchNutrientDataHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Find the food item in your dataset
+	// Find
 	var foodItem *models.FoodItem
 	for _, item := range foodItems {
 		if item.Description == req.FoodDescription {

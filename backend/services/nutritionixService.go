@@ -56,6 +56,8 @@ var nutrientMapping = map[string]int{
 
 	"Alpha-Linolenic Acid": 851, // g Omega3
 	"Linoleic Acid":        675, // g Omega6
+	"EPA":                  629, // g (Omega-3)
+	"DHA":                  621, // g (Omega-3)
 
 	"Vitamin A":  320, // Âµg RAE instead of IU
 	"Vitamin B1": 404, // Thiamin mg

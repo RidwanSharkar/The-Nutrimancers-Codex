@@ -1,5 +1,7 @@
 // src/App.tsx
 
+// src/App.tsx
+
 import React, { useState } from 'react';
 import IngredientsPanel from './components/IngredientsPanel';
 import NutrientsPanel from './components/NutrientsPanel';
@@ -40,16 +42,16 @@ const App: React.FC = () => {
         console.log('Received missingNutrients:', response.missingNutrients);
         console.log('Received suggestions:', response.suggestions);
         setIngredients(response.ingredients || []);
-        setNutrients(response.nutrients);
-        setMissingNutrients(response.missingNutrients);
-        setSuggestions(response.suggestions);
+        setNutrients(response.nutrients || {});
+        setMissingNutrients(response.missingNutrients || []);
+        setSuggestions(response.suggestions || []);
         setSelectedIngredient('Full Meal');
         setSelectedNutrientData({});
         setHighlightedNutrients([]);
 
         // Total Nutrients Full Meal
         const totalNutrients: { [key: string]: number } = {};
-        response.ingredients.forEach((ing) => {
+        (response.ingredients || []).forEach((ing) => {
           const nutrientData = response.nutrients[ing] || {};
           for (const nutrient in nutrientData) {
             if (Object.prototype.hasOwnProperty.call(nutrientData, nutrient)) {
@@ -99,14 +101,25 @@ const App: React.FC = () => {
           currentNutrients: normalMealNutrients,
         }),
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server Error: ${errorText}`);
+      }
+
       const data = await response.json();
+
+      // Ensure presence
+      const updatedNutrients = data.nutrients || {};
+      const changedNutrients = data.changedNutrients || [];
 
       // Update state with new + highlighted nutrients
       setSelectedIngredient('Full Meal');
-      setSelectedNutrientData(data.nutrients);
-      setHighlightedNutrients(data.changedNutrients);
+      setSelectedNutrientData(updatedNutrients);
+      setHighlightedNutrients(changedNutrients);
     } catch (error) {
       console.error('Error fetching nutrient data for recommendation:', error);
+      setError('Failed to fetch nutrient data for the recommendation.');
     }
   };
 
@@ -161,4 +174,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-

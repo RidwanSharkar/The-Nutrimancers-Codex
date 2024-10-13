@@ -38,6 +38,8 @@ const NutrientsPanel: React.FC<NutrientsPanelProps> = ({
     'Valine',
     'Alpha-Linolenic Acid',
     'Linoleic Acid',
+    'EPA',
+    'DHA',
     'Vitamin A',
     'Vitamin B1',
     'Vitamin B2',
