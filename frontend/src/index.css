@@ -42,6 +42,7 @@ html, body {
 body {
   font-family: 'IM Fell English', serif;
   background-color: #d3b586;
+  background-image: url('parchment-texture.webp');
   background-blend-mode: multiply;
 }
 

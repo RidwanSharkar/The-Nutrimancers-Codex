@@ -1,6 +1,6 @@
 // src/components/SuggestionPanel.tsx
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 interface SuggestionPanelProps {
   missingNutrients: string[] | null;
@@ -8,22 +8,60 @@ interface SuggestionPanelProps {
   onRecommendationClick: (suggestion: string) => void;
 }
 
+const titleCase = (str: string): string => {
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+/*=============================================================================================*/
+
+const processSuggestion = (suggestion: string): string => {
+  const parts = suggestion.split(',').map(part => part.trim());
+
+  if (parts.length === 0) return '';
+
+  const firstPartLower = parts[0].toLowerCase();
+
+  if (firstPartLower === 'fatty acids' || firstPartLower === 'amino acids') {
+    if (parts.length >= 2) {
+      return titleCase(parts[1]);
+    } else {
+      return titleCase(parts[0]);
+    }
+  } else {
+    if (parts.length >= 2) {
+        const secondPartLower = parts[1].toLowerCase(); // PLACEHOLDER TILL FIND MORE for logic swap
+        if (secondPartLower.includes('pass') || secondPartLower.includes('region') || secondPartLower.includes('store') || secondPartLower.includes('other')) {
+          return titleCase(parts[0]);
+      } else {
+        // Else, display the first two parts joined by a comma
+        return titleCase(parts.slice(0, 2).join(', '));
+      }
+    } else {
+      // If there's only one part, display it
+      return titleCase(parts[0]);
+    }
+  }
+};
+
+/*=============================================================================================*/
+
 const SuggestionPanel: React.FC<SuggestionPanelProps> = ({
   missingNutrients,
   suggestions,
   onRecommendationClick,
 }) => {
-  const processSuggestion = (suggestion: string): string => {
-    const parts = suggestion.split(',').map(part => part.trim());
-    if (parts.length > 1) {
-      const secondPartLower = parts[1].toLowerCase();
-      if (secondPartLower.includes('pass') || secondPartLower.includes('region')) {
-        // RETURN TITLES
-        return parts[0];
-      }
-    }
-    return parts.slice(0, 2).join(', ');
-  };
+  const processedSuggestions = useMemo(() => {
+    if (!suggestions) return [];
+    const processed = suggestions.map(processSuggestion).filter(s => s !== '');
+    const unique = Array.from(new Set(processed));
+    return unique;
+  }, [suggestions]);
+
+/*=============================================================================================*/
 
   return (
     <div className="bg-[#F48668] rounded-lg p-4 flex-1">
@@ -38,24 +76,20 @@ const SuggestionPanel: React.FC<SuggestionPanelProps> = ({
               </li>
             ))}
           </ul>
-          {suggestions && suggestions.length > 0 && (
+          {processedSuggestions.length > 0 && (
             <>
               <h3 className="text-lg font-medium mb-2 text-white">Consider Harvesting:</h3>
               <div className="flex flex-wrap gap-2">
-                {suggestions.map((suggestion, index) => {
-                  const displayedText = processSuggestion(suggestion);
-
-                  return (
-                    <button
-                      key={index}
-                      onClick={() => onRecommendationClick(suggestion)}
-                      className="bg-[#FFC09F] hover:bg-[#EF8354] text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
-                      title={suggestion}
-                    >
-                      {displayedText}
-                    </button>
-                  );
-                })}
+                {processedSuggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => onRecommendationClick(suggestion)}
+                    className="bg-[#FFC09F] hover:bg-[#EF8354] text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
+                    title={suggestion}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
               </div>
             </>
           )}
@@ -68,3 +102,6 @@ const SuggestionPanel: React.FC<SuggestionPanelProps> = ({
 };
 
 export default SuggestionPanel;
+
+
+

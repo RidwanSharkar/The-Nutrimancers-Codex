@@ -265,6 +265,15 @@ const App: React.FC = () => {
           />
         </div>
 
+
+        {/* GRIMOIRE ORBS */}
+        {!loading && !error && categorizedNutrients && (
+          <div className="flex justify-center mt-8">
+              <OrbsPanel nutrientData={categorizedNutrients} />
+          </div>
+        )}
+
+
         {/* MAIN */}
         <div className="relative z-10">
           <h1 className="text-4xl font-bold text-center mb-8">The Nutrimancer's Codex Vol. I</h1>
@@ -311,12 +320,6 @@ const App: React.FC = () => {
           )}
 
 
-          {/* GRIMOIRE ORBS */}
-          {!loading && !error && categorizedNutrients && (
-            <div className="flex justify-center mt-8">
-              <OrbsPanel nutrientData={categorizedNutrients} />
-            </div>
-          )}
 
 
 

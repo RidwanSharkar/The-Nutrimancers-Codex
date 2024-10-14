@@ -68,10 +68,10 @@ export default OrbsPanel;
 
 
 /*
-        TO TRY:
+TO TRY:
 
 
-      <img src="/decorative-border.svg" alt="Decorative Border" className="w-full h-full object-cover" />
+<img src="/decorative-border.svg" alt="Decorative Border" className="w-full h-full object-cover" />
 
 
 <div
