@@ -1,13 +1,123 @@
 // src/App.tsx
 
-// src/App.tsx
-
 import React, { useState } from 'react';
 import IngredientsPanel from './components/IngredientsPanel';
 import NutrientsPanel from './components/NutrientsPanel';
 import SuggestionPanel from './components/SuggestionPanel';
+import OrbsPanel from './grimoire/OrbsPanel';
 import { processFood } from './services/backendService';
 import './App.css';
+
+const nutrientCategoryList = {
+  Minerals: [
+    'Potassium',
+    'Sodium',
+    'Calcium',
+    'Phosphorus',
+    'Magnesium',
+    'Iron',
+    'Zinc',
+    'Manganese',
+    'Copper',
+    'Selenium',
+  ],
+  Vitamins: [
+    'Vitamin A',
+    'Vitamin B1',
+    'Vitamin B2',
+    'Vitamin B3',
+    'Vitamin B5',
+    'Vitamin B6',
+    'Vitamin B9',
+    'Vitamin B12',
+    'Vitamin C',
+    'Vitamin D',
+    'Vitamin E',
+    'Vitamin K',
+  ],
+  'Amino Acids': [
+    'Histidine',
+    'Isoleucine',
+    'Leucine',
+    'Lysine',
+    'Methionine',
+    'Phenylalanine',
+    'Threonine',
+    'Tryptophan',
+    'Valine',
+  ],
+  'Fatty Acids & Choline': [
+    'Alpha-Linolenic Acid',
+    'Linoleic Acid',
+    'EPA',
+    'DHA',
+    'Choline',
+  ],
+  Total: [],
+} as const;
+
+// ORB ELEMENTS
+const nutrientCategoryColors: { [key in keyof typeof nutrientCategoryList]: string } = {
+  Minerals: '#3498db', // Blue
+  Vitamins: '#9b59b6', // Purple
+  'Amino Acids': '#e67e22', // Orange
+  'Fatty Acids & Choline': '#2ecc71', // Green
+  Total: '#e74c3c', // Red
+};
+
+
+/*===========================================================================================================*/
+
+type NutrientCategory = keyof typeof nutrientCategoryList;
+const categorizeNutrients = (
+  nutrients: { [key: string]: number }
+  ): { [category in NutrientCategory]: { total: number; satisfied: number; color: string } } => {
+  const categorized: {
+    [category in NutrientCategory]: { total: number; satisfied: number; color: string };
+  } = {
+    Minerals: { total: 0, satisfied: 0, color: nutrientCategoryColors.Minerals },
+    Vitamins: { total: 0, satisfied: 0, color: nutrientCategoryColors.Vitamins },
+    'Amino Acids': { total: 0, satisfied: 0, color: nutrientCategoryColors['Amino Acids'] },
+    'Fatty Acids & Choline': {
+      total: 0,
+      satisfied: 0,
+      color: nutrientCategoryColors['Fatty Acids & Choline'],
+    },
+    Total: { total: 0, satisfied: 0, color: nutrientCategoryColors.Total },
+  };
+
+  (Object.keys(nutrientCategoryList) as NutrientCategory[]).forEach((category) => {
+    if (category !== 'Total') {
+      const nutrientsInCategory = nutrientCategoryList[category];
+      const total = nutrientsInCategory.length;
+      const satisfied = nutrientsInCategory.reduce((count, nutrient) => {
+        return nutrients[nutrient] >= 5 ? count + 1 : count;
+      }, 0);
+      categorized[category] = {
+        total,
+        satisfied,
+        color: nutrientCategoryColors[category],
+      };
+    }
+  });
+  const allNutrients = Object.keys(nutrients).length;
+  const satisfiedTotal = (Object.keys(nutrientCategoryList) as NutrientCategory[])
+    .flatMap((category) => {
+      if (category !== 'Total') {
+        return nutrientCategoryList[category];
+      }
+      return [];
+    })
+    .reduce((count, nutrient) => {
+      return nutrients[nutrient] >= 5 ? count + 1 : count;
+    }, 0);
+  categorized['Total'] = {
+    total: allNutrients,
+    satisfied: satisfiedTotal,
+    color: nutrientCategoryColors.Total,
+  };
+  return categorized;
+};
 
 type ProcessFoodResponse = {
   ingredients: string[];
@@ -15,6 +125,8 @@ type ProcessFoodResponse = {
   missingNutrients: string[];
   suggestions: string[];
 };
+
+/*===========================================================================================================*/
 
 const App: React.FC = () => {
   const [food, setFood] = useState<string>('');
@@ -29,7 +141,23 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-/*=================================================================================================*/
+  /*=================================================================================================*/
+
+  const [categorizedNutrients, setCategorizedNutrients] = useState<{
+    [category in NutrientCategory]: { total: number; satisfied: number; color: string };
+  }>({
+    Minerals: { total: 0, satisfied: 0, color: nutrientCategoryColors.Minerals },
+    Vitamins: { total: 0, satisfied: 0, color: nutrientCategoryColors.Vitamins },
+    'Amino Acids': { total: 0, satisfied: 0, color: nutrientCategoryColors['Amino Acids'] },
+    'Fatty Acids & Choline': {
+      total: 0,
+      satisfied: 0,
+      color: nutrientCategoryColors['Fatty Acids & Choline'],
+    },
+    Total: { total: 0, satisfied: 0, color: nutrientCategoryColors.Total },
+  });
+
+  /*=================================================================================================*/
 
   const handleFoodSubmit = async () => {
     if (food.trim()) {
@@ -49,7 +177,6 @@ const App: React.FC = () => {
         setSelectedNutrientData({});
         setHighlightedNutrients([]);
 
-        // Total Nutrients Full Meal
         const totalNutrients: { [key: string]: number } = {};
         (response.ingredients || []).forEach((ing) => {
           const nutrientData = response.nutrients[ing] || {};
@@ -60,7 +187,9 @@ const App: React.FC = () => {
           }
         });
         setNormalMealNutrients(totalNutrients);
-        setSelectedNutrientData(totalNutrients); // Set to full meal totals
+        const categorizedData = categorizeNutrients(totalNutrients);
+        setCategorizedNutrients(categorizedData);
+        setSelectedNutrientData(totalNutrients);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
@@ -73,12 +202,11 @@ const App: React.FC = () => {
     }
   };
 
+  /*=================================================================================================*/
+
   const handleIngredientClick = (ingredient: string) => {
     console.log('Clicked ingredient:', ingredient);
-
-    // Reset highlighted
     setHighlightedNutrients([]);
-
     if (ingredient === 'Full Meal') {
       setSelectedIngredient('Full Meal');
       setSelectedNutrientData(normalMealNutrients);
@@ -88,6 +216,8 @@ const App: React.FC = () => {
       setSelectedNutrientData(nutrients[ingredient] || {});
     }
   };
+
+  /*=================================================================================================*/
 
   const handleRecommendationClick = async (suggestion: string) => {
     try {
@@ -106,14 +236,11 @@ const App: React.FC = () => {
         const errorText = await response.text();
         throw new Error(`Server Error: ${errorText}`);
       }
-
       const data = await response.json();
-
-      // Ensure presence
       const updatedNutrients = data.nutrients || {};
       const changedNutrients = data.changedNutrients || [];
-
-      // Update state with new + highlighted nutrients
+      const categorizedData = categorizeNutrients(updatedNutrients);
+      setCategorizedNutrients(categorizedData);
       setSelectedIngredient('Full Meal');
       setSelectedNutrientData(updatedNutrients);
       setHighlightedNutrients(changedNutrients);
@@ -123,51 +250,77 @@ const App: React.FC = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F48668]">
-      <div className="w-[1024px] max-w-full h-auto bg-[#FFC09F] p-8 rounded-lg shadow-lg overflow-hidden">
-        <h1 className="text-4xl font-bold text-center mb-8">The Nutrimancer's Codex Vol. I</h1>
+  /*=================================================================================================*/
 
-        <div className="flex justify-center mb-8">
-          <input
-            type="text"
-            className="w-1/3 p-3 rounded-md focus:outline-none bg-[#EF8354] text-white mr-5"
-            placeholder="What have you eaten today?"
-            value={food}
-            onChange={(e) => setFood(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') handleFoodSubmit();
-            }}
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#d3b586]">
+      <div className="relative w-[1024px] max-w-full h-auto bg-[#FFC09F] p-8 rounded-lg shadow-lg overflow-hidden">
+        {/* ADD BORDER */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* ADD SVG  */}
+          <img
+            src="/decorative-border.svg"
+            alt="Decorative Border"
+            className="w-full h-full object-cover opacity-10"
           />
-          <button
-            onClick={handleFoodSubmit}
-            disabled={loading || !food.trim()}
-            className={`p-3 bg-green-500 text-white rounded-md ${
-              loading || !food.trim() ? 'bg-green-300 cursor-not-allowed' : 'hover:bg-green-600'
-            }`}
-          >
-            {loading ? 'Extracting...' : 'Extract Essence'}
-          </button>
         </div>
 
-        {error && <p className="text-center text-red-500 mb-4">{error}</p>}
+        {/* MAIN */}
+        <div className="relative z-10">
+          <h1 className="text-4xl font-bold text-center mb-8">The Nutrimancer's Codex Vol. I</h1>
 
-        {!loading && !error && ingredients && ingredients.length > 0 && (
-          <div className="flex flex-col lg:flex-row justify-center gap-8 mx-auto w-full max-w-5xl">
-            <IngredientsPanel ingredients={ingredients} onIngredientClick={handleIngredientClick} />
-            <NutrientsPanel
-              ingredient={selectedIngredient}
-              nutrients={selectedNutrientData}
-              highlightedNutrients={highlightedNutrients}
-              missingNutrients={missingNutrients}
+          <div className="flex justify-center mb-8">
+            <input
+              type="text"
+              className="w-1/3 p-3 rounded-md focus:outline-none bg-white text-black mr-5"
+              placeholder="What have you eaten today?"
+              value={food}
+              onChange={(e) => setFood(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') handleFoodSubmit();
+              }}
             />
-            <SuggestionPanel
-              missingNutrients={missingNutrients}
-              suggestions={suggestions}
-              onRecommendationClick={handleRecommendationClick}
-            />
+            <button
+              onClick={handleFoodSubmit}
+              disabled={loading || !food.trim()}
+              className={`p-3 bg-green-500 text-white rounded-md ${
+                loading || !food.trim() ? 'bg-green-300 cursor-not-allowed' : 'hover:bg-green-600'
+              }`}
+            >
+              {loading ? 'Extracting...' : 'Extract Essence'}
+            </button>
           </div>
-        )}
+
+          {error && <p className="text-center text-red-500 mb-4">{error}</p>}
+
+          {!loading && !error && ingredients && ingredients.length > 0 && (
+            <div className="flex flex-col lg:flex-row justify-center gap-8 mx-auto w-full max-w-5xl">
+              <IngredientsPanel ingredients={ingredients} onIngredientClick={handleIngredientClick} />
+              <NutrientsPanel
+                ingredient={selectedIngredient}
+                nutrients={selectedNutrientData}
+                highlightedNutrients={highlightedNutrients}
+                missingNutrients={missingNutrients}
+              />
+              <SuggestionPanel
+                missingNutrients={missingNutrients}
+                suggestions={suggestions}
+                onRecommendationClick={handleRecommendationClick}
+              />
+            </div>
+          )}
+
+
+          {/* GRIMOIRE ORBS */}
+          {!loading && !error && categorizedNutrients && (
+            <div className="flex justify-center mt-8">
+              <OrbsPanel nutrientData={categorizedNutrients} />
+            </div>
+          )}
+
+
+
+        </div>
       </div>
     </div>
   );

@@ -3,3 +3,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.orb-container {
+  transition: background 1.5s ease;
+}
+
+/* ADD - keyframes for rotating orbs on hover */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.orb-container:hover {
+  animation: rotate 10s linear infinite;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+body {
+  font-family: 'IM Fell English', serif;
+}
+
+.decorative-border {
+  /* add */
+}

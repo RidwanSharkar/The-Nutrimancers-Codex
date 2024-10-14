@@ -1,4 +1,5 @@
 /* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&family=Cinzel&display=swap');
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -7,7 +8,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #F48668;
+  background-color: #d3b586;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,6 +25,8 @@ a:hover {
   color: #535bf2;
 }
 
+
+
 html, body {
   height: 100%; 
   margin: 0;
@@ -36,10 +39,19 @@ html, body {
 
 
 
+body {
+  font-family: 'IM Fell English', serif;
+  background-color: #d3b586;
+  background-blend-mode: multiply;
+}
+
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+
+/* BUTTONS ==================================================================================*/
 
 button {
   border-radius: 8px;
@@ -52,11 +64,12 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
+
+button:focus, button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
@@ -70,5 +83,19 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+
+.orb-container:hover {
+  animation: rotate 5s linear infinite;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
   }
 }
