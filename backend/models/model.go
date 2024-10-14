@@ -1,7 +1,7 @@
 // backend/models/model.go
 package models
 
-// Represents the response payload
+// Response Payload
 type ProcessFoodResponse struct {
 	Ingredients      []string                      `json:"ingredients"`
 	Nutrients        map[string]map[string]float64 `json:"nutrients"`
@@ -15,7 +15,7 @@ type ErrorResponse struct {
 
 /*==================================================================================*/
 
-// Request payload structure for Gemini API
+// Payload Structure for Gemini API
 type GeminiRequest struct {
 	Contents []Content `json:"contents"`
 }
@@ -42,7 +42,7 @@ type CandidateContent struct {
 
 /*==================================================================================*/
 
-// outgoing responses
+// Outgoing Responses
 type FoodResponse struct {
 	Ingredients      []string                      `json:"ingredients"`
 	Nutrients        map[string]map[string]float64 `json:"nutrients"`

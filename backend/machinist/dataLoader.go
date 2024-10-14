@@ -18,7 +18,7 @@ func LoadFoodData(filePath string) ([]models.FoodItem, []string, error) {
 	defer file.Close()
 
 	reader := csv.NewReader(file)
-	reader.FieldsPerRecord = -1 // variable number of fields per record
+	reader.FieldsPerRecord = -1
 
 	records, err := reader.ReadAll()
 	if err != nil {

@@ -93,7 +93,7 @@ func FetchNutrientDataForEachIngredient(ingredients []string) (map[string]map[st
 }
 
 func FetchNutrientData(ingredients []string) (map[string]map[string]float64, error) {
-	appID := os.Getenv("NUTRITIONIX_APP_ID") // Load API keys from .env
+	appID := os.Getenv("NUTRITIONIX_APP_ID") // Load from .env
 	appKey := os.Getenv("NUTRITIONIX_APP_KEY")
 	if appID == "" || appKey == "" {
 		return nil, errors.New("missing Nutritionix API credentials in .env")
