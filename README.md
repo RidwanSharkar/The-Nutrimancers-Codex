@@ -6,6 +6,8 @@
 
 • **Dataset:** USDA FoodData Central
 
-• **LLM:** Google Gemini Flash 1.5
+• **Natural Language Processing:** Gemini Flash 1.5
 
-• **APIs:** Nutritionix, FoodData Central
+• **Machine Learning:** Cosine Similarity (GoLang)
+
+• **APIs:** Gemini LLM, Nutritionix, FoodData Central
