@@ -5,7 +5,54 @@
 @tailwind utilities;
 
 .orb-container {
+  --fill-percentage: 0%;
+  background: conic-gradient(
+    var(--fill-color, #3498db) var(--fill-percentage),
+    #e0e0e0 0%
+  );
   transition: background 1.5s ease;
+}
+
+/* Magical/Fluid Overlay */
+.overlay {
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
+  animation: shimmer 2s infinite;
+  pointer-events: none;
+}
+
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Glow Effect for Fully Filled Orbs */
+.glow::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 50%;
+  box-shadow: 0 0 20px 10px rgba(231, 76, 60, 0.6);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 20px 10px rgba(231, 76, 60, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 30px 15px rgba(231, 76, 60, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 20px 10px rgba(231, 76, 60, 0.6);
+  }
 }
 
 /* ADD - keyframes for rotating orbs on hover */

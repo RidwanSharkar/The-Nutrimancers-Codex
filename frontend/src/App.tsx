@@ -290,10 +290,10 @@ const App: React.FC = () => {
 
           {!loading && !error && ingredients && ingredients.length > 0 && (
             <div className="flex justify-between gap-8 mx-auto w-full">
-              <div className="w-1/4">
+              <div className="w-1/5">
                 <IngredientsPanel ingredients={ingredients} onIngredientClick={handleIngredientClick} />
               </div>
-              <div className="w-1/2">
+              <div className="w-3/5">
                 <OrbsPanel
                   nutrientData={categorizedNutrients}
                   selectedIngredient={selectedIngredient}
@@ -302,7 +302,7 @@ const App: React.FC = () => {
                   missingNutrients={missingNutrients}
                 />
               </div>
-              <div className="w-1/4">
+              <div className="w-1/5">
                 <SuggestionPanel
                   missingNutrients={missingNutrients}
                   suggestions={suggestions}
