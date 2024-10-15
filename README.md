@@ -1,6 +1,11 @@
+**BIOESSENCE CODEX**
+
+________________________________________________________________________________________________________________
+
+
 **TECH STACK:**
 
-• **Frontend:** React (TypeScript), Tailwind (CSS), Axios
+• **Frontend:** React (TypeScript), GSAP, Tailwind (CSS), Axios
 
 • **Backend:** Go (GoLang), net/http, CORS
 
@@ -11,3 +16,5 @@
 • **Machine Learning:** Cosine Similarity (GoLang)
 
 • **APIs:** Gemini LLM, Nutritionix, FoodData Central
+
+
