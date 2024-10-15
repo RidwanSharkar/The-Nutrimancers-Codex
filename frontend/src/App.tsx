@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import IngredientsPanel from './components/IngredientsPanel';
-import NutrientsPanel from './components/NutrientsPanel';
 import SuggestionPanel from './components/SuggestionPanel';
 import OrbsPanel from './grimoire/OrbsPanel';
 import { processFood } from './services/backendService';
@@ -254,27 +253,14 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#d3b586]">
-      <div className="relative w-[1024px] max-w-full h-auto bg-[#FFC09F] p-8 rounded-lg shadow-lg overflow-hidden">
-        {/* ADD BORDER */}
+      <div className="relative w-full max-w-7xl h-auto bg-[#FFC09F] p-8 rounded-lg shadow-lg overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          {/* ADD SVG  */}
           <img
             src="/decorative-border.svg"
-            alt="Decorative Border"
             className="w-full h-full object-cover opacity-10"
           />
         </div>
 
-
-        {/* GRIMOIRE ORBS */}
-        {!loading && !error && categorizedNutrients && (
-          <div className="flex justify-center mt-8">
-              <OrbsPanel nutrientData={categorizedNutrients} />
-          </div>
-        )}
-
-
-        {/* MAIN */}
         <div className="relative z-10">
           <h1 className="text-4xl font-bold text-center mb-8">The Nutrimancer's Codex Vol. I</h1>
 
@@ -303,26 +289,28 @@ const App: React.FC = () => {
           {error && <p className="text-center text-red-500 mb-4">{error}</p>}
 
           {!loading && !error && ingredients && ingredients.length > 0 && (
-            <div className="flex flex-col lg:flex-row justify-center gap-8 mx-auto w-full max-w-5xl">
-              <IngredientsPanel ingredients={ingredients} onIngredientClick={handleIngredientClick} />
-              <NutrientsPanel
-                ingredient={selectedIngredient}
-                nutrients={selectedNutrientData}
-                highlightedNutrients={highlightedNutrients}
-                missingNutrients={missingNutrients}
-              />
-              <SuggestionPanel
-                missingNutrients={missingNutrients}
-                suggestions={suggestions}
-                onRecommendationClick={handleRecommendationClick}
-              />
+            <div className="flex justify-between gap-8 mx-auto w-full">
+              <div className="w-1/4">
+                <IngredientsPanel ingredients={ingredients} onIngredientClick={handleIngredientClick} />
+              </div>
+              <div className="w-1/2">
+                <OrbsPanel
+                  nutrientData={categorizedNutrients}
+                  selectedIngredient={selectedIngredient}
+                  selectedNutrientData={selectedNutrientData}
+                  highlightedNutrients={highlightedNutrients}
+                  missingNutrients={missingNutrients}
+                />
+              </div>
+              <div className="w-1/4">
+                <SuggestionPanel
+                  missingNutrients={missingNutrients}
+                  suggestions={suggestions}
+                  onRecommendationClick={handleRecommendationClick}
+                />
+              </div>
             </div>
           )}
-
-
-
-
-
         </div>
       </div>
     </div>
