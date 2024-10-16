@@ -138,7 +138,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
           return (
             <li
               key={index}
-              className="text-[#5d473a] opacity-0 nutrient-item group relative"
+              className="text-[#5d473a] nutrient-item group relative"
             >
               <div className="flex items-center">
                 <span

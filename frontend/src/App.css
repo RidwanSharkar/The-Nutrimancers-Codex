@@ -11,8 +11,43 @@
   text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
 }
 
+/* Fixed Size Container */
+.fixed-size-container {
+  width: 700px; /* Adjust based on design requirements */
+  height: 800px; /* Adjust based on design requirements */
+  overflow: hidden;
+}
+
 .button-magical {
   overflow: hidden;
+}
+
+.button-magical::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.4), transparent 70%);
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.5s;
+}
+/* Button Magical Hover Effects */
+.button-magical {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #c9a66b;
+  background-color: #fff8e1; /* Light parchment-like button */
+  color: #5d473a; /* Dark brown text */
+  font-family: 'Cinzel', serif; /* Elegant font */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.button-magical:hover {
+  transform: scale(1.05);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .button-magical::after {
@@ -31,27 +66,9 @@
   transform: rotate(45deg) scale(1);
 }
 
-button {
-  border: 1px solid #c9a66b;
-  background-color: #fff8e1; /* Light parchment-like button */
-  color: #5d473a; /* Dark brown text */
-  font-family: 'Cinzel', serif; 
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-button:active {
-  transform: scale(0.98);
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-}
-
 /* Parchment ================================================================================================*/
 
+/* Parchment Theme */
 .parchment {
   background-color: #fdf6e3; /* Light parchment color */
   background-image:
@@ -66,6 +83,7 @@ button:active {
   border-radius: 12px;
   position: relative;
   overflow: hidden;
+  padding: 1rem;
 }
 
 /* Parchment Edge Decoration */
@@ -99,7 +117,7 @@ button:active {
 }
 
 .fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeInUp 1.2s ease-out forwards;
 }
 
 /* ORB ================================================================================================*/
