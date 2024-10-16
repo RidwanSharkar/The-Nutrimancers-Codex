@@ -17,7 +17,21 @@
   transition: background 1.5s ease;
 }
 
-/* Magical/Fluid Overlay */
+.orb-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 128px;
+  height: 128px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0) 60%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+
 .overlay {
   background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
   animation: shimmer 2s infinite;
@@ -25,7 +39,6 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Shimmer Animation */
 @keyframes shimmer {
   0% {
     transform: rotate(0deg);
@@ -35,7 +48,7 @@
   }
 }
 
-/* Glow Effect for Fully Filled Orbs */
+/* Fully Filled Orbs */
 .glow::before {
   content: '';
   position: absolute;
@@ -60,15 +73,6 @@
   }
 }
 
-/* ADD - keyframes for rotating orbs on hover */
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 .orb-container:hover {
   animation: rotate 10s linear infinite;
@@ -79,6 +83,3 @@ body {
   font-family: 'IM Fell English', serif;
 }
 
-.decorative-border {
-  /* add */
-}

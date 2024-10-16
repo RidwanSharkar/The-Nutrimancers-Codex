@@ -172,27 +172,23 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
     </div>
   );
 
+  // Define the type for the waveRenderer props
+  interface WaveRendererProps {
+    path: string;
+  }
+
   const renderOrb = (category: NutrientCategory) => {
     const percentageFilled =
       (nutrientData[category].satisfied / nutrientData[category].total) * 100;
-    const gradientStops = [
-      {
-        key: '0%',
-        stopColor: nutrientData[category].color,
-        stopOpacity: 1,
-        offset: '0%',
-      },
-      {
-        key: '100%',
-        stopColor: nutrientData[category].color,
-        stopOpacity: 0.5,
-        offset: '100%',
-      },
-    ];
 
     return (
       <div className="flex flex-col items-center relative">
-        <div className="relative">
+        <div
+          className="relative"
+          style={{
+            filter: `drop-shadow(0 0 10px ${nutrientData[category].color})`,
+          }}
+        >
           <LiquidGauge
             style={{ margin: '0 auto' }}
             width={128}
@@ -201,23 +197,101 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
             textRenderer={() => null} // Hide default text
             riseAnimation
             waveAnimation
-            waveFrequency={2}
-            waveAmplitude={3}
+            waveFrequency={1}
+            waveAmplitude={5}
             gradient
-            gradientStops={gradientStops}
+            gradientStops={[
+              {
+                key: '0%',
+                stopColor: `${nutrientData[category].color}`,
+                stopOpacity: 1,
+                offset: '0%',
+              },
+              {
+                key: '100%',
+                stopColor: `${nutrientData[category].color}`,
+                stopOpacity: 0.7,
+                offset: '100%',
+              },
+            ]}
             circleStyle={{
-              fill: nutrientData[category].color,
+              fill: 'none', // Make the outer circle transparent
             }}
             waveStyle={{
-              fill: nutrientData[category].color,
+              fill: `url(#waveGradient-${category})`,
+            }}
+            waveRenderer={(props: WaveRendererProps) => {
+              const { path } = props;
+              return (
+                <>
+                  <defs>
+                    {/* Gradient for the wave */}
+                    <linearGradient
+                      id={`waveGradient-${category}`}
+                      x1="0%"
+                      y1="0%"
+                      x2="0%"
+                      y2="100%"
+                    >
+                      <stop
+                        offset="0%"
+                        stopColor={`${nutrientData[category].color}`}
+                        stopOpacity="0.8"
+                      />
+                      <stop
+                        offset="100%"
+                        stopColor={`${nutrientData[category].color}`}
+                        stopOpacity="0.4"
+                      />
+                    </linearGradient>
+                  </defs>
+                  <path d={path} fill={`url(#waveGradient-${category})`} />
+                </>
+              );
             }}
           />
+          {/* Orb label */}
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="text-lg font-bold text-gray-800 text-center px-2">
               {category === 'Fatty Acids & Choline' ? 'Fatty Acids' : category}
             </span>
           </div>
+          {/* Glass effect overlay */}
+          <svg
+            width={128}
+            height={128}
+            style={{ position: 'absolute', top: 0, left: 0 }}
+          >
+            {/* Glass outline */}
+            <circle
+              cx={64}
+              cy={64}
+              r={60}
+              fill="none"
+              stroke="rgba(255,255,255,0.5)"
+              strokeWidth="2"
+            />
+            {/* Top reflection */}
+            <ellipse
+              cx={64}
+              cy={40}
+              rx={35}
+              ry={15}
+              fill="rgba(255,255,255,0.2)"
+            />
+            {/* Bottom reflection */}
+            <ellipse
+              cx={64}
+              cy={88}
+              rx={25}
+              ry={10}
+              fill="rgba(255,255,255,0.1)"
+            />
+          </svg>
+          {/* Shine effect */}
+          <div className="orb-shine"></div>
         </div>
+        {/* Satisfied / Total display */}
         <span className="mt-2 text-sm text-gray-700">
           {nutrientData[category].satisfied}/{nutrientData[category].total}
         </span>
