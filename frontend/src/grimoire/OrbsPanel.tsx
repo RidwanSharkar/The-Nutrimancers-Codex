@@ -88,16 +88,16 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
   highlightedNutrients,
   missingNutrients,
 }) => {
+
   const classifyNutrient = (
     percentage: number | undefined
   ): 'none' | 'low' | 'average' | 'high' => {
     if (percentage === undefined || percentage === 0) return 'none';
-    if (percentage > 0 && percentage <= 4) return 'low';
-    if (percentage > 4 && percentage <= 15) return 'average';
+    if (percentage > 0 && percentage <= 3) return 'low';
+    if (percentage > 3 && percentage <= 20) return 'average';
     return 'high';
   };
-
-  const getColor = (
+const getColor = (
     classification: 'none' | 'low' | 'average' | 'high',
     nutrient: string
   ): string => {
@@ -108,22 +108,22 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
       case 'none':
         return '#7d7d7d'; // Gray
       case 'low':
-        return '#d9534f'; // Red
+        return '#8b4513'; // Saddle brown
       case 'average':
-        return '#f0ad4e'; // Yellow
+        return '#daa520'; // Goldenrod
       case 'high':
-        return '#5cb85c'; // Green
+        return '#2e8b57'; // Sea green
       default:
-        return '#7d7d7d'; // Default Gray
+        return '#7d7d7d';
     }
   };
 
   const renderNutrientList = (category: Exclude<NutrientCategory, 'Total'>) => (
-    <div className="parchment rounded-lg p-4 w-full mt-4 fade-in-up">
-      <h3 className="text-lg font-medium mb-2 text-[#5d473a]">
+    <div className="parchment rounded-lg p-4 w-full mt-4 fade-in-up max-h-[600px]">
+      <h3 className="text-lg font-medium mb-2 text-[#5d473a] whitespace-nowrap">
         {category === 'Fatty Acids & Choline' ? 'Fatty Acids' : category}
       </h3>
-      <ul className="space-y-1 scroll-container">
+      <ul className="space-y-1 scroll-container text-[#5d473a]">
         {nutrientCategoryList[category].map((nutrient: string, index: number) => {
           if (nutrient === 'CHOLINE_BREAK') return <li key={index}>&nbsp;</li>;
           const percentage = selectedNutrientData
@@ -131,40 +131,32 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
             : undefined;
           const classification = classifyNutrient(percentage);
           const color = getColor(classification, nutrient);
-
-          // Abbreviations
           const displayName = displayNameMap[nutrient] || nutrient;
 
           return (
-            <li
-              key={index}
-              className="text-[#5d473a] nutrient-item group relative"
-            >
-              <div className="flex items-center">
-                <span
-                  style={{ color, fontWeight: 500 }}
-                  className="flex items-center"
-                >
+            <li key={index} className="nutrient-item relative py-2">
+              <div className="flex items-center justify-between">
+                <span style={{ color }} className="font-medium">
                   {displayName}
                   {classification === 'low' && (
-                    <span className="ml-1 text-red-500">*</span>
+                    <span className="ml-1" style={{color: '#8b4513'}}>*</span>
                   )}
                   {classification === 'average' && (
-                    <span className="ml-1 text-yellow-500">*</span>
+                    <span className="ml-1" style={{color: '#daa520'}}>*</span>
                   )}
                   {classification === 'high' && (
-                    <span className="ml-1 text-green-500">*</span>
+                    <span className="ml-1" style={{color: '#2e8b57'}}>*</span>
                   )}
                 </span>
+                {classification !== 'none' && (
+                  <div
+                    className="absolute left-0 right-0 -top-2 mb-2 w-full text-white text-base rounded py-2 px-4 z-10"
+                    style={{ backgroundColor: color }}
+                  >
+                    {percentage?.toFixed(1)}%
+                  </div>
+                )}
               </div>
-              {classification !== 'none' && (
-                <div
-                  className="absolute left-0 right-0 -top-2 mb-2 w-full text-white text-base rounded py-2 px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
-                  style={{ backgroundColor: color }}
-                >
-                  {percentage?.toFixed(1)}%
-                </div>
-              )}
             </li>
           );
         })}
@@ -172,7 +164,8 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
     </div>
   );
 
-  // Define type for waveRenderer
+
+  // Type for waveRenderer
   interface WaveRendererProps {
     path: string;
   }
@@ -300,8 +293,8 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
   };
 
   const mainCategories: Exclude<NutrientCategory, 'Total'>[] = [
-    'Minerals',
     'Vitamins',
+    'Minerals',
     'Amino Acids',
     'Fatty Acids & Choline',
   ];
@@ -323,17 +316,15 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
         Bioessence Extracted from: {selectedIngredient}
       </h2>
 
-      {/* Main Orbs */}
-      <div className="flex flex-row justify-center gap-8 w-full">
+      <div className="flex flex-row justify-center gap-5 w-full">
         {mainCategories.map((category) => (
-          <div key={category} className="flex flex-col items-center w-1/4">
+          <div key={category} className="flex flex-col items-center w-1/4 min-w-[155px]">
             {renderOrb(category)}
             {renderNutrientList(category)}
           </div>
         ))}
       </div>
 
-      {/* Total Orb */}
       <div className="mb-8 flex justify-center">
         {renderOrb('Total')}
       </div>

@@ -71,7 +71,7 @@ const SuggestionPanel: React.FC<SuggestionPanelProps> = ({
       <h2 className="text-xl font-semibold mb-4 text-[#5d473a]">Essence Analysis:</h2>
       {missingNutrients && missingNutrients.length > 0 ? (
         <>
-          <h3 className="text-lg font-medium mb-2 text-[#5d473a]">Deficient Bio-Parameters:</h3>
+          <h3 className="text-lg font-medium mb-2 text-[#5d473a]">You're low on:</h3>
           <ul className="list-disc list-inside mb-4 space-y-1 scroll-container">
             {missingNutrients.map((nutrient, index) => (
               <li key={index} className="text-[#5d473a]">
@@ -81,7 +81,7 @@ const SuggestionPanel: React.FC<SuggestionPanelProps> = ({
           </ul>
           {processedSuggestions.length > 0 && (
             <>
-              <h3 className="text-lg font-medium mb-2 text-[#5d473a]">Consider Harvesting:</h3>
+              <h3 className="text-lg font-medium mb-2 text-[#5d473a]">Consider:</h3>
               <div className="flex flex-wrap gap-2 scroll-container">
                 {processedSuggestions.map((suggestion, index) => (
                   <button

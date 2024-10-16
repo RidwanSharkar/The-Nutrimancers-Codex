@@ -13,8 +13,8 @@
 
 /* Fixed Size Container */
 .fixed-size-container {
-  width: 700px; /* Adjust based on design requirements */
-  height: 800px; /* Adjust based on design requirements */
+  width: 700px; 
+  height: 800px; 
   overflow: hidden;
 }
 
@@ -78,13 +78,14 @@
     linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.05) 75%);
   background-size: 20px 20px;
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
   border: 1px solid #e0d8b0;
   border-radius: 12px;
   position: relative;
   overflow: hidden;
   padding: 1rem;
 }
+
 
 /* Parchment Edge Decoration */
 .parchment::before {
@@ -121,10 +122,6 @@
 }
 
 /* ORB ================================================================================================*/
-
-.tooltip-custom {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
 
 .orb-container {
   --fill-percentage: 0%;
