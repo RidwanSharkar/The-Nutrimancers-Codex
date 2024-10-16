@@ -324,8 +324,6 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
         Bioessence Extracted from: {selectedIngredient}
       </h2>
 
-      {/* Total Orb */}
-      <div className="mb-8 flex justify-center">{renderOrb('Total')}</div>
 
       {/* Main Orbs */}
       <div className="flex flex-row justify-center gap-8 w-full">
@@ -336,7 +334,14 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
           </div>
         ))}
       </div>
+
+      
+      {/* Total Orb */}
+      <div className="mb-8 flex justify-center">{renderOrb('Total')}</div>
+
+      
     </div>
+    
   );
 };
 

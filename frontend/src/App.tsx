@@ -66,7 +66,7 @@ const nutrientCategoryColors: { [key in keyof typeof nutrientCategoryList]: stri
 
 type NutrientCategory = keyof typeof nutrientCategoryList;
 
-// Function to categorize nutrients
+// Categorization
 const categorizeNutrients = (
   nutrients: { [key: string]: number }
 ): { [category in NutrientCategory]: { total: number; satisfied: number; color: string } } => {
@@ -216,7 +216,7 @@ const App: React.FC = () => {
 
   /*=================================================================================================*/
 
-  // Function to determine low and missing nutrients
+  // Determine Deficiencies
   const determineLowAndMissingNutrients = (nutrients: { [key: string]: number }) => {
     const missing = [];
     for (const nutrient in nutrients) {
@@ -269,21 +269,22 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      {/* Parent Container with Background Image */}
+      {/* Background Image - placeholder */}
       <div
         className="relative w-full max-w-7xl h-auto bg-cover bg-center rounded-lg shadow-lg overflow-hidden"
         style={{
-          backgroundImage: "url('/background.svg')",
+          backgroundImage: "url('/background.svg')", 
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       >
-        {/* Optional Overlay for better contrast */}
         <div className="absolute inset-0 bg-black opacity-20"></div>
-
-        {/* Content Container */}
         <div className="relative z-10 p-8">
           <h1 className="text-4xl font-bold text-center mb-8 text-white">
             The Nutrimancer's Codex Vol. I
           </h1>
+
+
 
           {/* Food Input Section */}
           <div className="flex justify-center mb-8">
@@ -307,20 +308,25 @@ const App: React.FC = () => {
               {loading ? 'Extracting...' : 'Extract Essence'}
             </button>
           </div>
-
-          {/* Error Message */}
           {error && <p className="text-center text-red-500 mb-4">{error}</p>}
+
+
 
           {/* Panels Container */}
           {!loading && !error && ingredients && ingredients.length > 0 && (
             <div className="flex justify-between gap-8 mx-auto w-full">
               {/* Ingredients Panel - Left */}
-              <div className="w-1/5">
-                <IngredientsPanel ingredients={ingredients} onIngredientClick={handleIngredientClick} />
+              <div className="w-full lg:w-1/5 mb-4 lg:mb-0">
+                <IngredientsPanel
+                  ingredients={ingredients}
+                  onIngredientClick={handleIngredientClick}
+                />
               </div>
 
+
+
               {/* Orbs Panel - Center */}
-              <div className="w-3/5 flex justify-center">
+              <div className="w-full lg:w-3/5 flex justify-center mb-4 lg:mb-0">
                 <OrbsPanel
                   nutrientData={categorizedSelectedNutrients}
                   selectedIngredient={selectedIngredient}
@@ -330,8 +336,10 @@ const App: React.FC = () => {
                 />
               </div>
 
+
+
               {/* Suggestion Panel - Right */}
-              <div className="w-1/5">
+              <div className="w-full lg:w-1/5">
                 <SuggestionPanel
                   missingNutrients={originalMissingNutrients}
                   suggestions={suggestions}
