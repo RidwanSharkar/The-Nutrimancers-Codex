@@ -1,4 +1,4 @@
-// src/components/SuggestionPanel.tsx
+// src/grimoire/SuggestionPanel.tsx
 
 import React, { useMemo } from 'react';
 

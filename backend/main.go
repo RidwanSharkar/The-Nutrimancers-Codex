@@ -61,7 +61,7 @@ func determineLowAndMissingNutrients(totalNutrients map[string]float64) []string
 	var lowAndMissingNutrients []string
 
 	// Threshold
-	const lowThreshold = 4.0
+	const lowThreshold = 3.5
 
 	// Iterate over all
 	for nutrient := range nutrientRDA {
@@ -86,7 +86,7 @@ var nutrientRDA = map[string]float64{
 	"Zinc":       10,   // mg
 	"Manganese":  2.3,  // mg
 	"Copper":     0.9,  // mg
-	"Selenium":   0.4,  // //Âµg
+	"Selenium":   0.4,  // Âµg
 
 	// Essential Amino-Acids
 	"Histidine":     10000, // mg

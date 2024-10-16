@@ -153,6 +153,9 @@ const App: React.FC = () => {
 
   /*=================================================================================================*/
 
+  const [baseNutrients, setBaseNutrients] = useState<{ [key: string]: number }>({});
+
+
   const handleFoodSubmit = async () => {
     if (food.trim()) {
       setLoading(true);
@@ -180,6 +183,7 @@ const App: React.FC = () => {
             }
           }
         });
+        setBaseNutrients(totalNutrients);
         setNormalMealNutrients(totalNutrients);
         setSelectedNutrientData(totalNutrients);
       } catch (err: unknown) {
@@ -231,7 +235,7 @@ const App: React.FC = () => {
         },
         body: JSON.stringify({
           foodDescription: suggestion,
-          currentNutrients: normalMealNutrients,
+          currentNutrients: baseNutrients,
         }),
       });
 
@@ -243,14 +247,12 @@ const App: React.FC = () => {
       const updatedNutrients = data.nutrients || {};
       const changedNutrients = data.changedNutrients || [];
 
-
-      setSelectedNutrientData(updatedNutrients);
+      // Update State
+      setSelectedIngredient(suggestion);
+      setSelectedNutrientData(updatedNutrients); 
       setHighlightedNutrients(changedNutrients);
-      setNormalMealNutrients(updatedNutrients);
       const updatedMissingNutrients = determineLowAndMissingNutrients(updatedNutrients);
       setMissingNutrients(updatedMissingNutrients);
-
-
     } catch (error) {
       console.error('Error fetching nutrient data for recommendation:', error);
       setError('Failed to fetch nutrient data for the recommendation.');
@@ -259,7 +261,7 @@ const App: React.FC = () => {
 
   /*=================================================================================================*/
 
-  // Memoize the categorization of selected nutrient data
+  // Memo-izing
   const categorizedSelectedNutrients = useMemo(() => {
     return categorizeNutrients(selectedNutrientData);
   }, [selectedNutrientData]);
