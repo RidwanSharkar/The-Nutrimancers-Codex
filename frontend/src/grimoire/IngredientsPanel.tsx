@@ -11,22 +11,22 @@ const IngredientsPanel: React.FC<IngredientsPanelProps> = ({ ingredients, onIngr
   const allItems = ['Full Meal', ...ingredients];
 
   return (
-    <div className="bg-[#F48668] rounded-lg p-4 flex-1">
-      <h2 className="text-xl font-semibold mb-4 text-white">Detected Bio-Sources:</h2>
+    <div className="panel parchment fade-in">
+      <h2 className="text-xl font-semibold mb-4 text-[#5d473a]">Detected Bio-Sources:</h2>
       {allItems.length > 0 ? (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 scroll-container">
           {allItems.map((item, index) => (
             <button
               key={index}
               onClick={() => onIngredientClick(item)}
-              className="bg-[#FFC09F] hover:bg-[#EF8354] text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
+              className="button-magical bg-[#fff8e1] hover:bg-[#c9a66b] text-[#5d473a] font-semibold py-2 px-4 rounded-lg transition duration-300"
             >
               {item.replace(/^- /, '')}
             </button>
           ))}
         </div>
       ) : (
-        <p className="text-white">No Bioessence Detected</p>
+        <p className="text-[#5d473a]">No Bioessence Detected</p>
       )}
     </div>
   );

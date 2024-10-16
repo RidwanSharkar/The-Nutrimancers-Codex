@@ -102,28 +102,28 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
     nutrient: string
   ): string => {
     if (highlightedNutrients.includes(nutrient) && missingNutrients.includes(nutrient)) {
-      return 'black';
+      return '#5d473a'; // Dark brown for highlighted and missing
     }
     switch (classification) {
       case 'none':
-        return 'gray';
+        return '#7d7d7d'; // Gray
       case 'low':
-        return 'red';
+        return '#d9534f'; // Red
       case 'average':
-        return 'yellow';
+        return '#f0ad4e'; // Yellow
       case 'high':
-        return 'green';
+        return '#5cb85c'; // Green
       default:
-        return 'gray';
+        return '#7d7d7d'; // Default Gray
     }
   };
 
   const renderNutrientList = (category: Exclude<NutrientCategory, 'Total'>) => (
-    <div className="bg-[#F48668] rounded-lg p-4 w-full mt-4">
-      <h3 className="text-lg font-medium mb-2 text-white">
+    <div className="parchment rounded-lg p-4 w-full mt-4 fade-in-up">
+      <h3 className="text-lg font-medium mb-2 text-[#5d473a]">
         {category === 'Fatty Acids & Choline' ? 'Fatty Acids' : category}
       </h3>
-      <ul className="space-y-1">
+      <ul className="space-y-1 scroll-container">
         {nutrientCategoryList[category].map((nutrient: string, index: number) => {
           if (nutrient === 'CHOLINE_BREAK') return <li key={index}>&nbsp;</li>;
           const percentage = selectedNutrientData
@@ -138,11 +138,11 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
           return (
             <li
               key={index}
-              className="text-white opacity-0 nutrient-item group relative"
+              className="text-[#5d473a] opacity-0 nutrient-item group relative"
             >
               <div className="flex items-center">
                 <span
-                  style={{ color, fontWeight: '500' }}
+                  style={{ color, fontWeight: 500 }}
                   className="flex items-center"
                 >
                   {displayName}
@@ -172,7 +172,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
     </div>
   );
 
-  // Define the type for the waveRenderer props
+  // Define type for waveRenderer
   interface WaveRendererProps {
     path: string;
   }
@@ -184,7 +184,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
     return (
       <div className="flex flex-col items-center relative">
         <div
-          className="relative"
+          className="relative parchment-orb"
           style={{
             filter: `drop-shadow(0 0 10px ${nutrientData[category].color})`,
           }}
@@ -215,7 +215,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
               },
             ]}
             circleStyle={{
-              fill: 'none', // Make the outer circle transparent
+              fill: 'none', //outer circle transparent
             }}
             waveStyle={{
               fill: `url(#waveGradient-${category})`,
@@ -252,7 +252,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
           />
           {/* Orb label */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-lg font-bold text-gray-800 text-center px-2">
+            <span className="text-lg font-bold text-[#5d473a] text-center px-2">
               {category === 'Fatty Acids & Choline' ? 'Fatty Acids' : category}
             </span>
           </div>
@@ -292,7 +292,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
           <div className="orb-shine"></div>
         </div>
         {/* Satisfied / Total display */}
-        <span className="mt-2 text-sm text-gray-700">
+        <span className="mt-2 text-sm text-[#5d473a]">
           {nutrientData[category].satisfied}/{nutrientData[category].total}
         </span>
       </div>
@@ -307,23 +307,21 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
   ];
 
   useEffect(() => {
-    // Animate nutrient list items
-    gsap.to('.nutrient-item', {
-      opacity: 1,
+    // Animate nutrient list items with fade-in-up
+    gsap.from('.nutrient-item', {
+      opacity: 0,
+      y: 20,
       stagger: 0.1,
-      duration: 0.5,
-      y: 0,
+      duration: 0.6,
       ease: 'power2.out',
-      delay: 0.5,
     });
   }, [selectedNutrientData]);
 
   return (
-    <div className="flex flex-col items-center">
-      <h2 className="text-2xl font-semibold mb-4 text-center text-white">
+    <div className="flex flex-col items-center parchment fade-in-up p-4">
+      <h2 className="text-2xl font-semibold mb-4 text-[#5d473a] text-center">
         Bioessence Extracted from: {selectedIngredient}
       </h2>
-
 
       {/* Main Orbs */}
       <div className="flex flex-row justify-center gap-8 w-full">
@@ -335,13 +333,11 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
         ))}
       </div>
 
-      
       {/* Total Orb */}
-      <div className="mb-8 flex justify-center">{renderOrb('Total')}</div>
-
-      
+      <div className="mb-8 flex justify-center">
+        {renderOrb('Total')}
+      </div>
     </div>
-    
   );
 };
 
