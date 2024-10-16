@@ -1,4 +1,4 @@
-// src/components/IngredientsPanel.tsx
+// src/grimoire/IngredientsPanel.tsx
 
 import React from 'react';
 

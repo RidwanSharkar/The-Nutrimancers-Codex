@@ -4,7 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
+.tooltip-custom {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
 .orb-container {
   --fill-percentage: 0%;
@@ -20,6 +22,7 @@
   background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 60%);
   animation: shimmer 2s infinite;
   pointer-events: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Shimmer Animation */

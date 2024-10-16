@@ -154,7 +154,7 @@ const App: React.FC = () => {
   /*=================================================================================================*/
 
   const [baseNutrients, setBaseNutrients] = useState<{ [key: string]: number }>({});
-
+  const [originalMissingNutrients, setOriginalMissingNutrients] = useState<string[]>([]);
 
   const handleFoodSubmit = async () => {
     if (food.trim()) {
@@ -169,6 +169,7 @@ const App: React.FC = () => {
         setIngredients(response.ingredients || []);
         setNutrients(response.nutrients || {});
         setMissingNutrients(response.missingNutrients || []);
+        setOriginalMissingNutrients(response.missingNutrients || []);
         setSuggestions(response.suggestions || []);
         setSelectedIngredient('Full Meal');
         setSelectedNutrientData({});
@@ -267,18 +268,24 @@ const App: React.FC = () => {
   }, [selectedNutrientData]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#d3b586]">
-      <div className="relative w-full max-w-7xl h-auto bg-[#FFC09F] p-8 rounded-lg shadow-lg overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <img
-            src="/decorative-border.svg"
-            className="w-full h-full object-cover opacity-10"
-          />
-        </div>
+    <div className="min-h-screen flex items-center justify-center">
+      {/* Parent Container with Background Image */}
+      <div
+        className="relative w-full max-w-7xl h-auto bg-cover bg-center rounded-lg shadow-lg overflow-hidden"
+        style={{
+          backgroundImage: "url('/background.svg')",
+        }}
+      >
+        {/* Optional Overlay for better contrast */}
+        <div className="absolute inset-0 bg-black opacity-20"></div>
 
-        <div className="relative z-10">
-          <h1 className="text-4xl font-bold text-center mb-8">The Nutrimancer's Codex Vol. I</h1>
+        {/* Content Container */}
+        <div className="relative z-10 p-8">
+          <h1 className="text-4xl font-bold text-center mb-8 text-white">
+            The Nutrimancer's Codex Vol. I
+          </h1>
 
+          {/* Food Input Section */}
           <div className="flex justify-center mb-8">
             <input
               type="text"
@@ -301,14 +308,19 @@ const App: React.FC = () => {
             </button>
           </div>
 
+          {/* Error Message */}
           {error && <p className="text-center text-red-500 mb-4">{error}</p>}
 
+          {/* Panels Container */}
           {!loading && !error && ingredients && ingredients.length > 0 && (
             <div className="flex justify-between gap-8 mx-auto w-full">
+              {/* Ingredients Panel - Left */}
               <div className="w-1/5">
                 <IngredientsPanel ingredients={ingredients} onIngredientClick={handleIngredientClick} />
               </div>
-              <div className="w-3/5">
+
+              {/* Orbs Panel - Center */}
+              <div className="w-3/5 flex justify-center">
                 <OrbsPanel
                   nutrientData={categorizedSelectedNutrients}
                   selectedIngredient={selectedIngredient}
@@ -317,9 +329,11 @@ const App: React.FC = () => {
                   missingNutrients={missingNutrients}
                 />
               </div>
+
+              {/* Suggestion Panel - Right */}
               <div className="w-1/5">
                 <SuggestionPanel
-                  missingNutrients={missingNutrients}
+                  missingNutrients={originalMissingNutrients}
                   suggestions={suggestions}
                   onRecommendationClick={handleRecommendationClick}
                 />

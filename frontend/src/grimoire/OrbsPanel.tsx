@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import Particles from "react-tsparticles";
 
-type NutrientCategory = 'Minerals' | 'Vitamins' | 'Amino Acids' | 'Fatty Acids & Choline' | 'Total';
+type NutrientCategory = 'Vitamins' | 'Minerals' | 'Amino Acids' | 'Fatty Acids & Choline' | 'Total';
 
 interface OrbsPanelProps {
   nutrientData: {
@@ -23,24 +23,25 @@ interface OrbsPanelProps {
 // Abbreviate/Change Display 
 const displayNameMap: { [key: string]: string } = {
   'Alpha-Linolenic Acid': 'ALA',
+  'Linoleic Acid': 'LA',
 };
 
 const nutrientCategoryList: { [key in Exclude<NutrientCategory, 'Total'>]: string[] } = {
-  Minerals: [
-    'Potassium', 'Sodium', 'Calcium', 'Phosphorus', 'Magnesium',
-    'Iron', 'Zinc', 'Manganese', 'Copper', 'Selenium',
-  ],
   Vitamins: [
     'Vitamin A', 'Vitamin B1', 'Vitamin B2', 'Vitamin B3', 'Vitamin B5',
     'Vitamin B6', 'Vitamin B9', 'Vitamin B12', 'Vitamin C', 'Vitamin D',
     'Vitamin E', 'Vitamin K',
+  ],
+  Minerals: [
+    'Potassium', 'Sodium', 'Calcium', 'Phosphorus', 'Magnesium',
+    'Iron', 'Zinc', 'Manganese', 'Copper', 'Selenium',
   ],
   'Amino Acids': [
     'Histidine', 'Isoleucine', 'Leucine', 'Lysine', 'Methionine',
     'Phenylalanine', 'Threonine', 'Tryptophan', 'Valine',
   ],
   'Fatty Acids & Choline': [
-    'Linoleic Acid', 'Alpha-Linolenic Acid' , 'EPA', 'DHA', 'Choline',
+    'Linoleic Acid', 'Alpha-Linolenic Acid', 'EPA', 'DHA', 'CHOLINE_BREAK', 'Choline',
   ],
 };
 
@@ -74,8 +75,8 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
 
   const classifyNutrient = (percentage: number | undefined): 'none' | 'low' | 'average' | 'high' => {
     if (percentage === undefined || percentage === 0) return 'none';
-    if (percentage > 0 && percentage <= 5) return 'low';
-    if (percentage > 5 && percentage <= 20) return 'average';
+    if (percentage > 0 && percentage <= 4) return 'low';
+    if (percentage > 4 && percentage <= 15) return 'average';
     return 'high';
   };
 
@@ -94,14 +95,17 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
 
   const renderNutrientList = (category: Exclude<NutrientCategory, 'Total'>) => (
     <div className="bg-[#F48668] rounded-lg p-4 w-full mt-4">
-      <h3 className="text-lg font-medium mb-2 text-white">{category}</h3>
+      <h3 className="text-lg font-medium mb-2 text-white">
+        {category === 'Fatty Acids & Choline' ? 'Fatty Acids' : category}
+      </h3>
       <ul className="space-y-1">
         {nutrientCategoryList[category].map((nutrient: string, index: number) => {
+          if (nutrient === 'CHOLINE_BREAK') return <li key={index}>&nbsp;</li>;
           const percentage = selectedNutrientData ? selectedNutrientData[nutrient] : undefined;
           const classification = classifyNutrient(percentage);
           const color = getColor(classification, nutrient);
 
-          // Replace nutrient name with abbreviation if it exists in the mapping
+          // Abbreviations
           const displayName = displayNameMap[nutrient] || nutrient;
 
           return (
@@ -116,7 +120,8 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
               </div>
               {classification !== 'none' && (
                 <div
-                  className="absolute left-1/2 transform -translate-x-1/2 -top-full mb-2 w-24 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                className="absolute left-0 right-0 -top-2 mb-2 w-full text-white text-base rounded py-2 px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+
                   style={{ backgroundColor: color }}
                 >
                   {percentage?.toFixed(1)}%
@@ -143,7 +148,9 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
             ref={(el) => (orbRefs.current[category] = el)}
           ></div>
           <div className="absolute inset-0 flex items-center justify-center rounded-full bg-white bg-opacity-70">
-            <span className="text-lg font-bold text-gray-800 text-center px-2">{category}</span>
+            <span className="text-lg font-bold text-gray-800 text-center px-2">
+              {category === 'Fatty Acids & Choline' ? 'Fatty Acids' : category}
+            </span>
           </div>
 
           {/* Particle Effect */}
@@ -169,7 +176,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
           </div>
         </div>
         <span className="mt-2 text-sm text-gray-700">
-          {nutrientData[category].satisfied}/{nutrientData[category].total} Nutrients
+          {nutrientData[category].satisfied}/{nutrientData[category].total} 
         </span>
       </div>
     );
