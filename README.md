@@ -15,6 +15,6 @@ ________________________________________________________________________________
 
 • **Machine Learning:** Cosine Similarity (GoLang)
 
-• **APIs:** Gemini LLM, Nutritionix, FoodData Central
+• **APIs:** Gemini LLM, Nutritionix
 
 
