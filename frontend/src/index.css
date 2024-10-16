@@ -1,5 +1,6 @@
 /* src/index.css */
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&family=Cinzel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap');
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -45,6 +46,12 @@ body {
   background-image: url('parchment-texture.webp');
   background-blend-mode: multiply;
 }
+
+/*
+body {
+  font-family: 'Uncial Antiqua', serif;
+}
+  */
 
 
 h1 {

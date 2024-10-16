@@ -48,7 +48,6 @@ const processSuggestion = (suggestion: string): string => {
 };
 
 /*=============================================================================================*/
-
 const SuggestionPanel: React.FC<SuggestionPanelProps> = ({
   missingNutrients,
   suggestions,
@@ -61,11 +60,9 @@ const SuggestionPanel: React.FC<SuggestionPanelProps> = ({
     return unique;
   }, [suggestions]);
 
-/*=============================================================================================*/
-
   return (
     <div className="bg-[#F48668] rounded-lg p-4 flex-1">
-      <h2 className="text-xl font-semibold mb-4 text-white">Essence-Profile Analysis:</h2>
+      <h2 className="text-xl font-semibold mb-4 text-white">Essence Analysis:</h2>
       {missingNutrients && missingNutrients.length > 0 ? (
         <>
           <h3 className="text-lg font-medium mb-2 text-white">Deficient Bio-Parameters:</h3>
@@ -102,6 +99,3 @@ const SuggestionPanel: React.FC<SuggestionPanelProps> = ({
 };
 
 export default SuggestionPanel;
-
-
-

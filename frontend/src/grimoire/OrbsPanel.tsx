@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import Particles from "react-tsparticles";
 
 type NutrientCategory = 'Minerals' | 'Vitamins' | 'Amino Acids' | 'Fatty Acids & Choline' | 'Total';
 
@@ -19,6 +20,11 @@ interface OrbsPanelProps {
   missingNutrients: string[];
 }
 
+// Abbreviate/Change Display 
+const displayNameMap: { [key: string]: string } = {
+  'Alpha-Linolenic Acid': 'ALA',
+};
+
 const nutrientCategoryList: { [key in Exclude<NutrientCategory, 'Total'>]: string[] } = {
   Minerals: [
     'Potassium', 'Sodium', 'Calcium', 'Phosphorus', 'Magnesium',
@@ -34,7 +40,7 @@ const nutrientCategoryList: { [key in Exclude<NutrientCategory, 'Total'>]: strin
     'Phenylalanine', 'Threonine', 'Tryptophan', 'Valine',
   ],
   'Fatty Acids & Choline': [
-    'Alpha-Linolenic Acid', 'Linoleic Acid', 'EPA', 'DHA', 'Choline',
+    'Linoleic Acid', 'Alpha-Linolenic Acid' , 'EPA', 'DHA', 'Choline',
   ],
 };
 
@@ -95,11 +101,27 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
           const classification = classifyNutrient(percentage);
           const color = getColor(classification, nutrient);
 
+          // Replace nutrient name with abbreviation if it exists in the mapping
+          const displayName = displayNameMap[nutrient] || nutrient;
+
           return (
-            <li key={index} className="text-white opacity-0 nutrient-item">
-              <span style={{ color, fontWeight: '500' }}>
-                {nutrient} {classification === 'none' ? '' : `${percentage?.toFixed(1)}%`}
-              </span>
+            <li key={index} className="text-white opacity-0 nutrient-item group relative">
+              <div className="flex items-center">
+                <span style={{ color, fontWeight: '500' }} className="flex items-center">
+                  {displayName}
+                  {classification === 'low' && <span className="ml-1 text-red-500">*</span>}
+                  {classification === 'average' && <span className="ml-1 text-yellow-500">*</span>}
+                  {classification === 'high' && <span className="ml-1 text-green-500">*</span>}
+                </span>
+              </div>
+              {classification !== 'none' && (
+                <div
+                  className="absolute left-1/2 transform -translate-x-1/2 -top-full mb-2 w-24 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                  style={{ backgroundColor: color }}
+                >
+                  {percentage?.toFixed(1)}%
+                </div>
+              )}
             </li>
           );
         })}
@@ -123,7 +145,25 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
           <div className="absolute inset-0 flex items-center justify-center rounded-full bg-white bg-opacity-70">
             <span className="text-lg font-bold text-gray-800 text-center px-2">{category}</span>
           </div>
-          {/* Magical/Fluid Effect */}
+
+          {/* Particle Effect */}
+          <div className="relative w-32 h-32">
+            <Particles
+              options={{
+                particles: {
+                  number: { value: 50 },
+                  size: { value: 3 },
+                  move: { speed: 1, direction: "none", outMode: "out" },
+                  line_linked: { enable: false },
+                  opacity: { value: 0.5 },
+                  color: { value: "#ffffff" },
+                },
+              }}
+              className="absolute inset-0 pointer-events-none"
+            />
+          </div>
+
+          {/* Fluid Effect */}
           <div className="absolute inset-0 rounded-full pointer-events-none">
             <div className="overlay"></div>
           </div>
@@ -152,13 +192,15 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-semibold mb-4 text-center text-white">
-        Nutrient Profile: {selectedIngredient}
+        Bioessence Extracted from: {selectedIngredient}
       </h2>
-      {/* Total Orb centered on top */}
+
+      {/* Total Orb */}
       <div className="mb-8 flex justify-center">
         {renderOrb('Total')}
       </div>
-      {/* Main Category Orbs in a row */}
+
+      {/* Main Orbs */}
       <div className="flex flex-row justify-center gap-8 w-full">
         {mainCategories.map((category) => (
           <div key={category} className="flex flex-col items-center w-1/4">

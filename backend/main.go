@@ -250,37 +250,32 @@ func fetchNutrientDataHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Find
-	var foodItem *models.FoodItem
-	for _, item := range foodItems {
-		if item.Description == req.FoodDescription {
-			foodItem = &item
-			break
-		}
-	}
-
-	if foodItem == nil {
-		utils.RespondWithError(w, http.StatusNotFound, "Food item not found")
+	// Fetch nutrient data for the suggested food using Nutritionix API
+	nutrientData, err := services.FetchNutrientData([]string{req.FoodDescription})
+	if err != nil {
+		utils.RespondWithError(w, http.StatusInternalServerError, "Error fetching nutrient data: "+err.Error())
 		return
 	}
 
-	currentMealNutrients := req.CurrentNutrients
+	// Calculate RDA percentages
+	nutrientPercentages := calculateNutrientPercentages(nutrientData)
 
+	// Combine current nutrients with new nutrients
 	newTotalNutrients := make(map[string]float64)
-	changedNutrients := []string{}
-
-	// Nutrients from current full meal
-	for nutrient, amount := range currentMealNutrients {
+	for nutrient, amount := range req.CurrentNutrients {
 		newTotalNutrients[nutrient] = amount
 	}
-
-	// Nutrients from suggested meal click
-	for nutrient, amount := range foodItem.Nutrients {
-		newAmount := newTotalNutrients[nutrient] + amount
-		if newAmount != newTotalNutrients[nutrient] {
-			changedNutrients = append(changedNutrients, nutrient)
+	for nutrient, amount := range nutrientPercentages[req.FoodDescription] {
+		newTotalNutrients[nutrient] += amount
+		if newTotalNutrients[nutrient] > 100 {
+			newTotalNutrients[nutrient] = 100
 		}
-		newTotalNutrients[nutrient] = newAmount
+	}
+
+	// Determine which nutrients have changed
+	changedNutrients := []string{}
+	for nutrient := range nutrientPercentages[req.FoodDescription] {
+		changedNutrients = append(changedNutrients, nutrient)
 	}
 
 	// Response
@@ -327,7 +322,7 @@ func processFoodHandler(w http.ResponseWriter, r *http.Request) {
 
 	cleanedIngredients := cleanIngredientList(ingredients)
 
-	// Fetch nutrient data for each ingredient
+	// Fetch nutrient data for each ingredient using Nutritionix API
 	nutrientData, err := services.FetchNutrientDataForEachIngredient(cleanedIngredients)
 	if err != nil {
 		utils.RespondWithError(w, http.StatusInternalServerError, "Error fetching nutrient data: "+err.Error())
@@ -343,7 +338,7 @@ func processFoodHandler(w http.ResponseWriter, r *http.Request) {
 	// Determine Deficiencies
 	lowAndMissingNutrients := determineLowAndMissingNutrients(totalNutrients)
 
-	// Cosine Similarity
+	// Generate Recommendations
 	topRecommendations := machinist.RecommendFoods(foodItems, nutrientNames, lowAndMissingNutrients, 5)
 
 	// Prepare the response
@@ -363,7 +358,7 @@ func processFoodHandler(w http.ResponseWriter, r *http.Request) {
 
 // Function to extract Gemini output
 func extractIngredientsFromGemini(apiKey, prompt string) (string, error) {
-	// Create the request payload
+	// Request payload
 	reqBody := models.GeminiRequest{
 		Contents: []models.Content{
 			{
@@ -374,7 +369,7 @@ func extractIngredientsFromGemini(apiKey, prompt string) (string, error) {
 		},
 	}
 
-	// Convert request payload to JSON
+	// Convert to JSON
 	jsonData, err := json.Marshal(reqBody)
 	if err != nil {
 		return "", err
@@ -386,10 +381,7 @@ func extractIngredientsFromGemini(apiKey, prompt string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	req.Header.Set("Content-Type", "application/json")
-
-	// Execute request
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -402,15 +394,13 @@ func extractIngredientsFromGemini(apiKey, prompt string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
-	// Decode JSON
 	var geminiResp models.GeminiResponse
 	err = json.Unmarshal(bodyBytes, &geminiResp)
 	if err != nil {
 		return "", err
 	}
 
-	// Extract ingredients from ouput
+	// Extract ingredients
 	if len(geminiResp.Candidates) > 0 && len(geminiResp.Candidates[0].Content.Parts) > 0 {
 		return geminiResp.Candidates[0].Content.Parts[0].Text, nil
 	}

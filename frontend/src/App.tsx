@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import IngredientsPanel from './components/IngredientsPanel';
 import SuggestionPanel from './components/SuggestionPanel';
 import OrbsPanel from './grimoire/OrbsPanel';
@@ -46,8 +46,8 @@ const nutrientCategoryList = {
     'Valine',
   ],
   'Fatty Acids & Choline': [
-    'Alpha-Linolenic Acid',
     'Linoleic Acid',
+    'Alpha-Linolenic Acid',
     'EPA',
     'DHA',
     'Choline',
@@ -55,7 +55,7 @@ const nutrientCategoryList = {
   Total: [],
 } as const;
 
-// ORB ELEMENTS
+// Orb Colors
 const nutrientCategoryColors: { [key in keyof typeof nutrientCategoryList]: string } = {
   Minerals: '#3498db', // Blue
   Vitamins: '#9b59b6', // Purple
@@ -64,21 +64,32 @@ const nutrientCategoryColors: { [key in keyof typeof nutrientCategoryList]: stri
   Total: '#e74c3c', // Red
 };
 
-
-/*===========================================================================================================*/
-
 type NutrientCategory = keyof typeof nutrientCategoryList;
+
+// Function to categorize nutrients
 const categorizeNutrients = (
   nutrients: { [key: string]: number }
-  ): { [category in NutrientCategory]: { total: number; satisfied: number; color: string } } => {
+): { [category in NutrientCategory]: { total: number; satisfied: number; color: string } } => {
   const categorized: {
     [category in NutrientCategory]: { total: number; satisfied: number; color: string };
   } = {
-    Minerals: { total: 0, satisfied: 0, color: nutrientCategoryColors.Minerals },
-    Vitamins: { total: 0, satisfied: 0, color: nutrientCategoryColors.Vitamins },
-    'Amino Acids': { total: 0, satisfied: 0, color: nutrientCategoryColors['Amino Acids'] },
+    Minerals: {
+      total: nutrientCategoryList.Minerals.length,
+      satisfied: 0,
+      color: nutrientCategoryColors.Minerals,
+    },
+    Vitamins: {
+      total: nutrientCategoryList.Vitamins.length,
+      satisfied: 0,
+      color: nutrientCategoryColors.Vitamins,
+    },
+    'Amino Acids': {
+      total: nutrientCategoryList['Amino Acids'].length,
+      satisfied: 0,
+      color: nutrientCategoryColors['Amino Acids'],
+    },
     'Fatty Acids & Choline': {
-      total: 0,
+      total: nutrientCategoryList['Fatty Acids & Choline'].length,
       satisfied: 0,
       color: nutrientCategoryColors['Fatty Acids & Choline'],
     },
@@ -88,18 +99,21 @@ const categorizeNutrients = (
   (Object.keys(nutrientCategoryList) as NutrientCategory[]).forEach((category) => {
     if (category !== 'Total') {
       const nutrientsInCategory = nutrientCategoryList[category];
-      const total = nutrientsInCategory.length;
       const satisfied = nutrientsInCategory.reduce((count, nutrient) => {
         return nutrients[nutrient] >= 5 ? count + 1 : count;
       }, 0);
-      categorized[category] = {
-        total,
-        satisfied,
-        color: nutrientCategoryColors[category],
-      };
+      categorized[category].satisfied = satisfied;
     }
   });
-  const allNutrients = Object.keys(nutrients).length;
+
+  const allNutrients = (Object.keys(nutrientCategoryList) as NutrientCategory[])
+    .flatMap((category) => {
+      if (category !== 'Total') {
+        return nutrientCategoryList[category];
+      }
+      return [];
+    }).length;
+
   const satisfiedTotal = (Object.keys(nutrientCategoryList) as NutrientCategory[])
     .flatMap((category) => {
       if (category !== 'Total') {
@@ -110,11 +124,10 @@ const categorizeNutrients = (
     .reduce((count, nutrient) => {
       return nutrients[nutrient] >= 5 ? count + 1 : count;
     }, 0);
-  categorized['Total'] = {
-    total: allNutrients,
-    satisfied: satisfiedTotal,
-    color: nutrientCategoryColors.Total,
-  };
+
+  categorized['Total'].total = allNutrients;
+  categorized['Total'].satisfied = satisfiedTotal;
+
   return categorized;
 };
 
@@ -124,8 +137,6 @@ type ProcessFoodResponse = {
   missingNutrients: string[];
   suggestions: string[];
 };
-
-/*===========================================================================================================*/
 
 const App: React.FC = () => {
   const [food, setFood] = useState<string>('');
@@ -139,22 +150,6 @@ const App: React.FC = () => {
   const [normalMealNutrients, setNormalMealNutrients] = useState<{ [key: string]: number }>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
-  /*=================================================================================================*/
-
-  const [categorizedNutrients, setCategorizedNutrients] = useState<{
-    [category in NutrientCategory]: { total: number; satisfied: number; color: string };
-  }>({
-    Minerals: { total: 0, satisfied: 0, color: nutrientCategoryColors.Minerals },
-    Vitamins: { total: 0, satisfied: 0, color: nutrientCategoryColors.Vitamins },
-    'Amino Acids': { total: 0, satisfied: 0, color: nutrientCategoryColors['Amino Acids'] },
-    'Fatty Acids & Choline': {
-      total: 0,
-      satisfied: 0,
-      color: nutrientCategoryColors['Fatty Acids & Choline'],
-    },
-    Total: { total: 0, satisfied: 0, color: nutrientCategoryColors.Total },
-  });
 
   /*=================================================================================================*/
 
@@ -186,8 +181,6 @@ const App: React.FC = () => {
           }
         });
         setNormalMealNutrients(totalNutrients);
-        const categorizedData = categorizeNutrients(totalNutrients);
-        setCategorizedNutrients(categorizedData);
         setSelectedNutrientData(totalNutrients);
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -218,6 +211,17 @@ const App: React.FC = () => {
 
   /*=================================================================================================*/
 
+  // Function to determine low and missing nutrients
+  const determineLowAndMissingNutrients = (nutrients: { [key: string]: number }) => {
+    const missing = [];
+    for (const nutrient in nutrients) {
+      if (nutrients[nutrient] < 20) {
+        missing.push(nutrient);
+      }
+    }
+    return missing;
+  };
+
   const handleRecommendationClick = async (suggestion: string) => {
     try {
       const response = await fetch('http://localhost:5000/fetch-nutrient-data', {
@@ -238,11 +242,15 @@ const App: React.FC = () => {
       const data = await response.json();
       const updatedNutrients = data.nutrients || {};
       const changedNutrients = data.changedNutrients || [];
-      const categorizedData = categorizeNutrients(updatedNutrients);
-      setCategorizedNutrients(categorizedData);
-      setSelectedIngredient('Full Meal');
+
+
       setSelectedNutrientData(updatedNutrients);
       setHighlightedNutrients(changedNutrients);
+      setNormalMealNutrients(updatedNutrients);
+      const updatedMissingNutrients = determineLowAndMissingNutrients(updatedNutrients);
+      setMissingNutrients(updatedMissingNutrients);
+
+
     } catch (error) {
       console.error('Error fetching nutrient data for recommendation:', error);
       setError('Failed to fetch nutrient data for the recommendation.');
@@ -250,6 +258,11 @@ const App: React.FC = () => {
   };
 
   /*=================================================================================================*/
+
+  // Memoize the categorization of selected nutrient data
+  const categorizedSelectedNutrients = useMemo(() => {
+    return categorizeNutrients(selectedNutrientData);
+  }, [selectedNutrientData]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#d3b586]">
@@ -295,7 +308,7 @@ const App: React.FC = () => {
               </div>
               <div className="w-3/5">
                 <OrbsPanel
-                  nutrientData={categorizedNutrients}
+                  nutrientData={categorizedSelectedNutrients}
                   selectedIngredient={selectedIngredient}
                   selectedNutrientData={selectedNutrientData}
                   highlightedNutrients={highlightedNutrients}
