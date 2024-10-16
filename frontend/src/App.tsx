@@ -1,8 +1,8 @@
 // src/App.tsx
 
 import React, { useState, useMemo } from 'react';
-import IngredientsPanel from './components/IngredientsPanel';
-import SuggestionPanel from './components/SuggestionPanel';
+import IngredientsPanel from './grimoire/IngredientsPanel';
+import SuggestionPanel from './grimoire/SuggestionPanel';
 import OrbsPanel from './grimoire/OrbsPanel';
 import { processFood } from './services/backendService';
 import './App.css';
