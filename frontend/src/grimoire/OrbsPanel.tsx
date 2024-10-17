@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { gsap } from 'gsap';
 import LiquidGauge from 'react-liquid-gauge';
+import NutrientItem from './NutrientItem';
 
 type NutrientCategory =
   | 'Vitamins'
@@ -85,8 +86,6 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
   nutrientData,
   selectedIngredient,
   selectedNutrientData,
-  highlightedNutrients,
-  missingNutrients,
 }) => {
 
   const classifyNutrient = (
@@ -97,65 +96,39 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
     if (percentage > 3 && percentage <= 20) return 'average';
     return 'high';
   };
-const getColor = (
-    classification: 'none' | 'low' | 'average' | 'high',
-    nutrient: string
-  ): string => {
-    if (highlightedNutrients.includes(nutrient) && missingNutrients.includes(nutrient)) {
-      return '#5d473a'; 
-    }
-    switch (classification) {
-      case 'none':
-        return '#7d7d7d'; // Gray
-      case 'low':
-        return '#8b4513'; // Saddle brown
-      case 'average':
-        return '#daa520'; // Goldenrod
-      case 'high':
-        return '#2e8b57'; // Sea green
-      default:
-        return '#7d7d7d';
-    }
-  };
 
+  // Define a mapping from classification to Tailwind color classes
+  const classificationTextColorMap: { 
+    [key in 'none' | 'low' | 'average' | 'high']: string 
+  } = {
+    none: 'text-gray-500',
+    low: 'text-red-500',
+    average: 'text-yellow-500',
+    high: 'text-green-500',
+  };
   const renderNutrientList = (category: Exclude<NutrientCategory, 'Total'>) => (
-    <div className="parchment rounded-lg p-4 w-full mt-4 fade-in-up max-h-[600px]">
+    <div className="parchment rounded-lg p-4 w-full mt-4 fade-in-up max-h-[600px] overflow-auto">
       <h3 className="text-lg font-medium mb-2 text-[#5d473a] whitespace-nowrap">
         {category === 'Fatty Acids & Choline' ? 'Fatty Acids' : category}
       </h3>
-      <ul className="space-y-1 scroll-container text-[#5d473a]">
+      <ul className="scroll-container text-lg leading-tight mb-2">
         {nutrientCategoryList[category].map((nutrient: string, index: number) => {
           if (nutrient === 'CHOLINE_BREAK') return <li key={index}>&nbsp;</li>;
-          const percentage = selectedNutrientData
-            ? selectedNutrientData[nutrient]
-            : undefined;
+          const percentage = selectedNutrientData ? selectedNutrientData[nutrient] : undefined;
           const classification = classifyNutrient(percentage);
-          const color = getColor(classification, nutrient);
           const displayName = displayNameMap[nutrient] || nutrient;
 
           return (
-            <li key={index} className="nutrient-item relative py-2">
-              <div className="flex items-center justify-between">
-                <span style={{ color }} className="font-medium">
-                  {displayName}
-                  {classification === 'low' && (
-                    <span className="ml-1" style={{color: '#8b4513'}}>*</span>
-                  )}
-                  {classification === 'average' && (
-                    <span className="ml-1" style={{color: '#daa520'}}>*</span>
-                  )}
-                  {classification === 'high' && (
-                    <span className="ml-1" style={{color: '#2e8b57'}}>*</span>
-                  )}
-                </span>
-                {classification !== 'none' && (
-                  <div
-                    className="absolute left-0 right-0 -top-2 mb-2 w-full text-white text-base rounded py-2 px-4 z-10"
-                    style={{ backgroundColor: color }}
-                  >
-                    {displayName}
-                  </div>
-                )}
+            <li
+              key={index}
+              className={`relative py-2 nutrient-list-item`}
+            >
+              <div className="flex items-center">
+                <NutrientItem
+                  displayName={displayName}
+                  percentage={percentage}
+                  classificationColor={classificationTextColorMap[classification]}
+                />
               </div>
             </li>
           );
@@ -163,6 +136,7 @@ const getColor = (
       </ul>
     </div>
   );
+  
 
 
   // Type for waveRenderer
