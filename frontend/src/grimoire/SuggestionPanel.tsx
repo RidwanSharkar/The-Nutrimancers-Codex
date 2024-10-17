@@ -42,11 +42,9 @@ const processSuggestion = (suggestion: string): string => {
       ) {
         return titleCase(parts[0]);
       } else {
-        // Else, display the first two parts joined by a comma
         return titleCase(parts.slice(0, 2).join(', '));
       }
     } else {
-      // If there's only one part, display it
       return titleCase(parts[0]);
     }
   }

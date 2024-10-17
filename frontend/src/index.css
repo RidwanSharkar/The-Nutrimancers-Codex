@@ -2,22 +2,20 @@
 
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English&family=Cinzel&display=swap');
 
-/* Set Global Font */
 body {
   font-family: 'IM Fell English', serif;
-  background-color: #fdf6e3; /* Light parchment background */
+  background-color: #fdf6e3; /* parchment background */
   background-blend-mode: multiply;
 }
 
-/* Headings with Spellbook Style */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Cinzel', serif;
-  color: #5d473a; /* Dark brown for headings */
+  color: #5d473a; 
 }
 
 /* Links */
 a {
-  color: #c9a66b; /* Golden links */
+  color: #c9a66b; 
 }
 
 a:hover {

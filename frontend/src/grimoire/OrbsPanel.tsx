@@ -102,7 +102,7 @@ const getColor = (
     nutrient: string
   ): string => {
     if (highlightedNutrients.includes(nutrient) && missingNutrients.includes(nutrient)) {
-      return '#5d473a'; // Dark brown for highlighted and missing
+      return '#5d473a'; 
     }
     switch (classification) {
       case 'none':
@@ -153,7 +153,7 @@ const getColor = (
                     className="absolute left-0 right-0 -top-2 mb-2 w-full text-white text-base rounded py-2 px-4 z-10"
                     style={{ backgroundColor: color }}
                   >
-                    {percentage?.toFixed(1)}%
+                    {displayName}
                   </div>
                 )}
               </div>
@@ -187,7 +187,7 @@ const getColor = (
             width={128}
             height={128}
             value={percentageFilled}
-            textRenderer={() => null} // Hide default text
+            textRenderer={() => null}
             riseAnimation
             waveAnimation
             waveFrequency={1}
@@ -218,7 +218,7 @@ const getColor = (
               return (
                 <>
                   <defs>
-                    {/* Gradient for the wave */}
+                    {/* Gradient for wave */}
                     <linearGradient
                       id={`waveGradient-${category}`}
                       x1="0%"
@@ -300,7 +300,6 @@ const getColor = (
   ];
 
   useEffect(() => {
-    // Animate nutrient list items with fade-in-up
     gsap.from('.nutrient-item', {
       opacity: 0,
       y: 20,
@@ -328,6 +327,9 @@ const getColor = (
       <div className="mb-8 flex justify-center">
         {renderOrb('Total')}
       </div>
+
+
+      
     </div>
   );
 };

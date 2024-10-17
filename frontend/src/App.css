@@ -3,15 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* Spellbook ================================================================================================*/
 
-.nutrient-item:hover {
-  transform: scale(1.05);
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
-}
-
-/* Fixed Size Container */
+/* Fixed Size */
 .fixed-size-container {
   width: 700px; 
   height: 800px; 
@@ -33,14 +27,14 @@
   transform: rotate(45deg) scale(0);
   transition: transform 0.5s;
 }
-/* Button Magical Hover Effects */
+
 .button-magical {
   position: relative;
   overflow: hidden;
   border: 1px solid #c9a66b;
-  background-color: #fff8e1; /* Light parchment-like button */
-  color: #5d473a; /* Dark brown text */
-  font-family: 'Cinzel', serif; /* Elegant font */
+  background-color: #fff8e1; 
+  color: #5d473a; 
+  font-family: 'Cinzel', serif; 
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -68,9 +62,8 @@
 
 /* Parchment ================================================================================================*/
 
-/* Parchment Theme */
 .parchment {
-  background-color: #fdf6e3; /* Light parchment color */
+  background-color: #fdf6e3; 
   background-image:
     linear-gradient(45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%),
     linear-gradient(-45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%),
@@ -86,8 +79,7 @@
   padding: 1rem;
 }
 
-
-/* Parchment Edge Decoration */
+/* Parchment Edge */
 .parchment::before {
   content: '';
   position: absolute;
