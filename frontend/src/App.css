@@ -5,12 +5,7 @@
 
 /* Spellbook ================================================================================================*/
 
-/* Fixed Size */
-.fixed-size-container {
-  width: 700px; 
-  height: 800px; 
-  overflow: hidden;
-}
+
 
 .button-magical {
   overflow: hidden;

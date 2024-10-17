@@ -269,17 +269,13 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      {/* Background Image - placeholder */}
-      <div
-        className="relative w-full max-w-7xl h-auto bg-cover bg-center rounded-lg shadow-lg overflow-hidden"
-        style={{
-          backgroundImage: "url('/background.svg')", 
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <div className="absolute inset-0 bg-black opacity-20"></div>
-        <div className="relative z-10 p-8">
+      <div className="transform scale-75 origin-center w-full">
+
+        <div
+          className="relative w-full max-w-7xl h-auto bg-cover bg-center rounded-lg shadow-lg overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-black opacity-20"></div>
+          <div className="relative z-10 p-8">
           <h1 className="text-4xl font-bold text-center mb-8 text-white">
             The Nutrimancer's Codex Vol. I
           </h1>
@@ -312,42 +308,36 @@ const App: React.FC = () => {
 
 
 
-          {/* Panels Container */}
-          {!loading && !error && ingredients && ingredients.length > 0 && (
-            <div className="flex justify-between gap-8 mx-auto w-full">
-              {/* Ingredients Panel - Left */}
-              <div className="w-full lg:w-1/5 mb-4 lg:mb-0">
-                <IngredientsPanel
-                  ingredients={ingredients}
-                  onIngredientClick={handleIngredientClick}
-                />
-              </div>
-
-
-
-              {/* Orbs Panel - Center */}
-              <div className="w-full lg:w-3/5 flex justify-center mb-4 lg:mb-0">
-                <OrbsPanel
-                  nutrientData={categorizedSelectedNutrients}
-                  selectedIngredient={selectedIngredient}
-                  selectedNutrientData={selectedNutrientData}
-                  highlightedNutrients={highlightedNutrients}
-                  missingNutrients={missingNutrients}
-                />
-              </div>
-
-
-
-              {/* Suggestion Panel - Right */}
-              <div className="w-full lg:w-1/5">
-                <SuggestionPanel
-                  missingNutrients={originalMissingNutrients}
-                  suggestions={suggestions}
-                  onRecommendationClick={handleRecommendationClick}
-                />
-              </div>
-            </div>
-          )}
+            {/* Panels Container */}
+            {!loading && !error && ingredients && ingredients.length > 0 && (
+              <div className="flex justify-center gap-7 w-full items-start">
+                {/* Ingredients Panel - Left */}
+                <div className="w-full lg:w-1/5">
+                  <IngredientsPanel
+                    ingredients={ingredients}
+                    onIngredientClick={handleIngredientClick}
+                  />
+                </div>
+                {/* Orbs Panel - Center */}
+                <div className="w-full lg:w-3/5 flex justify-center">
+                  <OrbsPanel
+                    nutrientData={categorizedSelectedNutrients}
+                    selectedIngredient={selectedIngredient}
+                    selectedNutrientData={selectedNutrientData}
+                    highlightedNutrients={highlightedNutrients}
+                    missingNutrients={missingNutrients}
+                  />
+                </div>
+                {/* Suggestion Panel - Right */}
+                <div className="w-full lg:w-1/5">
+                  <SuggestionPanel
+                    missingNutrients={originalMissingNutrients}
+                    suggestions={suggestions}
+                    onRecommendationClick={handleRecommendationClick}
+                  />
+                </div>
+              </div>)}
+          </div>
         </div>
       </div>
     </div>

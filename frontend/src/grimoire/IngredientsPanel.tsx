@@ -10,9 +10,12 @@ interface IngredientsPanelProps {
 const IngredientsPanel: React.FC<IngredientsPanelProps> = ({ ingredients, onIngredientClick }) => {
   const allItems = ['Full Meal', ...ingredients];
 
+   // style={{ minWidth: 'fit-content' }}
   return (
-    <div className="panel parchment fade-in">
-      <h2 className="text-xl font-semibold mb-4 text-[#5d473a]">Detected Bio-Sources:</h2>
+    <div className="parchment rounded-lg p-4 fade-in-up flex-1" >
+      <h2 className="text-xl font-semibold mb-4 text-[#5d473a]" style={{ whiteSpace: 'nowrap' }} >
+        Detected Bio-Sources:
+      </h2>
       {allItems.length > 0 ? (
         <div className="flex flex-col gap-2 scroll-container">
           {allItems.map((item, index) => (

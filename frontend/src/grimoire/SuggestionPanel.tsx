@@ -66,7 +66,7 @@ const SuggestionPanel: React.FC<SuggestionPanelProps> = ({
 
   return (
     <div className="parchment rounded-lg p-4 fade-in-up flex-1">
-      <h2 className="text-xl font-semibold mb-4 text-[#5d473a]">Essence Analysis:</h2>
+      <h2 className="text-xl font-semibold mb-4 text-[#5d473a]" style={{ whiteSpace: 'nowrap' }}>Essence Analysis:</h2>
       {missingNutrients && missingNutrients.length > 0 ? (
         <>
           <h3 className="text-lg font-medium mb-2 text-[#5d473a]">You're low on:</h3>
