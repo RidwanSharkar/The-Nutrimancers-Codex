@@ -97,7 +97,6 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
     return 'high';
   };
 
-  // Define a mapping from classification to Tailwind color classes
   const classificationTextColorMap: { 
     [key in 'none' | 'low' | 'average' | 'high']: string 
   } = {
@@ -121,9 +120,9 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
           return (
             <li
               key={index}
-              className={`relative py-2 nutrient-list-item`}
+              className={`relative py-3 nutrient-list-item`}
             >
-              <div className="flex items-center">
+              <div className="flex items-center justify-start">
                 <NutrientItem
                   displayName={displayName}
                   percentage={percentage}
@@ -148,7 +147,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
     const percentageFilled =
       (nutrientData[category].satisfied / nutrientData[category].total) * 100;
 
-    const orbSize = category === 'Total' ? 144 : 128;
+    const orbSize = category === 'Total' ? 156 : 128;
 
     return (
       <div className="flex flex-col items-center relative">
@@ -301,7 +300,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
 
       <div className="flex flex-row justify-center gap-0 w-full">
         {mainCategories.map((category) => (
-          <div key={category} className="flex flex-col items-center w-1/4 min-w-[155px]">
+          <div key={category} className="flex flex-col items-center min-w-[155px]">
             {renderOrb(category)}
             {renderNutrientList(category)}
           </div>

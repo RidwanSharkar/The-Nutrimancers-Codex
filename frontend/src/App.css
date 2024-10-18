@@ -5,7 +5,6 @@
 
 /* Spellbook ================================================================================================*/
 
-
 .button-magical {
   overflow: hidden;
 }
@@ -154,27 +153,26 @@
 .glow::before {
   content: '';
   position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
   border-radius: 50%;
-  box-shadow: 0 0 20px 10px var(--orb-color);
+  box-shadow: 0 0 15px 5px var(--orb-color);
   animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 20px 10px var(--orb-color);
+    box-shadow: 0 0 10px 5px var(--orb-color);
   }
   50% {
-    box-shadow: 0 0 30px 15px var(--orb-color);
+    box-shadow: 0 0 15px 7px var(--orb-color);
   }
   100% {
-    box-shadow: 0 0 20px 10px var(--orb-color);
+    box-shadow: 0 0 10px 5px var(--orb-color);
   }
 }
-
 
 .orb-container:hover {
   animation: rotate 10s linear infinite;

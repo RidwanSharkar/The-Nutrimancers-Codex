@@ -307,7 +307,7 @@ const App: React.FC = () => {
 
           {/* Panels Container */}
           {!loading && !error && ingredients && ingredients.length > 0 && (
-            <div className="flex flex-col lg:flex-row justify-center gap-8 w-full screen-lg px-4">
+            <div className="flex justify-center gap-8 w-full px-4">
 
 
               {/* Ingredients Panel - Left */}
