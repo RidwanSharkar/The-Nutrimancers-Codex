@@ -269,25 +269,22 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="transform scale-75 origin-center w-full">
 
         <div
-          className="relative w-full max-w-7xl h-auto bg-cover bg-center rounded-lg shadow-lg overflow-hidden"
+          className="relative w-full max-w-7.5xl h-auto bg-cover bg-center rounded-lg shadow-lg overflow-hidden"
         >
           <div className="absolute inset-0 bg-black opacity-20"></div>
           <div className="relative z-10 p-8">
-          <h1 className="text-4xl font-bold text-center mb-8 text-white">
-            The Nutrimancer's Codex Vol. I
+          <h1 className="text-3xl font-bold text-center mb-8 text-white">
+            The Nutrimancer's Codex Vol. II
           </h1>
-
-
 
           {/* Food Input Section */}
           <div className="flex justify-center mb-8">
             <input
               type="text"
-              className="w-1/3 p-3 rounded-md focus:outline-none bg-white text-black mr-5"
-              placeholder="What have you eaten today?"
+              className="w-1/3 p-3 rounded-md focus:outline-none bg-white text-black mr-5 text-xl"
+              placeholder="What have you consumed today?"
               value={food}
               onChange={(e) => setFood(e.target.value)}
               onKeyPress={(e) => {
@@ -297,7 +294,7 @@ const App: React.FC = () => {
             <button
               onClick={handleFoodSubmit}
               disabled={loading || !food.trim()}
-              className={`p-3 bg-green-500 text-white rounded-md ${
+              className={`p-3 bg-green-500 text-white rounded-md text-xl ${
                 loading || !food.trim() ? 'bg-green-300 cursor-not-allowed' : 'hover:bg-green-600'
               }`}
             >
@@ -308,36 +305,38 @@ const App: React.FC = () => {
 
 
 
-            {/* Panels Container */}
-            {!loading && !error && ingredients && ingredients.length > 0 && (
-              <div className="flex justify-center gap-7 w-full items-start">
-                {/* Ingredients Panel - Left */}
-                <div className="w-full lg:w-1/5">
-                  <IngredientsPanel
-                    ingredients={ingredients}
-                    onIngredientClick={handleIngredientClick}
-                  />
-                </div>
-                {/* Orbs Panel - Center */}
-                <div className="w-full lg:w-3/5 flex justify-center">
-                  <OrbsPanel
-                    nutrientData={categorizedSelectedNutrients}
-                    selectedIngredient={selectedIngredient}
-                    selectedNutrientData={selectedNutrientData}
-                    highlightedNutrients={highlightedNutrients}
-                    missingNutrients={missingNutrients}
-                  />
-                </div>
-                {/* Suggestion Panel - Right */}
-                <div className="w-full lg:w-1/5">
-                  <SuggestionPanel
-                    missingNutrients={originalMissingNutrients}
-                    suggestions={suggestions}
-                    onRecommendationClick={handleRecommendationClick}
-                  />
-                </div>
-              </div>)}
-          </div>
+          {/* Panels Container */}
+          {!loading && !error && ingredients && ingredients.length > 0 && (
+            <div className="flex flex-col lg:flex-row justify-center gap-8 w-full screen-lg px-4">
+
+
+              {/* Ingredients Panel - Left */}
+              <div className="w-full lg:w-1.5/6">
+                <IngredientsPanel
+                  ingredients={ingredients}
+                  onIngredientClick={handleIngredientClick}
+                />
+              </div>
+              {/* Orbs Panel - Center */}
+              <div className="w-full lg:w-3/6 flex justify-center">
+                <OrbsPanel
+                  nutrientData={categorizedSelectedNutrients}
+                  selectedIngredient={selectedIngredient}
+                  selectedNutrientData={selectedNutrientData}
+                  highlightedNutrients={highlightedNutrients}
+                  missingNutrients={missingNutrients}
+                />
+              </div>
+              {/* Suggestion Panel - Right */}
+              <div className="w-full lg:w-1.5/6">
+                <SuggestionPanel
+                  missingNutrients={originalMissingNutrients}
+                  suggestions={suggestions}
+                  onRecommendationClick={handleRecommendationClick}
+                />
+
+              </div>
+            </div>)}
         </div>
       </div>
     </div>
