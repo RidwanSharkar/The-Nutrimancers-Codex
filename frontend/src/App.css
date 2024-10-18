@@ -6,7 +6,6 @@
 /* Spellbook ================================================================================================*/
 
 
-
 .button-magical {
   overflow: hidden;
 }
@@ -151,7 +150,7 @@
   }
 }
 
-/* Fully Filled Orbs */
+/* Fully Filled Orbs DORMANT  */
 .glow::before {
   content: '';
   position: absolute;
@@ -160,19 +159,19 @@
   right: -10px;
   bottom: -10px;
   border-radius: 50%;
-  box-shadow: 0 0 20px 10px rgba(231, 76, 60, 0.6);
+  box-shadow: 0 0 20px 10px var(--orb-color);
   animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 20px 10px rgba(231, 76, 60, 0.6);
+    box-shadow: 0 0 20px 10px var(--orb-color);
   }
   50% {
-    box-shadow: 0 0 30px 15px rgba(231, 76, 60, 0.8);
+    box-shadow: 0 0 30px 15px var(--orb-color);
   }
   100% {
-    box-shadow: 0 0 20px 10px rgba(231, 76, 60, 0.6);
+    box-shadow: 0 0 20px 10px var(--orb-color);
   }
 }
 

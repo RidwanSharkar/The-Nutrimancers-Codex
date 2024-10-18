@@ -12,7 +12,7 @@ const IngredientsPanel: React.FC<IngredientsPanelProps> = ({ ingredients, onIngr
 
    // style={{ minWidth: 'fit-content' }}
   return (
-    <div className="parchment rounded-lg p-4 fade-in-up flex-1" >
+    <div className="parchment rounded-lg p-4 fade-in-up flex-1"  >
       <h2 className="text-xl font-semibold mb-4 text-[#5d473a]" style={{ whiteSpace: 'nowrap' }} >
         Detected Bio-Sources:
       </h2>

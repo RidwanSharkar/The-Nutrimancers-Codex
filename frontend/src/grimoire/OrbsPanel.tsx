@@ -148,18 +148,20 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
     const percentageFilled =
       (nutrientData[category].satisfied / nutrientData[category].total) * 100;
 
+    const orbSize = category === 'Total' ? 200 : 128;
+
     return (
       <div className="flex flex-col items-center relative">
         <div
-          className="relative parchment-orb"
+          className={`relative parchment-orb ${percentageFilled >= 100 ? 'glow' : ''}`}
           style={{
-            filter: `drop-shadow(0 0 10px ${nutrientData[category].color})`,
+            filter: `drop-shadow(0 0 0px ${nutrientData[category].color})`,
           }}
         >
           <LiquidGauge
             style={{ margin: '0 auto' }}
-            width={128}
-            height={128}
+            width={orbSize}
+            height={orbSize}
             value={percentageFilled}
             textRenderer={() => null}
             riseAnimation
@@ -187,6 +189,8 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
             waveStyle={{
               fill: `url(#waveGradient-${category})`,
             }}
+
+            
             waveRenderer={(props: WaveRendererProps) => {
               const { path } = props;
               return (
@@ -211,6 +215,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
                         stopOpacity="0.4"
                       />
                     </linearGradient>
+                    
                   </defs>
                   <path d={path} fill={`url(#waveGradient-${category})`} />
                 </>
@@ -225,33 +230,33 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
           </div>
           {/* Glass effect overlay */}
           <svg
-            width={128}
-            height={128}
+            width={orbSize}
+            height={orbSize}
             style={{ position: 'absolute', top: 0, left: 0 }}
           >
             {/* Glass outline */}
             <circle
-              cx={64}
-              cy={64}
-              r={60}
+              cx={orbSize / 2}
+              cy={orbSize / 2}
+              r={(orbSize / 2) - 4}
               fill="none"
               stroke="rgba(255,255,255,0.5)"
               strokeWidth="2"
             />
             {/* Top reflection */}
             <ellipse
-              cx={64}
-              cy={40}
-              rx={35}
-              ry={15}
+              cx={orbSize / 2}
+              cy={orbSize * 0.3}
+              rx={orbSize * 0.3}
+              ry={orbSize * 0.12}
               fill="rgba(255,255,255,0.2)"
             />
             {/* Bottom reflection */}
             <ellipse
-              cx={64}
-              cy={88}
-              rx={25}
-              ry={10}
+              cx={orbSize / 2}
+              cy={orbSize * 0.7}
+              rx={orbSize * 0.2}
+              ry={orbSize * 0.08}
               fill="rgba(255,255,255,0.1)"
             />
           </svg>
