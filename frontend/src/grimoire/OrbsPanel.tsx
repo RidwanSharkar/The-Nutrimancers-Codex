@@ -175,13 +175,13 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
               {
                 key: '0%',
                 stopColor: `${nutrientData[category].color}`,
-                stopOpacity: 1,
+                stopOpacity: 0.7,
                 offset: '0%',
               },
               {
                 key: '100%',
                 stopColor: `${nutrientData[category].color}`,
-                stopOpacity: 0.7,
+                stopOpacity: 0.3,
                 offset: '100%',
               },
             ]}
