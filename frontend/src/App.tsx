@@ -57,10 +57,10 @@ const nutrientCategoryList = {
 
 // Orb Colors
 const nutrientCategoryColors: { [key in keyof typeof nutrientCategoryList]: string } = {
-  Minerals: '#3498db', // Blue
-  Vitamins: '#9b59b6', // Purple
+  Minerals: '#2ecc71', //green
+  Vitamins: '#3498db', // blue
   'Amino Acids': '#e67e22', // Orange
-  'Fatty Acids & Choline': '#2ecc71', // Green
+  'Fatty Acids & Choline': '#B47EB3', //purp
   Total: '#e74c3c', // Red
 };
 

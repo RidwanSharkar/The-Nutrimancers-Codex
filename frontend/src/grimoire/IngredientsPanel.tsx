@@ -10,7 +10,6 @@ interface IngredientsPanelProps {
 const IngredientsPanel: React.FC<IngredientsPanelProps> = ({ ingredients, onIngredientClick }) => {
   const allItems = ['Full Meal', ...ingredients];
 
-   // style={{ minWidth: 'fit-content' }}
   return (
     <div className="parchment rounded-lg p-4 fade-in-up flex-1" style={{ minWidth: 'fit-content' }} >
       <h2 className="text-xl font-semibold mb-4 text-[#5d473a]" style={{ whiteSpace: 'nowrap' }} >

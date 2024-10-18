@@ -209,12 +209,12 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
                       <stop
                         offset="0%"
                         stopColor={`${nutrientData[category].color}`}
-                        stopOpacity="0.2"
+                        stopOpacity="0.4"
                       />
                       <stop
                         offset="100%"
                         stopColor={`${nutrientData[category].color}`}
-                        stopOpacity="0.6"
+                        stopOpacity="0.7"
                       />
                     </linearGradient>
                     
@@ -266,7 +266,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
           <div className="orb-shine"></div>
         </div>
         {/* Satisfied / Total display */}
-        <span className="mt-2 text-sm text-[#5d473a]">
+        <span className="mt-2 font-bold text-m text-[#5d473a]">
           {nutrientData[category].satisfied}/{nutrientData[category].total}
         </span>
       </div>
