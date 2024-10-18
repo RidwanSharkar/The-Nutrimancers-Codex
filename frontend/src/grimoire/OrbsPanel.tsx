@@ -107,7 +107,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
     high: 'text-green-500',
   };
   const renderNutrientList = (category: Exclude<NutrientCategory, 'Total'>) => (
-    <div className="parchment rounded-lg p-4 w-full mt-3 fade-in-up max-h-[415px] max-w-[125px] overflow-auto">
+    <div className="parchment rounded-lg p-4 w-full mt-1 fade-in-up max-h-[415px] max-w-[125px] overflow-auto">
       <h3 className="text-lg font-semibold mb-2 text-[#5d473a] whitespace-nowrap">
         {category === 'Fatty Acids & Choline' ? 'Fatty Acids' : category}
       </h3>
@@ -299,7 +299,7 @@ const OrbsPanel: React.FC<OrbsPanelProps> = ({
 
  
 
-      <div className="flex flex-row justify-center gap-5 w-full">
+      <div className="flex flex-row justify-center gap-0 w-full">
         {mainCategories.map((category) => (
           <div key={category} className="flex flex-col items-center w-1/4 min-w-[155px]">
             {renderOrb(category)}

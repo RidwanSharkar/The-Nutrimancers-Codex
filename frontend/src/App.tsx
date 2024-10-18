@@ -311,14 +311,14 @@ const App: React.FC = () => {
 
 
               {/* Ingredients Panel - Left */}
-              <div className="w-full lg:w-1.5/6">
+              <div className="w-[200px] flex-shrink-0">
                 <IngredientsPanel
                   ingredients={ingredients}
                   onIngredientClick={handleIngredientClick}
                 />
               </div>
               {/* Orbs Panel - Center */}
-              <div className="w-full lg:w-3/6 flex justify-center">
+              <div className="w-[650px] flex-shrink-0">
                 <OrbsPanel
                   nutrientData={categorizedSelectedNutrients}
                   selectedIngredient={selectedIngredient}
@@ -328,7 +328,7 @@ const App: React.FC = () => {
                 />
               </div>
               {/* Suggestion Panel - Right */}
-              <div className="w-full lg:w-1.5/6">
+              <div className="w-[200px] flex-shrink-0">
                 <SuggestionPanel
                   missingNutrients={originalMissingNutrients}
                   suggestions={suggestions}
