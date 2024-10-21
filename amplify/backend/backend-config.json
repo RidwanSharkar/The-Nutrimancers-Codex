@@ -1,0 +1,72 @@
+{
+  "api": {
+    "backend": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "processFood"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "fetchNutrientData"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "function": {
+    "fetchNutrientData": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "processFood": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_fetchNutrientData_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fetchNutrientData"
+        }
+      ]
+    },
+    "AMPLIFY_function_fetchNutrientData_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "fetchNutrientData"
+        }
+      ]
+    },
+    "AMPLIFY_function_processFood_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "processFood"
+        }
+      ]
+    },
+    "AMPLIFY_function_processFood_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "processFood"
+        }
+      ]
+    }
+  }
+}

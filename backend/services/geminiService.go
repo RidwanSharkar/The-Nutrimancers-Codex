@@ -1,4 +1,4 @@
-// services/geminiService.go
+// backend/services/geminiService.go
 package services
 
 import (
@@ -11,31 +11,9 @@ import (
 	"os"
 	"strings"
 
+	"github.com/RidwanSharkar/Bioessence/backend/models"
 	"github.com/RidwanSharkar/Bioessence/backend/utils"
 )
-
-/*=================================================================================================*/
-
-// Request payload structure for Gemini API
-type GeminiRequest struct {
-	Contents []Content `json:"contents"`
-}
-
-type Content struct {
-	Parts []Part `json:"parts"`
-}
-
-type Part struct {
-	Text string `json:"text"`
-}
-
-type GeminiChoice struct {
-	Text string `json:"text"`
-}
-
-type GeminiResponse struct {
-	Choices []GeminiChoice `json:"choices"`
-}
 
 /*=================================================================================================*/
 
@@ -52,8 +30,8 @@ func ExtractIngredients(foodDescription string) ([]string, error) {
 	promptText := fmt.Sprintf("Extract the list of ingredients from the following food description: '%s'. List the main ingredients as bullet points with no descriptions.", foodDescription)
 
 	// Prep Request Body
-	reqBody := GeminiRequest{
-		Contents: []Content{{Parts: []Part{{
+	reqBody := models.GeminiRequest{
+		Contents: []models.Content{{Parts: []models.Part{{
 			Text: promptText,
 		}}}},
 	}
@@ -91,19 +69,19 @@ func ExtractIngredients(foodDescription string) ([]string, error) {
 	}
 
 	// Parsing Response
-	var geminiResp GeminiResponse
+	var geminiResp models.GeminiResponse
 	if err := json.NewDecoder(resp.Body).Decode(&geminiResp); err != nil {
 		utils.LogError(err, "ExtractIngredients: Decode")
 		return nil, err
 	}
 
 	// Optional choices later?
-	if len(geminiResp.Choices) == 0 {
+	if len(geminiResp.Candidates) == 0 {
 		errMsg := "no choices returned from gemini"
 		utils.LogError(errors.New(errMsg), "no gemini choices")
 		return nil, errors.New(errMsg)
 	}
-	text := geminiResp.Choices[0].Text
+	text := geminiResp.Candidates[0].Content.Parts[0].Text
 	ingredients := parseIngredients(text)
 	return ingredients, nil
 }
@@ -123,4 +101,16 @@ func parseIngredients(text string) []string {
 		}
 	}
 	return ingredients
+}
+
+// Clean Ingredient List
+func CleanIngredientList(ingredients []string) []string {
+	var cleaned []string
+	for _, ingredient := range ingredients {
+		ingredient = strings.TrimSpace(ingredient)
+		if ingredient != "" {
+			cleaned = append(cleaned, ingredient)
+		}
+	}
+	return cleaned
 }

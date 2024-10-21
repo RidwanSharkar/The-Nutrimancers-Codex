@@ -1,0 +1,6 @@
+{
+  "pluginId": "amplify-go-function-runtime-provider",
+  "functionRuntime": "provided.al2023",
+  "useLegacyBuild": false,
+  "defaultEditorFile": "src\\main.go"
+}

@@ -1,1 +1,5 @@
 .env
+.serverless/
+node_modules/
+logs/
+*.log

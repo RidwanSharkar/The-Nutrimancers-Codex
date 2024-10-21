@@ -1,24 +1,35 @@
-// backend/utils.go
+// backend/utils/utils.go
 package utils
 
 import (
 	"encoding/json"
-	"log"
-	"net/http"
+
+	"github.com/aws/aws-lambda-go/events"
 )
 
-// json error
-func RespondWithError(w http.ResponseWriter, code int, message string) {
-	w.WriteHeader(code)
-	w.Header().Set("Content-Type", "application/json")
-	response := map[string]string{"error": message}
-	jsonResp, _ := json.Marshal(response)
-	w.Write(jsonResp)
+// ErrorResponse struct for error messages
+type ErrorResponse struct {
+	Error string `json:"error"`
 }
 
-// log
+// RespondWithError creates a standardized error response
+func RespondWithError(resp events.APIGatewayProxyResponse, statusCode int, message string) (events.APIGatewayProxyResponse, error) {
+	errorResponse := ErrorResponse{
+		Error: message,
+	}
+	body, _ := json.Marshal(errorResponse)
+	resp.StatusCode = statusCode
+	resp.Body = string(body)
+	resp.Headers = map[string]string{"Content-Type": "application/json"}
+	return resp, nil
+}
+
+// LogError logs errors (can be expanded to use structured logging)
 func LogError(err error, context string) {
 	if err != nil {
-		log.Printf("Error in %s: %v\n", context, err)
+		// Implement logging as needed, e.g., using log package or a logging service
+		// For simplicity, using standard log
+		// import "log"
+		// log.Printf("Error in %s: %v\n", context, err)
 	}
 }

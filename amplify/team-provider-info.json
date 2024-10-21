@@ -1,0 +1,30 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-bioessence-dev-4b436-authRole",
+      "UnauthRoleArn": "arn:aws:iam::010526255008:role/amplify-bioessence-dev-4b436-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::010526255008:role/amplify-bioessence-dev-4b436-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-bioessence-dev-4b436-deployment",
+      "UnauthRoleName": "amplify-bioessence-dev-4b436-unauthRole",
+      "StackName": "amplify-bioessence-dev-4b436",
+      "StackId": "arn:aws:cloudformation:us-east-1:010526255008:stack/amplify-bioessence-dev-4b436/ed009ad0-8fe4-11ef-b54e-0afff5167d9d",
+      "AmplifyAppId": "dc7ln13od3gt9"
+    },
+    "categories": {
+      "function": {
+        "processFood": {
+          "deploymentBucketName": "amplify-bioessence-dev-4b436-deployment",
+          "s3Key": "amplify-builds/processFood-713336516547776d6f2f-build.zip"
+        },
+        "fetchNutrientData": {
+          "deploymentBucketName": "amplify-bioessence-dev-4b436-deployment",
+          "s3Key": "amplify-builds/fetchNutrientData-6d64615a76324266624a-build.zip"
+        }
+      },
+      "api": {
+        "backend": {}
+      }
+    }
+  }
+}

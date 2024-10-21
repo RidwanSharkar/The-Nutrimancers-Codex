@@ -1,4 +1,4 @@
-// services/nutritionixService.go
+// backend/services/nutritionixService.go
 package services
 
 import (
@@ -31,52 +31,45 @@ type NutritionixResponse struct {
 /*=================================================================================================*/
 // Mapping of WIKI essential nutrients to Nutritionix attr_ids
 var nutrientMapping = map[string]int{
-	"Potassium":  306, // Rest mg
-	"Sodium":     307,
-	"Calcium":    301,
-	"Phosphorus": 305,
-	"Magnesium":  304,
-	"Iron":       303,
-	"Zinc":       309,
-	"Manganese":  315,
-	"Copper":     312,
-	"Selenium":   317, //Âµg
-	// "Iodine":
-	// "Chromium":
-	// "Molybdenum": TRACE
-	"Histidine":     512, // All grams
-	"Isoleucine":    503,
-	"Leucine":       504,
-	"Lysine":        505,
-	"Methionine":    506,
-	"Phenylalanine": 508,
-	"Threonine":     502, // X
-	"Tryptophan":    501, // X
-	"Valine":        510,
-
-	"Alpha-Linolenic Acid": 851, // g Omega3
-	"Linoleic Acid":        675, // g Omega6
-	"EPA":                  629, // g (Omega-3)
-	"DHA":                  621, // g (Omega-3)
-
-	"Vitamin A":  320, // Âµg RAE instead of IU
-	"Vitamin B1": 404, // Thiamin mg
-	"Vitamin B2": 405, // Riboflavin mg
-	"Vitamin B3": 406, // Niacin mg
-	"Vitamin B5": 410, // Pantothenic acid mg
-	"Vitamin B6": 415, // mg
-	// "Vitamin B7":	(Biotin)
-	"Vitamin B9":  417, // Âµg Folate
-	"Vitamin B12": 418, // Âµg
-	"Vitamin C":   401, // mg
-	"Vitamin D":   324, // IU****
-	"Vitamin E":   323, // alpha-tocopherol mg
-	"Vitamin K":   430, // Âµg
-	"Choline":     421, // mg
+	"Potassium":            306, // mg
+	"Sodium":               307,
+	"Calcium":              301,
+	"Phosphorus":           305,
+	"Magnesium":            304,
+	"Iron":                 303,
+	"Zinc":                 309,
+	"Manganese":            315,
+	"Copper":               312,
+	"Selenium":             317, // µg
+	"Histidine":            512, // g
+	"Isoleucine":           503,
+	"Leucine":              504,
+	"Lysine":               505,
+	"Methionine":           506,
+	"Phenylalanine":        508,
+	"Threonine":            502, // g
+	"Tryptophan":           501, // g
+	"Valine":               510,
+	"Alpha-Linolenic Acid": 851, // mg Omega-3
+	"Linoleic Acid":        675, // mg Omega-6
+	"EPA":                  629, // g Omega-3
+	"DHA":                  621, // g Omega-3
+	"Vitamin A":            320, // µg RAE
+	"Vitamin B1":           404, // mg
+	"Vitamin B2":           405, // mg
+	"Vitamin B3":           406, // mg
+	"Vitamin B5":           410, // mg
+	"Vitamin B6":           415, // mg
+	"Vitamin B9":           417, // µg
+	"Vitamin B12":          418, // µg
+	"Vitamin C":            401, // mg
+	"Vitamin D":            324, // µg
+	"Vitamin E":            323, // mg
+	"Vitamin K":            430, // µg
+	"Choline":              421, // mg
 }
 
 /*=================================================================================================*/
-
 // Fetch nutrient data for each individual ingredient from Nutritionix API
 func FetchNutrientDataForEachIngredient(ingredients []string) (map[string]map[string]float64, error) {
 	nutrientsPerIngredient := make(map[string]map[string]float64)
@@ -86,17 +79,16 @@ func FetchNutrientDataForEachIngredient(ingredients []string) (map[string]map[st
 		if err != nil {
 			return nil, fmt.Errorf("error fetching nutrient data for %s: %v", ingredient, err)
 		}
-		fmt.Printf("Nutrient data for %s: %+v\n", ingredient, nutrientData)
 		nutrientsPerIngredient[ingredient] = nutrientData[ingredient]
 	}
 	return nutrientsPerIngredient, nil
 }
 
 func FetchNutrientData(ingredients []string) (map[string]map[string]float64, error) {
-	appID := os.Getenv("NUTRITIONIX_APP_ID") // Load from .env
+	appID := os.Getenv("NUTRITIONIX_APP_ID") // Load from environment
 	appKey := os.Getenv("NUTRITIONIX_APP_KEY")
 	if appID == "" || appKey == "" {
-		return nil, errors.New("missing Nutritionix API credentials in .env")
+		return nil, errors.New("missing Nutritionix API credentials in environment variables")
 	}
 
 	nutrientsPerIngredient := make(map[string]map[string]float64)

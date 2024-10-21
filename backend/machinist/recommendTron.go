@@ -8,6 +8,7 @@ import (
 	"github.com/RidwanSharkar/Bioessence/backend/models"
 )
 
+// Recommendation struct
 type Recommendation struct {
 	Description     string
 	SimilarityScore float64
