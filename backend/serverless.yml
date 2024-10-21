@@ -39,6 +39,7 @@ package:
     - node_modules/**
     - .git/**
     - .env  
+    - backend/localMain.go
 
 custom:
   dotenv:

@@ -11,7 +11,7 @@ interface ProcessFoodResponse {
 
 export const processFood = async (foodDescription: string): Promise<ProcessFoodResponse> => {
   try {
-    const response = await axios.post<ProcessFoodResponse>('https://uwqk5mtwq9.execute-api.us-east-1.amazonaws.com/process-food', {
+    const response = await axios.post<ProcessFoodResponse>('https://uwqk5mtwq9.execute-api.us-east-1.amazonaws.com/dev/process-food', {
       foodDescription,
     });
     return response.data;
