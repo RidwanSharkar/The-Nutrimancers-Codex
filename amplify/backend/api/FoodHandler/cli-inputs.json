@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/process-food": {
+      "name": "/process-food",
+      "lambdaFunction": "FoodProcess",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

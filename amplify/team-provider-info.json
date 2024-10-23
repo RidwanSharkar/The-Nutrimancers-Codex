@@ -1,29 +1,36 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-bioessence-dev-4b436-authRole",
-      "UnauthRoleArn": "arn:aws:iam::010526255008:role/amplify-bioessence-dev-4b436-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::010526255008:role/amplify-bioessence-dev-4b436-authRole",
+      "AuthRoleName": "amplify-nutrimancer-dev-264dd-authRole",
+      "UnauthRoleArn": "arn:aws:iam::010526255008:role/amplify-nutrimancer-dev-264dd-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::010526255008:role/amplify-nutrimancer-dev-264dd-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-bioessence-dev-4b436-deployment",
-      "UnauthRoleName": "amplify-bioessence-dev-4b436-unauthRole",
-      "StackName": "amplify-bioessence-dev-4b436",
-      "StackId": "arn:aws:cloudformation:us-east-1:010526255008:stack/amplify-bioessence-dev-4b436/ed009ad0-8fe4-11ef-b54e-0afff5167d9d",
-      "AmplifyAppId": "dc7ln13od3gt9"
+      "DeploymentBucketName": "amplify-nutrimancer-dev-264dd-deployment",
+      "UnauthRoleName": "amplify-nutrimancer-dev-264dd-unauthRole",
+      "StackName": "amplify-nutrimancer-dev-264dd",
+      "StackId": "arn:aws:cloudformation:us-east-1:010526255008:stack/amplify-nutrimancer-dev-264dd/afe9fbd0-90cc-11ef-a416-0affe6f5a7a9",
+      "AmplifyAppId": "d20zin2ranfwwu"
     },
     "categories": {
       "function": {
-        "processFood": {
-          "deploymentBucketName": "amplify-bioessence-dev-4b436-deployment",
-          "s3Key": "amplify-builds/processFood-713336516547776d6f2f-build.zip"
+        "FoodProcess": {
+          "apiKey": "AIzaSyCgOxUNWq5oAYzpOtWfw7JWOAEBevH1RHg",
+          "nutritionixAppId": "206b7bde",
+          "nutritionixAppKey": "e7b85e670cf3e5793f74e2c771e6b760",
+          "deploymentBucketName": "amplify-nutrimancer-dev-264dd-deployment",
+          "s3Key": "amplify-builds/FoodProcess-78344f36466a6c466863-build.zip"
         },
-        "fetchNutrientData": {
-          "deploymentBucketName": "amplify-bioessence-dev-4b436-deployment",
-          "s3Key": "amplify-builds/fetchNutrientData-6d64615a76324266624a-build.zip"
+        "NutrientFetch": {
+          "apiKey": "AIzaSyCgOxUNWq5oAYzpOtWfw7JWOAEBevH1RHg",
+          "nutritionixAppId": "206b7bde",
+          "nutritionixAppKey": "e7b85e670cf3e5793f74e2c771e6b760",
+          "deploymentBucketName": "amplify-nutrimancer-dev-264dd-deployment",
+          "s3Key": "amplify-builds/NutrientFetch-52744f3558345171724f-build.zip"
         }
       },
       "api": {
-        "backend": {}
+        "FoodHandler": {},
+        "NutrientHandler": {}
       }
     }
   }

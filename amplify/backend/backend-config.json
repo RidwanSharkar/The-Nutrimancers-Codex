@@ -1,6 +1,6 @@
 {
   "api": {
-    "backend": {
+    "FoodHandler": {
       "dependsOn": [
         {
           "attributes": [
@@ -8,15 +8,21 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "processFood"
-        },
+          "resourceName": "FoodProcess"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "NutrientHandler": {
+      "dependsOn": [
         {
           "attributes": [
             "Name",
             "Arn"
           ],
           "category": "function",
-          "resourceName": "fetchNutrientData"
+          "resourceName": "NutrientFetch"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -24,47 +30,97 @@
     }
   },
   "function": {
-    "fetchNutrientData": {
+    "FoodProcess": {
       "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "processFood": {
+    "NutrientFetch": {
       "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "parameters": {
-    "AMPLIFY_function_fetchNutrientData_deploymentBucketName": {
+    "AMPLIFY_function_FoodProcess_apiKey": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "fetchNutrientData"
+          "resourceName": "FoodProcess"
         }
       ]
     },
-    "AMPLIFY_function_fetchNutrientData_s3Key": {
+    "AMPLIFY_function_FoodProcess_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "fetchNutrientData"
+          "resourceName": "FoodProcess"
         }
       ]
     },
-    "AMPLIFY_function_processFood_deploymentBucketName": {
+    "AMPLIFY_function_FoodProcess_nutritionixAppId": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "processFood"
+          "resourceName": "FoodProcess"
         }
       ]
     },
-    "AMPLIFY_function_processFood_s3Key": {
+    "AMPLIFY_function_FoodProcess_nutritionixAppKey": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "processFood"
+          "resourceName": "FoodProcess"
+        }
+      ]
+    },
+    "AMPLIFY_function_FoodProcess_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "FoodProcess"
+        }
+      ]
+    },
+    "AMPLIFY_function_NutrientFetch_apiKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "NutrientFetch"
+        }
+      ]
+    },
+    "AMPLIFY_function_NutrientFetch_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "NutrientFetch"
+        }
+      ]
+    },
+    "AMPLIFY_function_NutrientFetch_nutritionixAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "NutrientFetch"
+        }
+      ]
+    },
+    "AMPLIFY_function_NutrientFetch_nutritionixAppKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "NutrientFetch"
+        }
+      ]
+    },
+    "AMPLIFY_function_NutrientFetch_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "NutrientFetch"
         }
       ]
     }

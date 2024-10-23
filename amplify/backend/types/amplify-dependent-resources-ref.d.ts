@@ -1,20 +1,25 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
-    "backend": {
+    "FoodHandler": {
+      "ApiId": "string",
+      "ApiName": "string",
+      "RootUrl": "string"
+    },
+    "NutrientHandler": {
       "ApiId": "string",
       "ApiName": "string",
       "RootUrl": "string"
     }
   },
   "function": {
-    "fetchNutrientData": {
+    "FoodProcess": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
     },
-    "processFood": {
+    "NutrientFetch": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",

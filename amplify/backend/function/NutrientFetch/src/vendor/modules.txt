@@ -1,0 +1,13 @@
+# github.com/RidwanSharkar/Bioessence/backend v0.0.0-20241021222343-d13a91f6df29
+## explicit; go 1.23.2
+github.com/RidwanSharkar/Bioessence/backend/machinist
+github.com/RidwanSharkar/Bioessence/backend/models
+github.com/RidwanSharkar/Bioessence/backend/services
+github.com/RidwanSharkar/Bioessence/backend/utils
+# github.com/aws/aws-lambda-go v1.47.0
+## explicit; go 1.18
+github.com/aws/aws-lambda-go/events
+github.com/aws/aws-lambda-go/lambda
+github.com/aws/aws-lambda-go/lambda/handlertrace
+github.com/aws/aws-lambda-go/lambda/messages
+github.com/aws/aws-lambda-go/lambdacontext

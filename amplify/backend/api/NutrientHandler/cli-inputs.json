@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/fetch-nutrient-data": {
+      "name": "/fetch-nutrient-data",
+      "lambdaFunction": "NutrientFetch",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
