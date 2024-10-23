@@ -18,14 +18,14 @@
           "nutritionixAppId": "206b7bde",
           "nutritionixAppKey": "e7b85e670cf3e5793f74e2c771e6b760",
           "deploymentBucketName": "amplify-nutrimancer-dev-264dd-deployment",
-          "s3Key": "amplify-builds/FoodProcess-78344f36466a6c466863-build.zip"
+          "s3Key": "amplify-builds/FoodProcess-72477955316173464e63-build.zip"
         },
         "NutrientFetch": {
           "apiKey": "AIzaSyCgOxUNWq5oAYzpOtWfw7JWOAEBevH1RHg",
           "nutritionixAppId": "206b7bde",
           "nutritionixAppKey": "e7b85e670cf3e5793f74e2c771e6b760",
           "deploymentBucketName": "amplify-nutrimancer-dev-264dd-deployment",
-          "s3Key": "amplify-builds/NutrientFetch-52744f3558345171724f-build.zip"
+          "s3Key": "amplify-builds/NutrientFetch-57393452686750463155-build.zip"
         }
       },
       "api": {
