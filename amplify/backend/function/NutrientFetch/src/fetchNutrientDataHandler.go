@@ -1,4 +1,4 @@
-// backend/handlers/fetchNutrientDataHandler/fetchNutrientDataHandler.go
+// amplify/backend/function/NutrientFetch/src/fetchNutrientDataHandler.go
 package main
 
 import (

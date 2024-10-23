@@ -1,4 +1,4 @@
-// backend/handlers/processFoodHandler/processFoodHandler.go
+// amplify/backend/function/FoodProcess/src/processFoodHandler.go
 package main
 
 import (
