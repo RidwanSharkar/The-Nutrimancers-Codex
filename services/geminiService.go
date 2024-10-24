@@ -11,8 +11,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/RidwanSharkar/Bioessence/backend/models"
-	"github.com/RidwanSharkar/Bioessence/backend/utils"
+	"github.com/RidwanSharkar/Bioessence/models"
+	"github.com/RidwanSharkar/Bioessence/utils"
 )
 
 /*=================================================================================================*/

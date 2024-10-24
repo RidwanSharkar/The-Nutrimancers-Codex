@@ -18,19 +18,19 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [],
-      "lastBuildTimeStamp": "2024-10-23T23:53:06.856Z",
+      "lastBuildTimeStamp": "2024-10-24T15:47:19.077Z",
       "lastBuildType": "PROD",
-      "lastPackageTimeStamp": "2024-10-23T02:55:05.681Z",
-      "distZipFilename": "FoodProcess-72477955316173464e63-build.zip",
+      "lastPackageTimeStamp": "2024-10-24T15:47:21.405Z",
+      "distZipFilename": "FoodProcess-69423363794255757530-build.zip",
       "s3Bucket": {
         "deploymentBucketName": "amplify-nutrimancer-dev-264dd-deployment",
-        "s3Key": "amplify-builds/FoodProcess-72477955316173464e63-build.zip"
+        "s3Key": "amplify-builds/FoodProcess-69423363794255757530-build.zip"
       },
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-nutrimancer-dev-264dd-deployment/amplify-cfn-templates/function/FoodProcess-cloudformation-template.json",
         "logicalId": "functionFoodProcess"
       },
-      "lastPushTimeStamp": "2024-10-23T23:52:54.877Z",
+      "lastPushTimeStamp": "2024-10-24T15:48:38.345Z",
       "output": {
         "LambdaExecutionRoleArn": "arn:aws:iam::010526255008:role/nutrimancerLambdaRole7e0c5b49-dev",
         "Region": "us-east-1",
@@ -38,26 +38,26 @@
         "Name": "FoodProcess-dev",
         "LambdaExecutionRole": "nutrimancerLambdaRole7e0c5b49-dev"
       },
-      "lastPushDirHash": "rGyU1asFNcYt86dF7OcaY25aBL8="
+      "lastPushDirHash": "iB3cyBUuu0IcR+S172HojCHhPO8="
     },
     "NutrientFetch": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [],
-      "lastBuildTimeStamp": "2024-10-23T02:55:14.470Z",
+      "lastBuildTimeStamp": "2024-10-24T15:47:29.932Z",
       "lastBuildType": "PROD",
-      "lastPackageTimeStamp": "2024-10-23T02:55:16.729Z",
-      "distZipFilename": "NutrientFetch-57393452686750463155-build.zip",
+      "lastPackageTimeStamp": "2024-10-24T15:47:31.932Z",
+      "distZipFilename": "NutrientFetch-327950545553624a6d4e-build.zip",
       "s3Bucket": {
         "deploymentBucketName": "amplify-nutrimancer-dev-264dd-deployment",
-        "s3Key": "amplify-builds/NutrientFetch-57393452686750463155-build.zip"
+        "s3Key": "amplify-builds/NutrientFetch-327950545553624a6d4e-build.zip"
       },
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-nutrimancer-dev-264dd-deployment/amplify-cfn-templates/function/NutrientFetch-cloudformation-template.json",
         "logicalId": "functionNutrientFetch"
       },
-      "lastPushTimeStamp": "2024-10-23T23:52:54.884Z",
+      "lastPushTimeStamp": "2024-10-24T15:48:38.345Z",
       "output": {
         "LambdaExecutionRoleArn": "arn:aws:iam::010526255008:role/nutrimancerLambdaRole06e18238-dev",
         "Region": "us-east-1",
@@ -65,7 +65,7 @@
         "Name": "NutrientFetch-dev",
         "LambdaExecutionRole": "nutrimancerLambdaRole06e18238-dev"
       },
-      "lastPushDirHash": "W94RhgPF1U7eW0mGRjEnbFdwx4I="
+      "lastPushDirHash": "2yPTUSbJmNxQHVMm7C9ZWzZycXQ="
     }
   },
   "api": {
@@ -86,7 +86,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-nutrimancer-dev-264dd-deployment/amplify-cfn-templates/api/FoodHandler-cloudformation-template.json",
         "logicalId": "apiFoodHandler"
       },
-      "lastPushTimeStamp": "2024-10-23T23:52:54.891Z",
+      "lastPushTimeStamp": "2024-10-24T15:48:38.117Z",
       "output": {
         "ApiName": "FoodHandler",
         "RootUrl": "https://n046obhx9f.execute-api.us-east-1.amazonaws.com/dev",
@@ -111,7 +111,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-nutrimancer-dev-264dd-deployment/amplify-cfn-templates/api/NutrientHandler-cloudformation-template.json",
         "logicalId": "apiNutrientHandler"
       },
-      "lastPushTimeStamp": "2024-10-23T23:52:54.897Z",
+      "lastPushTimeStamp": "2024-10-24T15:48:38.121Z",
       "output": {
         "ApiName": "NutrientHandler",
         "RootUrl": "https://mfxxb1663f.execute-api.us-east-1.amazonaws.com/dev",
