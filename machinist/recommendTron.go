@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/RidwanSharkar/Bioessence/models"
+	"github.com/RidwanSharkar/Bioessence-Codex/models"
 )
 
 // Recommendation struct

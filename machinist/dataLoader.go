@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/RidwanSharkar/Bioessence/models"
+	"github.com/RidwanSharkar/Bioessence-Codex/models"
 )
 
 var (

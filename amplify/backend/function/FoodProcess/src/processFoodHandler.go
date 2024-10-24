@@ -6,10 +6,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/RidwanSharkar/Bioessence/backend/machinist"
-	"github.com/RidwanSharkar/Bioessence/backend/models"
-	"github.com/RidwanSharkar/Bioessence/backend/services"
-	"github.com/RidwanSharkar/Bioessence/backend/utils"
+	"github.com/RidwanSharkar/Bioessence-Codex/machinist"
+	"github.com/RidwanSharkar/Bioessence-Codex/models"
+	"github.com/RidwanSharkar/Bioessence-Codex/services"
+	"github.com/RidwanSharkar/Bioessence-Codex/utils"
 
 	"github.com/aws/aws-lambda-go/events"
 )
