@@ -1,0 +1,37 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-nutrimancer-dev-264dd-authRole",
+      "UnauthRoleArn": "arn:aws:iam::010526255008:role/amplify-nutrimancer-dev-264dd-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::010526255008:role/amplify-nutrimancer-dev-264dd-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-nutrimancer-dev-264dd-deployment",
+      "UnauthRoleName": "amplify-nutrimancer-dev-264dd-unauthRole",
+      "StackName": "amplify-nutrimancer-dev-264dd",
+      "StackId": "arn:aws:cloudformation:us-east-1:010526255008:stack/amplify-nutrimancer-dev-264dd/afe9fbd0-90cc-11ef-a416-0affe6f5a7a9",
+      "AmplifyAppId": "d20zin2ranfwwu"
+    },
+    "categories": {
+      "function": {
+        "FoodProcess": {
+          "apiKey": "AIzaSyCgOxUNWq5oAYzpOtWfw7JWOAEBevH1RHg",
+          "nutritionixAppId": "206b7bde",
+          "nutritionixAppKey": "e7b85e670cf3e5793f74e2c771e6b760",
+          "deploymentBucketName": "amplify-nutrimancer-dev-264dd-deployment",
+          "s3Key": "amplify-builds/FoodProcess-566b6d65724a4639316f-build.zip"
+        },
+        "NutrientFetch": {
+          "apiKey": "AIzaSyCgOxUNWq5oAYzpOtWfw7JWOAEBevH1RHg",
+          "nutritionixAppId": "206b7bde",
+          "nutritionixAppKey": "e7b85e670cf3e5793f74e2c771e6b760",
+          "deploymentBucketName": "amplify-nutrimancer-dev-264dd-deployment",
+          "s3Key": "amplify-builds/NutrientFetch-69776f4c497a6e384d35-build.zip"
+        }
+      },
+      "api": {
+        "FoodHandler": {},
+        "NutrientHandler": {}
+      }
+    }
+  }
+}
