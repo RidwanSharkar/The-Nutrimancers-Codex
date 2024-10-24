@@ -27,9 +27,6 @@ func RespondWithError(resp events.APIGatewayProxyResponse, statusCode int, messa
 // LogError logs errors (can be expanded to use structured logging)
 func LogError(err error, context string) {
 	if err != nil {
-		// Implement logging as needed, e.g., using log package or a logging service
-		// For simplicity, using standard log
-		// import "log"
-		// log.Printf("Error in %s: %v\n", context, err)
+
 	}
 }
