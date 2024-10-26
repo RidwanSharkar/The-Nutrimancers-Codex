@@ -1,13 +1,13 @@
 {
   "whyContinueWithGen1": "Prefer not to answer",
-  "projectName": "Nutrimancer",
+  "projectName": "TheNutrimancersCodex",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {
     "framework": "react",
     "config": {
       "SourceDir": "frontend/src",
-      "DistributionDir": "frontend/dist",
+      "DistributionDir": "frontend/build",
       "BuildCommand": "npm run build",
       "StartCommand": "npm start"
     }
