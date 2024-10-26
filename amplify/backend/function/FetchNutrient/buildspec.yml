@@ -7,16 +7,18 @@ phases:
   pre_build:
     commands:
       - echo Pre-build started on `date`
+      - cd ../../../../bioessence
       - go mod tidy
+      - cd ../amplify/backend/function/fetchNutrientData/src
   build:
     commands:
       - echo Build started on `date`
-      - GOOS=linux GOARCH=amd64 go build -o main fetchNutrientHandler.go
+      - GOOS=linux GOARCH=amd64 go build -o main fetchNutrientDataHandler.go
   post_build:
     commands:
       - echo Build completed on `date`
 
 artifacts:
   files:
-    - main
+    - src/main
   discard-paths: yes
