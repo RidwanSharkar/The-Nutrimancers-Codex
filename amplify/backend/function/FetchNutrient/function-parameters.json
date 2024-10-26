@@ -12,6 +12,18 @@
     {
       "cloudFormationParameterName": "nutritionixAppKey",
       "environmentVariableName": "NUTRITIONIX_APP_KEY"
+    },
+    {
+      "cloudFormationParameterName": "apiKey",
+      "environmentVariableName": "API_KEY"
+    },
+    {
+      "cloudFormationParameterName": "nutritionixAppId",
+      "environmentVariableName": "NUTRITIONIX_APP_ID"
+    },
+    {
+      "cloudFormationParameterName": "nutritionixAppKey",
+      "environmentVariableName": "NUTRITIONIX_APP_KEY"
     }
   ]
 }

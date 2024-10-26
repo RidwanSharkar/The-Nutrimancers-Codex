@@ -10,6 +10,20 @@
       "StackName": "amplify-thenutrimancerscodex-dev-61589",
       "StackId": "arn:aws:cloudformation:us-east-1:010526255008:stack/amplify-thenutrimancerscodex-dev-61589/7e441390-9342-11ef-8019-12127bbfe729",
       "AmplifyAppId": "d48vfnn7rt4qi"
+    },
+    "categories": {
+      "function": {
+        "ProcessFood": {
+          "apiKey": "AIzaSyCgOxUNWq5oAYzpOtWfw7JWOAEBevH1RHg",
+          "nutritionixAppId": "206b7bde",
+          "nutritionixAppKey": "e7b85e670cf3e5793f74e2c771e6b760"
+        },
+        "FetchNutrient": {
+          "apiKey": "AIzaSyCgOxUNWq5oAYzpOtWfw7JWOAEBevH1RHg",
+          "nutritionixAppId": "206b7bde",
+          "nutritionixAppKey": "e7b85e670cf3e5793f74e2c771e6b760"
+        }
+      }
     }
   }
 }

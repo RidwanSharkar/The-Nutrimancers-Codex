@@ -11,5 +11,49 @@
       "StackId": "arn:aws:cloudformation:us-east-1:010526255008:stack/amplify-thenutrimancerscodex-dev-61589/7e441390-9342-11ef-8019-12127bbfe729",
       "AmplifyAppId": "d48vfnn7rt4qi"
     }
+  },
+  "function": {
+    "ProcessFood": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": []
+    },
+    "FetchNutrient": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": []
+    }
+  },
+  "api": {
+    "ProcessFood": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "ProcessFood",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "FetchNutrient": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "FetchNutrient",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    }
   }
 }

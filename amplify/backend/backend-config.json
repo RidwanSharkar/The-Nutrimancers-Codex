@@ -1,1 +1,96 @@
-{}
+{
+  "api": {
+    "FetchNutrient": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "FetchNutrient"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "ProcessFood": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "ProcessFood"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "function": {
+    "FetchNutrient": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "ProcessFood": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_FetchNutrient_apiKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "FetchNutrient"
+        }
+      ]
+    },
+    "AMPLIFY_function_FetchNutrient_nutritionixAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "FetchNutrient"
+        }
+      ]
+    },
+    "AMPLIFY_function_FetchNutrient_nutritionixAppKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "FetchNutrient"
+        }
+      ]
+    },
+    "AMPLIFY_function_ProcessFood_apiKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ProcessFood"
+        }
+      ]
+    },
+    "AMPLIFY_function_ProcessFood_nutritionixAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ProcessFood"
+        }
+      ]
+    },
+    "AMPLIFY_function_ProcessFood_nutritionixAppKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ProcessFood"
+        }
+      ]
+    }
+  }
+}
