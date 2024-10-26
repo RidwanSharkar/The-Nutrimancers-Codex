@@ -7,6 +7,7 @@ amplify/logs
 amplify/mock-data
 amplify/mock-api-resources
 amplify/backend/amplify-meta.json
+amplify/team-provider-info
 amplify/backend/.temp
 build/
 dist/

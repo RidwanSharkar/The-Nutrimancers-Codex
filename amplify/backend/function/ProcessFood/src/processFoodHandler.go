@@ -12,6 +12,7 @@ import (
 	"The-Nutrimancers-Codex/bioessence/utils"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-lambda-go/lambda"
 )
 
 func HandleProcessFood(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -75,4 +76,8 @@ func HandleProcessFood(ctx context.Context, request events.APIGatewayProxyReques
 		Body:       string(respBody),
 		Headers:    map[string]string{"Content-Type": "application/json"},
 	}, nil
+}
+
+func main() {
+	lambda.Start(HandleProcessFood)
 }
