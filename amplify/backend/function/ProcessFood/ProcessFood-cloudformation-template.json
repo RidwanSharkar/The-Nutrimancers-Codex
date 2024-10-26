@@ -15,15 +15,6 @@
     },
     "s3Key": {
       "Type": "String"
-    },
-    "apiKey": {
-      "Type": "String"
-    },
-    "nutritionixAppId": {
-      "Type": "String"
-    },
-    "nutritionixAppKey": {
-      "Type": "String"
     }
   },
   "Conditions": {
@@ -78,15 +69,6 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
-            },
-            "API_KEY": {
-              "Ref": "apiKey"
-            },
-            "NUTRITIONIX_APP_ID": {
-              "Ref": "nutritionixAppId"
-            },
-            "NUTRITIONIX_APP_KEY": {
-              "Ref": "nutritionixAppKey"
             }
           }
         },

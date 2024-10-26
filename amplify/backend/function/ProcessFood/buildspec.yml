@@ -18,5 +18,5 @@ phases:
 
 artifacts:
   files:
-    - main
+    - src/main
   discard-paths: yes
