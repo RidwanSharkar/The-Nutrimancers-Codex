@@ -7,9 +7,7 @@ phases:
   pre_build:
     commands:
       - echo Pre-build started on `date`
-      - cd ../../../../bioessence
       - go mod tidy
-      - cd ../../function/ProcessFood/src
   build:
     commands:
       - echo Build started on `date`
@@ -20,5 +18,5 @@ phases:
 
 artifacts:
   files:
-    - src/main
+    - main
   discard-paths: yes
