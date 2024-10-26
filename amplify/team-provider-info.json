@@ -15,11 +15,17 @@
       "function": {
         "ProcessFood": {
           "deploymentBucketName": "amplify-thenutrimancerscodex-dev-61589-deployment",
-          "s3Key": "amplify-builds/ProcessFood-334d4944665062356f5a-build.zip"
+          "s3Key": "amplify-builds/ProcessFood-6e366e56555743506c71-build.zip",
+          "apiKey": "AIzaSyCgOxUNWq5oAYzpOtWfw7JWOAEBevH1RHg",
+          "nutritionixAppId": "206b7bde",
+          "nutritionixAppKey": "e7b85e670cf3e5793f74e2c771e6b760"
         },
         "FetchNutrient": {
           "deploymentBucketName": "amplify-thenutrimancerscodex-dev-61589-deployment",
-          "s3Key": "amplify-builds/FetchNutrient-6e737542666669625642-build.zip"
+          "s3Key": "amplify-builds/FetchNutrient-524b446e653066467451-build.zip",
+          "apiKey": "AIzaSyCgOxUNWq5oAYzpOtWfw7JWOAEBevH1RHg",
+          "nutritionixAppId": "206b7bde",
+          "nutritionixAppKey": "e7b85e670cf3e5793f74e2c771e6b760"
         }
       },
       "api": {
