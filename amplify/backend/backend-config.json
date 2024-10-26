@@ -52,6 +52,14 @@
         }
       ]
     },
+    "AMPLIFY_function_FetchNutrient_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "FetchNutrient"
+        }
+      ]
+    },
     "AMPLIFY_function_FetchNutrient_nutritionixAppId": {
       "usedBy": [
         {
@@ -68,7 +76,23 @@
         }
       ]
     },
+    "AMPLIFY_function_FetchNutrient_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "FetchNutrient"
+        }
+      ]
+    },
     "AMPLIFY_function_ProcessFood_apiKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ProcessFood"
+        }
+      ]
+    },
+    "AMPLIFY_function_ProcessFood_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
@@ -85,6 +109,14 @@
       ]
     },
     "AMPLIFY_function_ProcessFood_nutritionixAppKey": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ProcessFood"
+        }
+      ]
+    },
+    "AMPLIFY_function_ProcessFood_s3Key": {
       "usedBy": [
         {
           "category": "function",
