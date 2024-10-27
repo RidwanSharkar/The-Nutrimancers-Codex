@@ -3,22 +3,25 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      golang: 1.23.2
+      go: 1.23.2
+    commands:
+      - echo "Setting up Go environment..."
+      - go version
   pre_build:
     commands:
-      - echo Pre-build started on `date`
-      - cd ../../../../bioessence
+      - echo "Installing dependencies..."
       - go mod tidy
-      - cd ../amplify/backend/function/processFood/src
   build:
     commands:
-      - echo Build started on `date`
-      - GOOS=linux GOARCH=amd64 go build -o main processFoodHandler.go
-  post_build:
-    commands:
-      - echo Build completed on `date`
+      - echo "Building processFoodHandler..."
+      - go build -o build/processFoodHandler src/processFoodHandler.go
 
 artifacts:
   files:
-    - src/main
+    - build/processFoodHandler
   discard-paths: yes
+
+cache:
+  paths:
+    - /go/pkg/mod
+    - ~/.cache/go-build
