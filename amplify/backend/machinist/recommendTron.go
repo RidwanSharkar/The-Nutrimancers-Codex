@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"The-Nutrimancers-Codex/amplify/backend/models"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/models"
 )
 
 // Recommendation struct

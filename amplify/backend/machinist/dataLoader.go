@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"sync"
 
-	"The-Nutrimancers-Codex/amplify/backend/models"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/models"
 )
 
 var (

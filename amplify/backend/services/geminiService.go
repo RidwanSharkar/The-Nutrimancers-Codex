@@ -2,8 +2,8 @@
 package services
 
 import (
-	"The-Nutrimancers-Codex/amplify/backend/models"
-	"The-Nutrimancers-Codex/amplify/backend/utils"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/models"
+
 	"bytes"
 	"encoding/json"
 	"errors"
@@ -12,6 +12,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/utils"
 )
 
 /*=================================================================================================*/
