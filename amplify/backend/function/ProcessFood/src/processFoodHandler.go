@@ -6,10 +6,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/RidwanSharkar/TheNutrimancersCodex/backend/machinist"
-	"github.com/RidwanSharkar/TheNutrimancersCodex/backend/models"
-	"github.com/RidwanSharkar/TheNutrimancersCodex/backend/services"
-	"github.com/RidwanSharkar/TheNutrimancersCodex/backend/utils"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/machinist"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/models"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/services"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/utils"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
