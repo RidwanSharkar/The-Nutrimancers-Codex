@@ -2,8 +2,8 @@
 package services
 
 import (
-	"The-Nutrimancers-Codex/bioessence/models"
-	"The-Nutrimancers-Codex/bioessence/utils"
+	"The-Nutrimancers-Codex/amplify/backend/models"
+	"The-Nutrimancers-Codex/amplify/backend/utils"
 	"bytes"
 	"encoding/json"
 	"errors"

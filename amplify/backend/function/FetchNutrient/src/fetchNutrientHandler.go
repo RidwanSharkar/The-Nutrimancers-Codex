@@ -6,9 +6,9 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"The-Nutrimancers-Codex/bioessence/machinist"
-	"The-Nutrimancers-Codex/bioessence/services"
-	"The-Nutrimancers-Codex/bioessence/utils"
+	"github.com/RidwanSharkar/TheNutrimancersCodex/backend/machinist"
+	"github.com/RidwanSharkar/TheNutrimancersCodex/backend/services"
+	"github.com/RidwanSharkar/TheNutrimancersCodex/backend/utils"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
