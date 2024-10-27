@@ -1,5 +1,5 @@
 {
-  "whyContinueWithGen1": "Prefer not to answer",
+  "whyContinueWithGen1": "I am a current Gen 1 user",
   "projectName": "TheNutrimancersCodex",
   "version": "3.1",
   "frontend": "javascript",
@@ -7,9 +7,9 @@
     "framework": "react",
     "config": {
       "SourceDir": "frontend/src",
-      "DistributionDir": "frontend/build",
+      "DistributionDir": "frontend/dist",
       "BuildCommand": "npm run build",
-      "StartCommand": "npm start"
+      "StartCommand": "npm run start"
     }
   },
   "providers": [

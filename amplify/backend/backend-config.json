@@ -1,126 +1,25 @@
 {
-  "api": {
-    "FetchNutrient": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "FetchNutrient"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
-    },
-    "ProcessFood": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "ProcessFood"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
-    }
-  },
-  "function": {
-    "FetchNutrient": {
-      "build": true,
-      "dependsOn": [],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "ProcessFood": {
-      "build": true,
-      "dependsOn": [],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
+  "hosting": {
+    "amplifyhosting": {
+      "lastPushTimeStamp": "2024-10-27T21:29:27.078Z",
+      "service": "amplifyhosting",
+      "type": "cicd"
     }
   },
   "parameters": {
-    "AMPLIFY_function_FetchNutrient_apiKey": {
+    "AMPLIFY_hosting_amplifyhosting_appId": {
       "usedBy": [
         {
-          "category": "function",
-          "resourceName": "FetchNutrient"
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
         }
       ]
     },
-    "AMPLIFY_function_FetchNutrient_deploymentBucketName": {
+    "AMPLIFY_hosting_amplifyhosting_type": {
       "usedBy": [
         {
-          "category": "function",
-          "resourceName": "FetchNutrient"
-        }
-      ]
-    },
-    "AMPLIFY_function_FetchNutrient_nutritionixAppId": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "FetchNutrient"
-        }
-      ]
-    },
-    "AMPLIFY_function_FetchNutrient_nutritionixAppKey": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "FetchNutrient"
-        }
-      ]
-    },
-    "AMPLIFY_function_FetchNutrient_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "FetchNutrient"
-        }
-      ]
-    },
-    "AMPLIFY_function_ProcessFood_apiKey": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "ProcessFood"
-        }
-      ]
-    },
-    "AMPLIFY_function_ProcessFood_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "ProcessFood"
-        }
-      ]
-    },
-    "AMPLIFY_function_ProcessFood_nutritionixAppId": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "ProcessFood"
-        }
-      ]
-    },
-    "AMPLIFY_function_ProcessFood_nutritionixAppKey": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "ProcessFood"
-        }
-      ]
-    },
-    "AMPLIFY_function_ProcessFood_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "ProcessFood"
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
         }
       ]
     }

@@ -1,15 +1,10 @@
-.vscode
-
-#amplify
+#amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/logs
 amplify/mock-data
 amplify/mock-api-resources
-
-#amplify/backend/amplify-meta.json
-#amplify/team-provider-info.json
-
+amplify/backend/amplify-meta.json
 amplify/backend/.temp
 build/
 dist/
@@ -23,4 +18,4 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
 **.sample
-#amplify
+#amplify-do-not-edit-end

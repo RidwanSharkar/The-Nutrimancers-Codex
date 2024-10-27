@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"sync"
 
-	"The-Nutrimancers-Codex/bioessence/models"
+	"The-Nutrimancers-Codex/amplify/backend/models"
 )
 
 var (

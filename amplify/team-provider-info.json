@@ -1,5 +1,5 @@
 {
-  "providers": {
+  "dev": {
     "awscloudformation": {
       "AuthRoleName": "amplify-thenutrimancerscodex-dev-a001a-authRole",
       "UnauthRoleArn": "arn:aws:iam::010526255008:role/amplify-thenutrimancerscodex-dev-a001a-unauthRole",
@@ -10,13 +10,14 @@
       "StackName": "amplify-thenutrimancerscodex-dev-a001a",
       "StackId": "arn:aws:cloudformation:us-east-1:010526255008:stack/amplify-thenutrimancerscodex-dev-a001a/802ff700-94a0-11ef-ab2c-0affe087abbf",
       "AmplifyAppId": "dsson5aag588c"
-    }
-  },
-  "hosting": {
-    "amplifyhosting": {
-      "service": "amplifyhosting",
-      "type": "cicd",
-      "lastPushTimeStamp": "2024-10-27T21:29:27.078Z"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dsson5aag588c",
+          "type": "cicd"
+        }
+      }
     }
   }
 }
