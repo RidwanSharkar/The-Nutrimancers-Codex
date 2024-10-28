@@ -1,29 +1,8 @@
 {
   "lambdaLayers": [],
-  "environmentVariableList": [
-    {
-      "cloudFormationParameterName": "apiKey",
-      "environmentVariableName": "API_KEY"
-    },
-    {
-      "cloudFormationParameterName": "nutritionixAppId",
-      "environmentVariableName": "NUTRITIONIX_APP_ID"
-    },
-    {
-      "cloudFormationParameterName": "nutritionixAppKey",
-      "environmentVariableName": "NUTRITIONIX_APP_KEY"
-    },
-    {
-      "cloudFormationParameterName": "apiKey",
-      "environmentVariableName": "API_KEY"
-    },
-    {
-      "cloudFormationParameterName": "nutritionixAppId",
-      "environmentVariableName": "NUTRITIONIX_APP_ID"
-    },
-    {
-      "cloudFormationParameterName": "nutritionixAppKey",
-      "environmentVariableName": "NUTRITIONIX_APP_KEY"
-    }
+  "secretNames": [
+    "API_KEY",
+    "NUTRITIONIX_APP_ID",
+    "NUTRITIONIX_APP_KEY"
   ]
 }

@@ -19,8 +19,12 @@
         }
       },
       "function": {
-        "FetchNutrient": {},
-        "ProcessFood": {}
+        "FetchNutrient": {
+          "secretsPathAmplifyAppId": "dsson5aag588c"
+        },
+        "ProcessFood": {
+          "secretsPathAmplifyAppId": "dsson5aag588c"
+        }
       }
     }
   }

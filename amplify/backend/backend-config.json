@@ -32,11 +32,13 @@
   "function": {
     "FetchNutrient": {
       "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
     "ProcessFood": {
       "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
@@ -49,6 +51,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_FetchNutrient_secretsPathAmplifyAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "FetchNutrient"
+        }
+      ]
+    },
+    "AMPLIFY_function_ProcessFood_secretsPathAmplifyAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "ProcessFood"
+        }
+      ]
+    },
     "AMPLIFY_hosting_amplifyhosting_appId": {
       "usedBy": [
         {
