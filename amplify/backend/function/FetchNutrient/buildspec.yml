@@ -2,14 +2,16 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      go: 1.23.2
     commands:
-      - echo "Setting up Go environment..."
+      - echo "Installing Go..."
+      - wget https://golang.org/dl/go1.18.linux-amd64.tar.gz
+      - tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz
+      - export PATH=$PATH:/usr/local/go/bin
+      - echo "Go version:"
       - go version
   pre_build:
     commands:
-      - echo "Installing dependencies..."
+      - echo "Installing backend dependencies..."
       - go mod tidy
   build:
     commands:
