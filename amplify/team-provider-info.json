@@ -17,6 +17,10 @@
           "appId": "dsson5aag588c",
           "type": "cicd"
         }
+      },
+      "function": {
+        "FetchNutrient": {},
+        "ProcessFood": {}
       }
     }
   }
