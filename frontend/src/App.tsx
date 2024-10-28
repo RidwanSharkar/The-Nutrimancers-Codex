@@ -229,7 +229,7 @@ const App: React.FC = () => {
 
   const handleRecommendationClick = async (suggestion: string) => {
     try {
-      const response = await fetch('https://r8kb40m8i5.execute-api.us-east-1.amazonaws.com/dev/fetch-nutrient', {
+      const response = await fetch('https://ru2is20qm8.execute-api.us-east-1.amazonaws.com/dev/fetch-nutrient', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

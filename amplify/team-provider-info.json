@@ -20,11 +20,19 @@
       },
       "function": {
         "FetchNutrient": {
-          "secretsPathAmplifyAppId": "dsson5aag588c"
+          "secretsPathAmplifyAppId": "dsson5aag588c",
+          "deploymentBucketName": "amplify-thenutrimancerscodex-dev-a001a-deployment",
+          "s3Key": "amplify-builds/FetchNutrient-6e413955784e4e743754-build.zip"
         },
         "ProcessFood": {
-          "secretsPathAmplifyAppId": "dsson5aag588c"
+          "secretsPathAmplifyAppId": "dsson5aag588c",
+          "deploymentBucketName": "amplify-thenutrimancerscodex-dev-a001a-deployment",
+          "s3Key": "amplify-builds/ProcessFood-342b4a4a643278566443-build.zip"
         }
+      },
+      "api": {
+        "fetchNutrient": {},
+        "processFood": {}
       }
     }
   }
