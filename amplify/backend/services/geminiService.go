@@ -1,4 +1,4 @@
-// backend/services/geminiService.go
+// The-Nutrimancers-Codex/amplify/backend/services/geminiService.go
 package services
 
 import (

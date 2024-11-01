@@ -1,11 +1,11 @@
-// backend/machinist/cosineSimilarity.go
+// The-Nutrimancers-Codex/amplify/backend/machinist/cosineSimilarity.go
 package machinist
 
 import (
 	"math"
 )
 
-// CosineSimilarity calculates the cosine similarity between two vectors
+// Calculates the cosine similarity between two vectors
 func CosineSimilarity(a, b []float64) float64 {
 	if len(a) != len(b) {
 		return 0
