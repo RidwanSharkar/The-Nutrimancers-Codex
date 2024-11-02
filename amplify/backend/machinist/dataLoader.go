@@ -2,15 +2,16 @@
 package machinist
 
 import (
+	"embed"
 	"encoding/csv"
 	"fmt"
-	"os"
 	"strconv"
 	"sync"
 
 	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/models"
 )
 
+var datasetFS embed.FS
 var (
 	foodItems     []models.FoodItem
 	nutrientNames []string
@@ -18,9 +19,9 @@ var (
 	loadErr       error
 )
 
-func LoadFoodData(filePath string) ([]models.FoodItem, []string, error) {
+func LoadFoodData() ([]models.FoodItem, []string, error) {
 	once.Do(func() {
-		file, err := os.Open(filePath)
+		file, err := datasetFS.Open("dataset.csv")
 		if err != nil {
 			loadErr = err
 			return

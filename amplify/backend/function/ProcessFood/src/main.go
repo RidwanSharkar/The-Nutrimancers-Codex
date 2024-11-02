@@ -35,7 +35,7 @@ func HandleProcessFood(ctx context.Context, request events.APIGatewayProxyReques
 	cleanedIngredients := services.CleanIngredientList(ingredients)
 
 	// Load food data
-	foodItems, nutrientNames, loadErr := machinist.LoadFoodData("dataset.csv")
+	foodItems, nutrientNames, loadErr := machinist.LoadFoodData()
 	if loadErr != nil {
 		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusInternalServerError, "Error loading food data: "+loadErr.Error())
 	}
