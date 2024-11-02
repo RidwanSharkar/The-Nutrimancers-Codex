@@ -4,6 +4,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/machinist"
@@ -16,13 +17,18 @@ import (
 )
 
 func HandleProcessFood(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	log.Println("HandleProcessFood invoked")
+	log.Printf("Request Body: %s\n", request.Body)
+
 	var req models.FoodRequest
 	err := json.Unmarshal([]byte(request.Body), &req)
 	if err != nil {
+		log.Printf("Error unmarshalling request body: %v\n", err)
 		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusBadRequest, "Invalid request payload")
 	}
 
 	if req.FoodDescription == "" {
+		log.Println("Food description is empty")
 		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusBadRequest, "Food description is required")
 	}
 
