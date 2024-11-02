@@ -11,7 +11,9 @@ import (
 	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/models"
 )
 
+//go:embed dataset.csv
 var datasetFS embed.FS
+
 var (
 	foodItems     []models.FoodItem
 	nutrientNames []string
