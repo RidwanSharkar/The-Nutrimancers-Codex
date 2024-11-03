@@ -22,12 +22,12 @@
         "FetchNutrient": {
           "secretsPathAmplifyAppId": "dsson5aag588c",
           "deploymentBucketName": "amplify-thenutrimancerscodex-dev-a001a-deployment",
-          "s3Key": "amplify-builds/FetchNutrient-4d4445432b694c486f36-build.zip"
+          "s3Key": "amplify-builds/FetchNutrient-32714b76305435464456-build.zip"
         },
         "ProcessFood": {
           "secretsPathAmplifyAppId": "dsson5aag588c",
           "deploymentBucketName": "amplify-thenutrimancerscodex-dev-a001a-deployment",
-          "s3Key": "amplify-builds/ProcessFood-31386355573848444532-build.zip"
+          "s3Key": "amplify-builds/ProcessFood-4b66654e534d3656626e-build.zip"
         }
       },
       "api": {

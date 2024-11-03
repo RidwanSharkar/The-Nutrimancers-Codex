@@ -25,19 +25,19 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [],
-      "lastBuildTimeStamp": "2024-11-02T16:15:55.630Z",
+      "lastBuildTimeStamp": "2024-11-03T01:22:49.476Z",
       "lastBuildType": "PROD",
-      "lastPackageTimeStamp": "2024-11-02T16:15:59.029Z",
-      "distZipFilename": "FetchNutrient-4d4445432b694c486f36-build.zip",
+      "lastPackageTimeStamp": "2024-11-03T01:22:52.291Z",
+      "distZipFilename": "FetchNutrient-32714b76305435464456-build.zip",
       "s3Bucket": {
         "deploymentBucketName": "amplify-thenutrimancerscodex-dev-a001a-deployment",
-        "s3Key": "amplify-builds/FetchNutrient-4d4445432b694c486f36-build.zip"
+        "s3Key": "amplify-builds/FetchNutrient-32714b76305435464456-build.zip"
       },
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-thenutrimancerscodex-dev-a001a-deployment/amplify-cfn-templates/function/FetchNutrient-cloudformation-template.json",
         "logicalId": "functionFetchNutrient"
       },
-      "lastPushTimeStamp": "2024-11-03T00:46:21.152Z",
+      "lastPushTimeStamp": "2024-11-03T01:24:13.661Z",
       "output": {
         "LambdaExecutionRoleArn": "arn:aws:iam::010526255008:role/thenutrimancerscodexLambdaRole1b6b4f25-dev",
         "Region": "us-east-1",
@@ -45,26 +45,26 @@
         "Name": "FetchNutrient-dev",
         "LambdaExecutionRole": "thenutrimancerscodexLambdaRole1b6b4f25-dev"
       },
-      "lastPushDirHash": "MDEC+iLHo6XtbxER2yo26VxOev0="
+      "lastPushDirHash": "2qKv0T5FDVAhRuOWUyJ5DThxeRE="
     },
     "ProcessFood": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [],
-      "lastBuildTimeStamp": "2024-11-02T16:16:07.282Z",
+      "lastBuildTimeStamp": "2024-11-03T01:23:05.315Z",
       "lastBuildType": "PROD",
-      "lastPackageTimeStamp": "2024-11-02T16:16:09.632Z",
-      "distZipFilename": "ProcessFood-31386355573848444532-build.zip",
+      "lastPackageTimeStamp": "2024-11-03T01:23:06.953Z",
+      "distZipFilename": "ProcessFood-4b66654e534d3656626e-build.zip",
       "s3Bucket": {
         "deploymentBucketName": "amplify-thenutrimancerscodex-dev-a001a-deployment",
-        "s3Key": "amplify-builds/ProcessFood-31386355573848444532-build.zip"
+        "s3Key": "amplify-builds/ProcessFood-4b66654e534d3656626e-build.zip"
       },
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-thenutrimancerscodex-dev-a001a-deployment/amplify-cfn-templates/function/ProcessFood-cloudformation-template.json",
         "logicalId": "functionProcessFood"
       },
-      "lastPushTimeStamp": "2024-11-03T00:46:21.156Z",
+      "lastPushTimeStamp": "2024-11-03T01:24:13.661Z",
       "output": {
         "LambdaExecutionRoleArn": "arn:aws:iam::010526255008:role/thenutrimancerscodexLambdaRole789d6fdd-dev",
         "Region": "us-east-1",
@@ -72,7 +72,7 @@
         "Name": "ProcessFood-dev",
         "LambdaExecutionRole": "thenutrimancerscodexLambdaRole789d6fdd-dev"
       },
-      "lastPushDirHash": "18cUW8HDE2mzoHA58e7kZnN446I="
+      "lastPushDirHash": "KfeNSM6Vbn083skq2MUMOwReUcI="
     }
   },
   "api": {
@@ -93,7 +93,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-thenutrimancerscodex-dev-a001a-deployment/amplify-cfn-templates/api/fetchNutrient-cloudformation-template.json",
         "logicalId": "apifetchNutrient"
       },
-      "lastPushTimeStamp": "2024-11-03T00:46:21.158Z",
+      "lastPushTimeStamp": "2024-11-03T01:24:13.474Z",
       "output": {
         "ApiName": "fetchNutrient",
         "RootUrl": "https://ru2is20qm8.execute-api.us-east-1.amazonaws.com/dev",
@@ -118,7 +118,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-thenutrimancerscodex-dev-a001a-deployment/amplify-cfn-templates/api/processFood-cloudformation-template.json",
         "logicalId": "apiprocessFood"
       },
-      "lastPushTimeStamp": "2024-11-03T00:46:21.163Z",
+      "lastPushTimeStamp": "2024-11-03T01:24:13.478Z",
       "output": {
         "ApiName": "processFood",
         "RootUrl": "https://bz5l3n50jj.execute-api.us-east-1.amazonaws.com/dev",
