@@ -19,43 +19,51 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 )
 
-// getGeminiAPIKey retrieves the API key from AWS Secrets Manager
-func getGeminiAPIKey(ctx context.Context) (string, error) {
-	cfg, err := config.LoadDefaultConfig(ctx, config.WithRegion("us-east-1"))
+// Global variable to store the Gemini API Key
+var geminiAPIKey string
+
+// InitializeSecrets retrieves secrets during the initialization phase
+func InitializeSecrets() {
+	secretName := "nutrimancer/google-service-account-key"
+	region := "us-east-1"
+
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(region))
 	if err != nil {
-		return "", err
+		log.Fatalf("Unable to load AWS SDK config: %v", err)
 	}
 
+	// Create Secrets Manager client
 	svc := secretsmanager.NewFromConfig(cfg)
+
 	input := &secretsmanager.GetSecretValueInput{
-		SecretId:     aws.String("nutrimancer/google-service-account-key"),
-		VersionStage: aws.String("AWSCURRENT"),
+		SecretId:     aws.String(secretName),
+		VersionStage: aws.String("AWSCURRENT"), // Defaults to AWSCURRENT if unspecified
 	}
 
-	result, err := svc.GetSecretValue(ctx, input)
+	result, err := svc.GetSecretValue(context.TODO(), input)
 	if err != nil {
-		return "", err
+		log.Fatalf("Unable to retrieve secret %s: %v", secretName, err)
 	}
 
-	return *result.SecretString, nil
+	// Decrypts secret using the associated KMS key.
+	geminiAPIKey = *result.SecretString
 }
 
 func HandleProcessFood(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	log.Println("HandleProcessFood invoked")
 	log.Printf("Request Body: %s\n", request.Body)
 
-	// Get API key at the start of the function
-	apiKey, err := getGeminiAPIKey(ctx)
-	if err != nil {
-		log.Printf("Error retrieving Gemini API key: %v\n", err)
-		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusInternalServerError, "Error with API configuration")
+	// Ensure the API key has been initialized
+	if geminiAPIKey == "" {
+		log.Println("Gemini API key is not initialized")
+		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusInternalServerError, "API configuration error")
 	}
 
-	// Set the API key in the context
-	ctx = context.WithValue(ctx, "GEMINI_API_KEY", apiKey)
+	// Set the API key in the context if needed by downstream services
+	ctx = context.WithValue(ctx, "GEMINI_API_KEY", geminiAPIKey)
 
 	var req models.FoodRequest
-	if err = json.Unmarshal([]byte(request.Body), &req); err != nil {
+	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
 		log.Printf("Error unmarshalling request body: %v\n", err)
 		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusBadRequest, "Invalid request payload")
 	}
@@ -118,5 +126,9 @@ func HandleProcessFood(ctx context.Context, request events.APIGatewayProxyReques
 }
 
 func main() {
+	// Initialize secrets before starting the Lambda handler
+	InitializeSecrets()
+
+	// Start the Lambda handler
 	lambda.Start(HandleProcessFood)
 }
