@@ -1,4 +1,4 @@
-// The-Nutrimancers-Codex/Frontend/src/app.tsx:
+// The-Nutrimancers-Codex/frontend/src/app.tsx:
 
 import React, { useState, useMemo } from 'react';
 import IngredientsPanel from './grimoire/IngredientsPanel';

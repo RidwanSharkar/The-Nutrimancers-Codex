@@ -14,15 +14,48 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 )
+
+// getGeminiAPIKey retrieves the API key from AWS Secrets Manager
+func getGeminiAPIKey(ctx context.Context) (string, error) {
+	cfg, err := config.LoadDefaultConfig(ctx, config.WithRegion("us-east-1"))
+	if err != nil {
+		return "", err
+	}
+
+	svc := secretsmanager.NewFromConfig(cfg)
+	input := &secretsmanager.GetSecretValueInput{
+		SecretId:     aws.String("nutrimancer/google-service-account-key"),
+		VersionStage: aws.String("AWSCURRENT"),
+	}
+
+	result, err := svc.GetSecretValue(ctx, input)
+	if err != nil {
+		return "", err
+	}
+
+	return *result.SecretString, nil
+}
 
 func HandleProcessFood(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	log.Println("HandleProcessFood invoked")
 	log.Printf("Request Body: %s\n", request.Body)
 
-	var req models.FoodRequest
-	err := json.Unmarshal([]byte(request.Body), &req)
+	// Get API key at the start of the function
+	apiKey, err := getGeminiAPIKey(ctx)
 	if err != nil {
+		log.Printf("Error retrieving Gemini API key: %v\n", err)
+		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusInternalServerError, "Error with API configuration")
+	}
+
+	// Set the API key in the context
+	ctx = context.WithValue(ctx, "GEMINI_API_KEY", apiKey)
+
+	var req models.FoodRequest
+	if err = json.Unmarshal([]byte(request.Body), &req); err != nil {
 		log.Printf("Error unmarshalling request body: %v\n", err)
 		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusBadRequest, "Invalid request payload")
 	}
@@ -41,15 +74,15 @@ func HandleProcessFood(ctx context.Context, request events.APIGatewayProxyReques
 	cleanedIngredients := services.CleanIngredientList(ingredients)
 
 	// Load food data
-	foodItems, nutrientNames, loadErr := machinist.LoadFoodData()
-	if loadErr != nil {
-		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusInternalServerError, "Error loading food data: "+loadErr.Error())
+	foodItems, nutrientNames, err := machinist.LoadFoodData()
+	if err != nil {
+		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusInternalServerError, "Error loading food data: "+err.Error())
 	}
 
 	// Fetch nutrient data for each ingredient using Nutritionix API
-	nutrientData, fetchErr := services.FetchNutrientDataForEachIngredient(cleanedIngredients)
-	if fetchErr != nil {
-		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusInternalServerError, "Error fetching nutrient data: "+fetchErr.Error())
+	nutrientData, err := services.FetchNutrientDataForEachIngredient(cleanedIngredients)
+	if err != nil {
+		return utils.RespondWithError(events.APIGatewayProxyResponse{}, http.StatusInternalServerError, "Error fetching nutrient data: "+err.Error())
 	}
 
 	// Calculate RDA percentages
