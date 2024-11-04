@@ -27,7 +27,7 @@
         "ProcessFood": {
           "secretsPathAmplifyAppId": "dsson5aag588c",
           "deploymentBucketName": "amplify-thenutrimancerscodex-dev-a001a-deployment",
-          "s3Key": "amplify-builds/ProcessFood-697a3030792b77773933-build.zip"
+          "s3Key": "amplify-builds/ProcessFood-436c7663647151686a67-build.zip"
         }
       },
       "api": {

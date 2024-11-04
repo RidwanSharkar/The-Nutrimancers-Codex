@@ -49,6 +49,8 @@ func InitializeSecrets() {
 	geminiAPIKey = *result.SecretString
 }
 
+type contextKey string
+
 func HandleProcessFood(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	log.Println("HandleProcessFood invoked")
 	log.Printf("Request Body: %s\n", request.Body)
@@ -60,7 +62,7 @@ func HandleProcessFood(ctx context.Context, request events.APIGatewayProxyReques
 	}
 
 	// Set the API key in the context if needed by downstream services
-	ctx = context.WithValue(ctx, "GEMINI_API_KEY", geminiAPIKey)
+	ctx = context.WithValue(ctx, "geminiAPIKeyContextKey", geminiAPIKey)
 
 	var req models.FoodRequest
 	if err := json.Unmarshal([]byte(request.Body), &req); err != nil {
