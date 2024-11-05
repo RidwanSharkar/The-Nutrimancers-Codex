@@ -11,7 +11,7 @@ interface ProcessFoodResponse {
 
 export const processFood = async (foodDescription: string): Promise<ProcessFoodResponse> => {
   try {
-    const response = await axios.post<ProcessFoodResponse>('http://localhost:5000/process-food', {
+    const response = await axios.post<ProcessFoodResponse>('https://bioessence-env.elasticbeanstalk.com/process-food', {
       foodDescription,
     });
     return response.data;
