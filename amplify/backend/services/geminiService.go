@@ -1,4 +1,4 @@
-// The-Nutrimancers-Codex/backend/services/geminiService.go
+// The-Nutrimancers-Codex/amplify/backend/services/geminiService.go
 package services
 
 import (
@@ -11,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/RidwanSharkar/The-Nutrimancers-Codex/backend/utils"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/utils"
 )
 
 /*=================================================================================================*/

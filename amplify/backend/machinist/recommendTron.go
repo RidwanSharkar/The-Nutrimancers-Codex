@@ -1,11 +1,11 @@
-// The-Nutrimancers-Codex/backend/machinist/recommendTron.go
+// The-Nutrimancers-Codex/amplify/backend/machinist/recommendTron.go
 package machinist
 
 import (
 	"sort"
 	"strings"
 
-	"github.com/RidwanSharkar/The-Nutrimancers-Codex/backend/models"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/models"
 )
 
 type Recommendation struct {

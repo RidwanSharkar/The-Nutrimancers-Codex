@@ -1,4 +1,4 @@
-// The-Nutrimancers-Codex/backend/machinist/dataLoader.go
+// The-Nutrimancers-Codex/amplify/backend/machinist/dataLoader.go
 package machinist
 
 import (
@@ -7,7 +7,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/RidwanSharkar/The-Nutrimancers-Codex/backend/models"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/models"
 )
 
 func LoadFoodData(filePath string) ([]models.FoodItem, []string, error) {

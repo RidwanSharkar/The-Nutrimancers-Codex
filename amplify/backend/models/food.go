@@ -1,4 +1,4 @@
-// The-Nutrimancers-Codex/backend/models/food.go
+// The-Nutrimancers-Codex/amplify/backend/models/food.go
 package models
 
 type FoodItem struct {

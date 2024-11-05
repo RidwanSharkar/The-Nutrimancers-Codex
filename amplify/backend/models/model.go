@@ -1,4 +1,4 @@
-// The-Nutrimancers-Codex/backend/models/model.go
+// The-Nutrimancers-Codex/amplify/backend/models/model.go
 package models
 
 // Response Payload
