@@ -9,11 +9,9 @@ interface ProcessFoodResponse {
   suggestions: string[];
 }
 
-const API_BASE_URL = 'https://ru2is20qm8.execute-api.us-east-1.amazonaws.com/dev' // goofcon1
-
 export const processFood = async (foodDescription: string): Promise<ProcessFoodResponse> => {
   try {
-    const response = await axios.post<ProcessFoodResponse>(`${API_BASE_URL}/process-food`, {
+    const response = await axios.post<ProcessFoodResponse>('http://localhost:5000/process-food', {
       foodDescription,
     });
     return response.data;
@@ -31,3 +29,5 @@ export const processFood = async (foodDescription: string): Promise<ProcessFoodR
     }
   }
 };
+
+

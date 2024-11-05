@@ -1,4 +1,4 @@
-// The-Nutrimancers-Codex/frontend/src/app.tsx:
+// The-Nutrimancers-Codex/frontend/src/App.tsx
 
 import React, { useState, useMemo } from 'react';
 import IngredientsPanel from './grimoire/IngredientsPanel';
@@ -229,7 +229,7 @@ const App: React.FC = () => {
 
   const handleRecommendationClick = async (suggestion: string) => {
     try {
-      const response = await fetch('https://ru2is20qm8.execute-api.us-east-1.amazonaws.com/dev/fetch-nutrient', {
+      const response = await fetch('http://localhost:5000/fetch-nutrient-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

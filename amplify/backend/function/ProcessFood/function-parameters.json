@@ -1,8 +1,0 @@
-{
-  "lambdaLayers": [],
-  "secretNames": [
-    "API_KEY",
-    "NUTRITIONIX_APP_ID",
-    "NUTRITIONIX_APP_KEY"
-  ]
-}
