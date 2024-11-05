@@ -11,10 +11,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/RidwanSharkar/The-Nutrimancers-Codex/backend/machinist"
-	"github.com/RidwanSharkar/The-Nutrimancers-Codex/backend/models"
-	"github.com/RidwanSharkar/The-Nutrimancers-Codex/backend/services"
-	"github.com/RidwanSharkar/The-Nutrimancers-Codex/backend/utils"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/machinist"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/models"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/services"
+	"github.com/RidwanSharkar/The-Nutrimancers-Codex/amplify/backend/utils"
 	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 )
