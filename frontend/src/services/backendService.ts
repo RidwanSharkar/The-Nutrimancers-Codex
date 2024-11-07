@@ -11,12 +11,13 @@ interface ProcessFoodResponse {
 
 export const processFood = async (foodDescription: string): Promise<ProcessFoodResponse> => {
   try {
-    const response = await axios.post<ProcessFoodResponse>('https://3.84.94.100/process-food', {
+    const response = await axios.post<ProcessFoodResponse>(`https://bioessence-env.elasticbeanstalk.com/process-food`, {
       foodDescription,
     });
     return response.data;
-  } catch (error: unknown) { 
+  } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
+      console.error('Full error response:', error.response);
       let detailedError = 'An error occurred while processing the food.';
       if (error.response?.data?.error) {
         detailedError = error.response.data.error;
