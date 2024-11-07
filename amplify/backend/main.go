@@ -40,9 +40,13 @@ func main() {
 	}
 	// CORS
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:5173"}, // Allow requests from React app
-		AllowedMethods: []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
-		AllowedHeaders: []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+		AllowedOrigins: []string{
+			"http://localhost:5173",
+			"https://main.d27vjqcvk3diok.amplifyapp.com",
+		},
+		AllowedMethods:   []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
+		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+		AllowCredentials: true,
 	})
 
 	// HTTP endpoint
@@ -50,6 +54,12 @@ func main() {
 	http.HandleFunc("/fetch-nutrient-data", fetchNutrientDataHandler)
 
 	handler := c.Handler(http.DefaultServeMux)
+
+	// Bind to the port assigned by Elastic Beanstalk
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "5000" // Fallback for local testing
+	}
 
 	// Start server
 	fmt.Println("Server is running on :5000")
