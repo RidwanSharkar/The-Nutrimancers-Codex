@@ -11,7 +11,7 @@ interface ProcessFoodResponse {
 
 export const processFood = async (foodDescription: string): Promise<ProcessFoodResponse> => {
   try {
-    const response = await axios.post<ProcessFoodResponse>('http://3.84.94.100:5000/process-food', {
+    const response = await axios.post<ProcessFoodResponse>('https://3.84.94.100/process-food', {
       foodDescription,
     });
     return response.data;
