@@ -229,7 +229,7 @@ const App: React.FC = () => {
 
   const handleRecommendationClick = async (suggestion: string) => {
     try {
-      const response = await fetch('Nutrimancer-env.eba-mhnjc34h.us-east-1.elasticbeanstalk.com/fetch-nutrient-data', {
+      const response = await fetch('https://Nutrimancer-env.eba-mhnjc34h.us-east-1.elasticbeanstalk.com/fetch-nutrient-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
