@@ -43,6 +43,7 @@ func main() {
 		AllowedOrigins: []string{
 			"http://localhost:5173",
 			"https://main.d27vjqcvk3diok.amplifyapp.com",
+			"http://Nutrimancer-env.eba-mhnjc34h.us-east-1.elasticbeanstalk.com",
 		},
 		AllowedMethods:   []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
 		AllowedHeaders:   []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
