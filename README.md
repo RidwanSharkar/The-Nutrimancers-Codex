@@ -1,33 +1,36 @@
 **The Nutrimancer's Codex**
 
-________________________________________________________________________________________________________________
+_________________________________________________________________________________________________________
 
 
 Vol. II:<br>
-![Vol  2](https://github.com/user-attachments/assets/cd4d6987-9426-4d01-93ee-99a04c56575e)
+![Vol  II](https://github.com/user-attachments/assets/23c0f1a1-51d3-4898-b564-c90495477d4b)
 
-________________________________________________________________________________________________________________
+
+
+_________________________________________________________________________________________________________
 
 Vol I:<br>
-![Vol  1](https://github.com/user-attachments/assets/be2d85e9-206e-4325-ae93-be648e3bca6c)
+![Vol  I](https://github.com/user-attachments/assets/af91009a-d7f3-4c40-94fc-d8ace8988c8d)
 
 
 
-________________________________________________________________________________________________________________
+
+_________________________________________________________________________________________________________
 
 
 **TECH STACK:**
 
 • **Frontend:** React (TypeScript), GSAP, Tailwind (CSS), Axios
 
-• **Backend:** Go (GoLang), net/http, CORS
+• **Backend:** Go (GoLang), net/http, CORS, JSON processing 
 
-• **Dataset:** USDA FoodData Central
+• **Dataset & APIs:** USDA FoodData Central, Google Generative Language, Nutritionix
 
 • **Natural Language Processing:** Gemini Flash 1.5
 
 • **Machine Learning:** Cosine Similarity (GoLang)
 
-• **APIs:** Gemini LLM, Nutritionix
+• **Deployment:** AWS Amplify, AWS Elastic Beanstack via EC2, Nginx 
 
 
