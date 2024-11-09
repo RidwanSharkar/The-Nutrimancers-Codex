@@ -10,12 +10,12 @@ The Nutrimancer's Codex is a full-stack application that leverages artificial in
 
 
 ## Vol. II:<br>
-##![Vol  II](https://github.com/user-attachments/assets/23c0f1a1-51d3-4898-b564-c90495477d4b)
+![Vol  II](https://github.com/user-attachments/assets/23c0f1a1-51d3-4898-b564-c90495477d4b)
 
 
 
 ## Vol I:<br>
-##![Vol  I](https://github.com/user-attachments/assets/af91009a-d7f3-4c40-94fc-d8ace8988c8d)
+![Vol  I](https://github.com/user-attachments/assets/af91009a-d7f3-4c40-94fc-d8ace8988c8d)
 
 
 
