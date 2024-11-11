@@ -6,7 +6,7 @@ The Nutrimancer's Codex is a full-stack application that leverages artificial in
 
 • AI-Powered Ingredient Extraction: utilizes the Gemini Language Model to parse natural language food descriptions.<br>
 • Nutrient Analysis: calculates nutrient percentages based on recommended daily allowances using data from Nutritionix and USDA FoodData Central. <br>
-• Deficiency Detection: identifies low or missing essential nutrients in the user's diet.
+• Deficiency Detection: identifies low or missing essential nutrients in the user's diet. <br>
 • Recommendation: cosine similarity algorithm is applied across dataset to display the foods most capable of alleviating the current active deficiencies. 
 
 
