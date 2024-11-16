@@ -21,7 +21,7 @@ The Nutrimancer's Codex is a full-stack application that leverages AI and machin
 
 
 
-## TECH STACK:
+## Tech Stack:
 
 • **Frontend:** React (TypeScript), GSAP, Tailwind (CSS), Axios
 
