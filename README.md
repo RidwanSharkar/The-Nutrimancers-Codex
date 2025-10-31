@@ -1,15 +1,19 @@
 # 🪬 The Nutrimancer's Codex - Vol. II
 *An AI-powered nutrition analysis system that transforms natural language food descriptions into comprehensive nutrient profiles, identifies dietary deficiencies, and recommends foods to balance your intake.*
 
----
-
 ## 📜 System Overview
 
 The Nutrimancer's Codex is a full-stack application that combines natural language processing, real-time nutritional analysis, and machine learning to provide personalized dietary insights. Users input a meal description in plain English, and the system extracts ingredients, computes nutrient content against RDA standards, detects deficiencies, and recommends optimal foods using cosine similarity.
 
+### Vol. II:<br>
+![Vol  II](https://github.com/user-attachments/assets/23c0f1a1-51d3-4898-b564-c90495477d4b)
+
+### Vol. I:<br>
+![Vol  I](https://github.com/user-attachments/assets/af91009a-d7f3-4c40-94fc-d8ace8988c8d)
+
 ---
 
-## 🏛️ Architecture & 🔄 Data Flow
+## 🏛️ Architecture &  Data Flow 🔄
 
 ### **1. User Input → Ingredient Extraction**
 ```
